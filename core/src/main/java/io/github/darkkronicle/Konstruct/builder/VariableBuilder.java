@@ -3,22 +3,25 @@ package io.github.darkkronicle.Konstruct.builder;
 import io.github.darkkronicle.Konstruct.NodeException;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 import io.github.darkkronicle.Konstruct.nodes.VariableNode;
-import io.github.darkkronicle.Konstruct.reader.StringReader;
+import io.github.darkkronicle.Konstruct.reader.Tokenizer;
 import io.github.darkkronicle.Konstruct.reader.Token;
 import lombok.Getter;
 
+/**
+ * A class to build a {@link VariableNode}
+ */
 public class VariableBuilder implements Builder {
 
     @Getter
     private int cursor = 0;
-    private StringReader reader;
+    private Tokenizer reader;
 
-    public VariableBuilder(StringReader string) {
+    public VariableBuilder(Tokenizer string) {
         this.reader = string;
     }
 
     @Override
-    public Node build() {
+    public Node build() throws NodeException {
         cursor = 1;
         StringBuilder builder = new StringBuilder();
         while (cursor < reader.length()) {

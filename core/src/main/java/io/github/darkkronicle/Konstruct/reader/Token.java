@@ -3,20 +3,61 @@ package io.github.darkkronicle.Konstruct.reader;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 
+/**
+ * A class to store information about a parsed string. This stores a character and the {@link TokenType}
+ */
 @AllArgsConstructor
 public class Token {
 
+    /**
+     * The type of token
+     */
     public final TokenType tokenType;
+
+    /**
+     * The character that is stored
+     */
     public final char c;
 
     public enum TokenType {
+        /**
+         * A literal string
+         */
         LITERAL,
+
+        /**
+         * The start of a function
+         */
         FUNCTION_START,
+
+        /**
+         * The end of a function
+         */
         FUNCTION_END,
+
+        /**
+         * The start of arguments within a function
+         */
         ARGUMENTS_START,
+
+        /**
+         * The end of arguments within a function
+         */
         ARGUMENTS_END,
+
+        /**
+         * The separator of arguments within a function
+         */
         ARGUMENTS_DELIMINATOR,
+
+        /**
+         * The start of a variable
+         */
         VARIABLE_START,
+
+        /**
+         * The end of a variable
+         */
         VARIABLE_END
     }
 
@@ -28,9 +69,23 @@ public class Token {
         return tokenType.toString();
     }
 
+    /**
+     * Represents information about what characters or strings should become tokens.
+     *
+     * <p>Each part can be more than one character in length, but ones that start with others should be avoided.</p>
+     */
     @Value
     public static class TokenSettings {
 
+        /**
+         * Represents the default token settings
+         * <p>
+         * Variables: {}
+         * Functions: []
+         * Arguments: ()
+         * Escape: \
+         * </p>
+         */
         public final static TokenSettings DEFAULT = new TokenSettings("[", "]", "(", ")", ",", "{", "}", "\\");
 
         public String functionStart;
@@ -45,6 +100,9 @@ public class Token {
 
         public String escape;
 
+        /**
+         * The maximum length of any token string
+         */
         public int maxLength;
 
         public TokenSettings(String functionStart, String functionEnd, String argsStart, String argsEnd, String argsDelim, String variableStart, String variableEnd, String escape) {

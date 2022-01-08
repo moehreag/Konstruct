@@ -1,9 +1,12 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
-import io.github.darkkronicle.Konstruct.NodeContext;
+import io.github.darkkronicle.Konstruct.ParseContext;
 
 import java.util.List;
 
+/**
+ * A node that contains only children and when evaluate will concat all the children together
+ */
 public class RootNode implements Node {
 
     private List<Node> children;
@@ -13,7 +16,7 @@ public class RootNode implements Node {
     }
 
     @Override
-    public String parse(NodeContext context) {
+    public String parse(ParseContext context) {
         StringBuilder builder = new StringBuilder();
         for (Node child : children) {
             builder.append(child.parse(context));

@@ -1,10 +1,14 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
-import io.github.darkkronicle.Konstruct.NodeContext;
+import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.functions.Variable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A node that will evaluate {@link Variable}'s
+ */
 public class VariableNode implements Node {
 
     private final String key;
@@ -14,8 +18,8 @@ public class VariableNode implements Node {
     }
 
     @Override
-    public String parse(NodeContext context) {
-        return context.getVariable(key).orElse("");
+    public String parse(ParseContext context) {
+        return context.getVariable(key).orElse(Variable.of("")).getValue();
     }
 
     @Override
@@ -25,9 +29,7 @@ public class VariableNode implements Node {
     }
 
     @Override
-    public void addChild(Node node) {
-
-    }
+    public void addChild(Node node) {}
 
     @Override
     public String toString() {

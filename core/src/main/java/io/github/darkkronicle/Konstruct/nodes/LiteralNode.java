@@ -1,10 +1,13 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
-import io.github.darkkronicle.Konstruct.NodeContext;
+import io.github.darkkronicle.Konstruct.ParseContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A node containing only literal string values. This node when parsed will not evaluate anything.
+ */
 public class LiteralNode implements Node {
 
     private final String content;
@@ -14,7 +17,7 @@ public class LiteralNode implements Node {
     }
 
     @Override
-    public String parse(NodeContext context) {
+    public String parse(ParseContext context) {
         return content;
     }
 

@@ -3,29 +3,42 @@ package io.github.darkkronicle.Konstruct.builder;
 import io.github.darkkronicle.Konstruct.NodeException;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 import io.github.darkkronicle.Konstruct.nodes.RootNode;
-import io.github.darkkronicle.Konstruct.reader.StringReader;
+import io.github.darkkronicle.Konstruct.reader.Tokenizer;
 import io.github.darkkronicle.Konstruct.reader.Token;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class to build a {@link RootNode}
+ *
+ * <p>This should generally be used for any amount of node processing</p>
+ */
 public class NodeBuilder implements Builder {
 
     @Getter
     private int cursor = 0;
-    private StringReader reader;
+    private Tokenizer reader;
 
+    /**
+     * Constructs a builder from a string and automatically {@link Tokenizer}'s it
+     * @param string String to {@link Tokenizer}
+     */
     public NodeBuilder(String string) {
-        this(StringReader.parse(string));
+        this(Tokenizer.parse(string));
     }
 
-    public NodeBuilder(StringReader reader) {
+    /**
+     * Constructs a builder from an already parsed {@link Tokenizer}
+     * @param reader Reader storing {@link Token}'s
+     */
+    public NodeBuilder(Tokenizer reader) {
         this.reader = reader;
     }
 
     @Override
-    public RootNode build() {
+    public RootNode build() throws NodeException {
         List<Node> children = new ArrayList<>();
         cursor = 0;
         while (cursor < reader.getTokens().size()) {
@@ -37,6 +50,7 @@ public class NodeBuilder implements Builder {
                 default -> null;
             };
             if (builder == null) {
+                // Only create a builder from the start of specific nodes
                 cursor++;
                 continue;
             }

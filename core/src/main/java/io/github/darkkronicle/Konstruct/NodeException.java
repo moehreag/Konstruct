@@ -1,5 +1,8 @@
 package io.github.darkkronicle.Konstruct;
 
+/**
+ * Represents an exception that can be triggered through parsing of nodes or executing
+ */
 public class NodeException extends IllegalArgumentException {
     public NodeException() {
         super();

@@ -1,6 +1,6 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
-import io.github.darkkronicle.Konstruct.NodeContext;
+import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.NodeException;
 import io.github.darkkronicle.Konstruct.functions.Function;
 
@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A node to evaluate a {@link Function}
+ *
+ * <p>This node's arguments are processed as {@link Node} so there can be nested functions or arguments</p>
+ */
 public class FunctionNode implements Node {
 
     private final String name;
@@ -19,7 +24,7 @@ public class FunctionNode implements Node {
     }
 
     @Override
-    public String parse(NodeContext context) {
+    public String parse(ParseContext context) {
         Optional<Function> function = context.getFunction(name);
         if (function.isEmpty()) {
             throw new NodeException("No function named " + name + " defined!");
