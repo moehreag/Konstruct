@@ -10,9 +10,8 @@ public class Example {
 
     public static void main(String[] arguments) {
         tree("This is a literal and this is a {placeholder}. Over here is a [function(argument)].");
-        tree("This is a [function([func2(nestedArg)])].");
-        tree("Here is a [function({argument},[function(5{argument3})]{argument2})]!");
-
+        tree("This is a [function([func2(nestedArg,{placeholder})])].");
+        tree("Here is a [function({argument},[function(5{argument3},This is a \\, comma)]{argument2})]!");
         NodeHandler handler = new NodeHandler();
         handler.addVariable("cool", "EPIC COOL BEANS");
         handler.addFunction("lower", new Function() {
