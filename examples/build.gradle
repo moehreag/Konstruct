@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id "io.freefair.lombok"
+}
+
+version project.version
+group project.maven_group
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':')
+}
+
+test {
+
+}
+
+jar {
+    from("LICENSE.txt") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}

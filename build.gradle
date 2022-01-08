@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+     id "io.freefair.lombok" version "6.0.0-m2"
+}
+
+repositories {
+    mavenCentral()
+}
+
+version = "${project.version}"
+
+configure(subprojects.findAll {it.name != "examples"}) {
+
+    apply plugin: 'java'
+    apply plugin: "io.freefair.lombok" version "6.0.0-m2"
+
+    version = "${project.version}"
+    group project.maven_group
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+
+    }
+
+    test {
+
+    }
+
+    jar {
+        from("LICENSE.txt") {
+            rename { "${it}_${project.archivesBaseName}" }
+        }
+    }
+}
