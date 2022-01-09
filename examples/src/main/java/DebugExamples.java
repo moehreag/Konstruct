@@ -6,7 +6,7 @@ import io.github.darkkronicle.Konstruct.nodes.Node;
 
 import java.util.List;
 
-public class Example {
+public class DebugExamples {
 
     public static void main(String[] arguments) {
         tree("This is a literal and this is a {placeholder}. Over here is a [function(argument)].");

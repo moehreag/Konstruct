@@ -31,7 +31,7 @@ public class FunctionNode implements Node {
         }
         List<String> parsedArguments = new ArrayList<>();
         for (Node child : getChildren()) {
-            parsedArguments.add(child.parse(context));
+            parsedArguments.add(child.parse(context).strip());
         }
         if (!function.get().getArgumentCount().isInRange(parsedArguments.size())) {
             throw new NodeException("Too many arguments! " + this);
