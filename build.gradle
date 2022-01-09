@@ -1,28 +1,31 @@
 plugins {
     id 'java'
     id "io.freefair.lombok" version "6.0.0-m2"
-    id 'maven'
+    id 'maven-publish'
 }
 
 repositories {
     mavenCentral()
 }
 
-allprojects {
-    version = "${project.version}"
-}
-
 configure(subprojects.findAll {it.name != "examples"}) {
 
     apply plugin: 'java'
     apply plugin: "io.freefair.lombok"
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     version = "${project.version}"
     group project.maven_group
+    sourceCompatibility = JavaVersion.VERSION_16
+    archivesBaseName = project.archivesBaseName
 
     repositories {
         mavenCentral()
+    }
+
+    task sourcesJar(type: Jar) {
+        archiveClassifier = 'sources'
+        from sourceSets.main.java.srcDirs
     }
 
     dependencies {
@@ -38,4 +41,25 @@ configure(subprojects.findAll {it.name != "examples"}) {
             rename { "${it}_${project.archivesBaseName}" }
         }
     }
+
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact sourcesJar
+                pom {
+                    name = "Konstruct ${project.name}".toString()
+                    description = project.description
+                    developers {
+                        developer {
+                            id = 'DarkKronicle'
+                            url = 'https://github.com/DarkKronicle'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

@@ -1,2 +1,4 @@
 rootProject.name = 'Konstruct'
-include ':core', ':addons', ':examples'
+include ':core'
+include ':addons'
+include ':examples'
