@@ -1,8 +1,10 @@
 package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
+import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
+import io.github.darkkronicle.Konstruct.nodes.Node;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.PrimitiveElement;
 
@@ -24,8 +26,8 @@ public class CalculatorFunction implements NamedFunction {
     }
 
     @Override
-    public String parse(List<String> input) {
-        String string = input.get(0);
+    public String parse(ParseContext context, List<Node> input) {
+        String string = input.get(0).parse(context);
         Expression e = new Expression(string, elements);
         return String.valueOf(e.calculate());
     }

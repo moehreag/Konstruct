@@ -3,7 +3,9 @@ package io.github.darkkronicle.addons;
 import dev.maow.owo.api.OwO;
 import dev.maow.owo.util.OwOFactory;
 import io.github.darkkronicle.Konstruct.IntRange;
+import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
+import io.github.darkkronicle.Konstruct.nodes.Node;
 
 import java.util.List;
 
@@ -20,8 +22,8 @@ public class OwOFunction implements NamedFunction {
     }
 
     @Override
-    public String parse(List<String> input) {
-        return owo.translate(input.get(0));
+    public String parse(ParseContext context, List<Node> input) {
+        return owo.translate(input.get(0).parse(context));
     }
 
     @Override

@@ -1,5 +1,6 @@
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.NodeProcessor;
+import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.builder.NodeBuilder;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.nodes.Node;
@@ -16,8 +17,8 @@ public class DebugExamples {
         handler.addVariable("cool", "EPIC COOL BEANS");
         handler.addFunction("lower", new Function() {
             @Override
-            public String parse(List<String> input) {
-                return input.get(0).toLowerCase();
+            public String parse(ParseContext context, List<Node> input) {
+                return input.get(0).parse(context).toLowerCase();
             }
 
             @Override

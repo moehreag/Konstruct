@@ -1,7 +1,9 @@
 package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
+import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
+import io.github.darkkronicle.Konstruct.nodes.Node;
 
 import java.util.List;
 import java.util.Random;
@@ -22,9 +24,9 @@ public class RandomFunction implements NamedFunction {
     }
 
     @Override
-    public String parse(List<String> input) {
-        String minString = input.get(0);
-        String maxString = input.get(1);
+    public String parse(ParseContext context, List<Node> input) {
+        String minString = input.get(0).parse(context);
+        String maxString = input.get(1).parse(context);
         int min;
         int max;
         try {

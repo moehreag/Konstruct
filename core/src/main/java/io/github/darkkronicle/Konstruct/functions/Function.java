@@ -1,6 +1,8 @@
 package io.github.darkkronicle.Konstruct.functions;
 
 import io.github.darkkronicle.Konstruct.IntRange;
+import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.nodes.Node;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ public interface Function {
      * @param input A {@link List} of all the variables
      * @return The processed function
      */
-    String parse(List<String> input);
+    String parse(ParseContext context, List<Node> input);
 
     /**
      * An {@link IntRange} for the amount of arguments to be put in.

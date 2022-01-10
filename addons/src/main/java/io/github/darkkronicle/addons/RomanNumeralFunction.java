@@ -1,7 +1,9 @@
 package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
+import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
+import io.github.darkkronicle.Konstruct.nodes.Node;
 
 import java.util.List;
 import java.util.TreeMap;
@@ -70,10 +72,10 @@ public class RomanNumeralFunction implements NamedFunction {
     }
 
     @Override
-    public String parse(List<String> input) {
+    public String parse(ParseContext context, List<Node> input) {
         int num;
         try {
-            num = Integer.parseInt(input.get(0));
+            num = Integer.parseInt(input.get(0).parse(context));
         } catch (NumberFormatException e) {
             return "NaN";
         }

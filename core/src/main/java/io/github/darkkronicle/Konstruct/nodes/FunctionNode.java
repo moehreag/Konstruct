@@ -29,14 +29,11 @@ public class FunctionNode implements Node {
         if (function.isEmpty()) {
             throw new NodeException("No function named " + name + " defined!");
         }
-        List<String> parsedArguments = new ArrayList<>();
-        for (Node child : getChildren()) {
-            parsedArguments.add(child.parse(context).strip());
-        }
-        if (!function.get().getArgumentCount().isInRange(parsedArguments.size())) {
+        List<Node> argumentsList = new ArrayList<>(arguments);
+        if (!function.get().getArgumentCount().isInRange(argumentsList.size())) {
             throw new NodeException("Too many arguments! " + this);
         }
-        return function.get().parse(parsedArguments);
+        return function.get().parse(context, argumentsList);
     }
 
     @Override

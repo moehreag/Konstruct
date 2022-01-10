@@ -1,7 +1,9 @@
 package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
+import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
+import io.github.darkkronicle.Konstruct.nodes.Node;
 
 import java.util.List;
 
@@ -12,17 +14,17 @@ import java.util.List;
 public class GetFunction implements NamedFunction {
 
     @Override
-    public String parse(List<String> input) {
+    public String parse(ParseContext context, List<Node> input) {
         int val;
         try {
-            val = Integer.parseInt(input.get(0));
+            val = Integer.parseInt(input.get(0).parse(context));
         } catch (NumberFormatException e) {
-            return input.get(1);
+            return input.get(1).parse(context);
         }
         if (val < 0 || val >= input.size() - 1) {
-            return input.get(1);
+            return input.get(1).parse(context);
         }
-        return input.get(val + 1);
+        return input.get(val + 1).parse(context);
     }
 
     @Override
