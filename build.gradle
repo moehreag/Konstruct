@@ -43,20 +43,15 @@ configure(subprojects.findAll {it.name != "examples"}) {
     }
 
 
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.java
-                artifact sourcesJar
-                pom {
-                    name = "Konstruct ${project.name}".toString()
-                    description = project.description
-                    developers {
-                        developer {
-                            id = 'DarkKronicle'
-                            url = 'https://github.com/DarkKronicle'
-                        }
-                    }
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+
+                    groupId = 'io.github.darkkronicle.Konstruct'
+                    artifactId = 'Konstruct'
+                    version = project.version
                 }
             }
         }
