@@ -19,10 +19,10 @@ public class GetFunction implements NamedFunction {
         } catch (NumberFormatException e) {
             return input.get(1);
         }
-        if (val < 0 || val >= input.size()) {
-            return input.get(0);
+        if (val < 0 || val >= input.size() - 1) {
+            return input.get(1);
         }
-        return input.get(val);
+        return input.get(val + 1);
     }
 
     @Override

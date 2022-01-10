@@ -1,6 +1,7 @@
 package io.github.darkkronicle.Konstruct;
 
 import io.github.darkkronicle.Konstruct.functions.Function;
+import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.functions.Variable;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 import lombok.Getter;
@@ -73,6 +74,14 @@ public class NodeProcessor {
     }
 
     /**
+     * Adds a {@link NamedFunction} to the class that has a specified name
+     * @param function {@link NamedFunction} to add
+     */
+    public void addFunction(NamedFunction function) {
+        addFunction(function.getName(), function);
+    }
+
+    /**
      * Adds all functions and variables from a different {@link NodeProcessor}
      * @param processor {@link NodeProcessor} to copy from
      */
@@ -96,6 +105,17 @@ public class NodeProcessor {
      */
     public String parse(Node node) {
         return node.parse(createContext());
+    }
+
+    /**
+     * Copies the current {@link NodeProcessor} into a new object. The maps are new, but the functions/variables retain
+     * original reference.
+     * @return Shallow copy of {@link NodeProcessor}
+     */
+    public NodeProcessor copy() {
+        NodeProcessor newProcessor = new NodeProcessor();
+        newProcessor.addAll(this);
+        return newProcessor;
     }
 
 }

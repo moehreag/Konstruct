@@ -35,10 +35,10 @@ url 'https://jitpack.io'
 Then for dependencies add:
 
 ```
-implementation 'com.github.DarkKronicle:Konstruct:core:<version>'
+implementation 'com.github.DarkKronicle.Konstruct:core:<version>'
 
 // Add this if you want access to the prebuilt functions
-implementation 'com.github.DarkKronicle:Konstruct:addons:<version>'
+implementation 'com.github.DarkKronicle.Konstruct:addons:<version>'
 ```
 
 # Credits
