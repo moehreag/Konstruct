@@ -24,9 +24,8 @@ public class AddonExamples {
         // Basic test
         evaluate(processor, "Cool calculator! [calc((5 / 3)^3 / 4 + 3)]");
 
-        processor.addVariable("integral", "2*int(sqrt(1-x^2), x, -1, 1)");
         // Integral test
-        evaluate(processor, "Integral thing: [calc({integral})]");
+        evaluate(processor, "Integral thing: [calc('2*int(sqrt(1-x^2), x, -1, 1)')]");
 
         // Rounding
         evaluate(processor, "Round: [round([calc(7 / 3 * 2)],1)]");

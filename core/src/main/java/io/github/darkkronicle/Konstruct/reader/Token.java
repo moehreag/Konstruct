@@ -58,7 +58,12 @@ public class Token {
         /**
          * The end of a variable
          */
-        VARIABLE_END
+        VARIABLE_END,
+
+        /**
+         * Essentially quotation marks to force literal evaluation
+         */
+        FORCE_LITERAL
     }
 
     @Override
@@ -86,7 +91,7 @@ public class Token {
          * Escape: \
          * </p>
          */
-        public final static TokenSettings DEFAULT = new TokenSettings("[", "]", "(", ")", ",", "{", "}", "\\");
+        public final static TokenSettings DEFAULT = new TokenSettings("[", "]", "(", ")", ",", "{", "}", "\\", "'");
 
         public String functionStart;
         public String functionEnd;
@@ -99,13 +104,14 @@ public class Token {
         public String variableEnd;
 
         public String escape;
+        public String forceLiteral;
 
         /**
          * The maximum length of any token string
          */
         public int maxLength;
 
-        public TokenSettings(String functionStart, String functionEnd, String argsStart, String argsEnd, String argsDelim, String variableStart, String variableEnd, String escape) {
+        public TokenSettings(String functionStart, String functionEnd, String argsStart, String argsEnd, String argsDelim, String variableStart, String variableEnd, String escape, String forceLiteral) {
             this.functionStart = functionStart;
             this.functionEnd = functionEnd;
             this.argsStart = argsStart;
@@ -114,6 +120,7 @@ public class Token {
             this.variableStart = variableStart;
             this.variableEnd = variableEnd;
             this.escape = escape;
+            this.forceLiteral = forceLiteral;
             this.maxLength = getMax();
         }
 

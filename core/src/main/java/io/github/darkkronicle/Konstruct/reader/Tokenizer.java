@@ -102,6 +102,7 @@ public class Tokenizer {
         int currentFunction = 0;
         int currentArguments = 0;
         int currentVariable = 0;
+        boolean inLiteral = false;
 
         while (cursor < input.length()) {
             String c = input.substring(cursor, Math.min(input.length(), cursor + settings.getMaxLength()));
@@ -112,6 +113,19 @@ public class Tokenizer {
                 if (cursor >= input.length()) {
                     throw new NodeException("Invalid escape sequence at position " + cursor + "! " + input);
                 }
+                tokens.add(new Token(Token.TokenType.LITERAL, input.charAt(cursor)));
+                cursor++;
+                continue;
+            }
+
+            if (c.startsWith(settings.forceLiteral)) {
+                inLiteral = !inLiteral;
+                tokens.add(new Token(Token.TokenType.FORCE_LITERAL, '0'));
+                cursor++;
+                continue;
+            }
+
+            if (inLiteral) {
                 tokens.add(new Token(Token.TokenType.LITERAL, input.charAt(cursor)));
                 cursor++;
                 continue;
@@ -192,6 +206,9 @@ public class Tokenizer {
         }
         if (currentVariable > 0) {
             throw new NodeException("Not all variables were complete!");
+        }
+        if (inLiteral) {
+            throw new NodeException("Force literal was not resolved!");
         }
         return new Tokenizer(input, settings, tokens);
     }
