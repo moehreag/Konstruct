@@ -2,6 +2,7 @@ package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 
@@ -15,7 +16,7 @@ public class RoundFunction implements NamedFunction {
     public String parse(ParseContext context, List<Node> input) {
         Double dub;
         try {
-            dub = Double.valueOf(input.get(0).parse(context));
+            dub = Double.valueOf(Function.parseArgument(context, input, 0));
         } catch (NumberFormatException e) {
             return "NaN";
         }
@@ -26,7 +27,7 @@ public class RoundFunction implements NamedFunction {
     private DecimalFormat getFormat(ParseContext context, List<Node> input) {
         if (input.size() == 2) {
             try {
-                int places = Integer.parseInt(input.get(1).parse(context));
+                int places = Integer.parseInt(Function.parseArgument(context, input, 1));
                 places = Math.abs(places);
                 if (places == 0) {
                     return new DecimalFormat("#");

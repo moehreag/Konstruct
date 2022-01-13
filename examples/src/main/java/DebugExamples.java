@@ -18,7 +18,7 @@ public class DebugExamples {
         handler.addFunction("lower", new Function() {
             @Override
             public String parse(ParseContext context, List<Node> input) {
-                return input.get(0).parse(context).toLowerCase();
+                return Function.parseArgument(context, input, 0).toLowerCase();
             }
 
             @Override

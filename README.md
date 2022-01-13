@@ -22,7 +22,15 @@ Input: I really like the [get(2, first, second, third)] option!
 Ooutput: I really like the second option!
 ```
 
-Functions can be nested infinitely and reference variables.
+## Spicy features
+
+- Functions can be nested infinitely and reference variables.
+- Complex string reader that supports backslashes, new-lines, and more.
+- Each character type can be defined in a settings class.
+- String literal declarations are not required, but `'`'s are supported.
+- Strong string literal declarations can disable escapes in the middle. (`'''\This\Will\Be\Read\With\The\BackSlashes :)'''`)
+- Easy string literal concatenation without `+`'s being necessary.
+- Calculator functions, regex, and other addons
 
 # Use
 
@@ -46,5 +54,6 @@ implementation 'com.github.DarkKronicle.Konstruct:addons:<version>'
 For addons the following libraries are used for more functionality:
 
 - [MathXParser](http://mathparser.org)
+- [OwO](https://github.com/MaowImpl/owo)
 
 Code & Mastermind: DarkKronicle

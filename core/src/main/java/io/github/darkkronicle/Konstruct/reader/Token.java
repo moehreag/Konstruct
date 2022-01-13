@@ -59,11 +59,6 @@ public class Token {
          * The end of a variable
          */
         VARIABLE_END,
-
-        /**
-         * Essentially quotation marks to force literal evaluation
-         */
-        FORCE_LITERAL
     }
 
     @Override
@@ -91,7 +86,7 @@ public class Token {
          * Escape: \
          * </p>
          */
-        public final static TokenSettings DEFAULT = new TokenSettings("[", "]", "(", ")", ",", "{", "}", "\\", "'");
+        public final static TokenSettings DEFAULT = new TokenSettings("[", "]", "(", ")", ",", "{", "}", "\\", "'", "'''");
 
         public String functionStart;
         public String functionEnd;
@@ -104,14 +99,23 @@ public class Token {
         public String variableEnd;
 
         public String escape;
+
+        /**
+         * Functions like a quotation mark and makes text within two of these count as literal. (Unless escaped out of)
+         */
         public String forceLiteral;
+
+        /**
+         * Functions like a quotation mark, but nothing inside can be escaped
+         */
+        public String strongLiteral;
 
         /**
          * The maximum length of any token string
          */
         public int maxLength;
 
-        public TokenSettings(String functionStart, String functionEnd, String argsStart, String argsEnd, String argsDelim, String variableStart, String variableEnd, String escape, String forceLiteral) {
+        public TokenSettings(String functionStart, String functionEnd, String argsStart, String argsEnd, String argsDelim, String variableStart, String variableEnd, String escape, String forceLiteral, String strongLiteral) {
             this.functionStart = functionStart;
             this.functionEnd = functionEnd;
             this.argsStart = argsStart;
@@ -121,11 +125,12 @@ public class Token {
             this.variableEnd = variableEnd;
             this.escape = escape;
             this.forceLiteral = forceLiteral;
+            this.strongLiteral = strongLiteral;
             this.maxLength = getMax();
         }
 
         private int getMax() {
-            String[] strings = new String[]{functionStart, functionEnd, argsStart, argsEnd, argsDelim, variableStart, variableEnd, escape};
+            String[] strings = new String[]{functionStart, functionEnd, argsStart, argsEnd, argsDelim, variableStart, variableEnd, escape, forceLiteral, strongLiteral};
             int max = 0;
             for (String s : strings) {
                 max = Math.max(max, s.length());

@@ -27,7 +27,7 @@ public class CalculatorFunction implements NamedFunction {
 
     @Override
     public String parse(ParseContext context, List<Node> input) {
-        String string = input.get(0).parse(context);
+        String string = Function.parseArgument(context, input, 0);
         Expression e = new Expression(string, elements);
         return String.valueOf(e.calculate());
     }

@@ -2,6 +2,7 @@ package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 
@@ -12,16 +13,6 @@ import java.util.TreeMap;
  * Converts the input integer into a roman numeral
  */
 public class RomanNumeralFunction implements NamedFunction {
-
-    /**
-     * Strip color codes from a String
-     *
-     * @param string String to strip
-     * @return String stripped of colorcodes
-     */
-    public String stripColorCodes(String string) {
-        return string.replaceAll("§.", "");
-    }
 
     private static final TreeMap<Integer, String> map = new TreeMap<>();
 
@@ -75,7 +66,7 @@ public class RomanNumeralFunction implements NamedFunction {
     public String parse(ParseContext context, List<Node> input) {
         int num;
         try {
-            num = Integer.parseInt(input.get(0).parse(context));
+            num = Integer.parseInt(Function.parseArgument(context, input, 0));
         } catch (NumberFormatException e) {
             return "NaN";
         }

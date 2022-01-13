@@ -103,9 +103,22 @@ public class Tokenizer {
         int currentArguments = 0;
         int currentVariable = 0;
         boolean inLiteral = false;
+        boolean inStrongLiteral = false;
+        boolean checkArgumentWhitespace = false;
 
         while (cursor < input.length()) {
             String c = input.substring(cursor, Math.min(input.length(), cursor + settings.getMaxLength()));
+
+            if (inStrongLiteral) {
+                if (c.startsWith(settings.strongLiteral)) {
+                    cursor += settings.strongLiteral.length();
+                    inStrongLiteral = false;
+                    continue;
+                }
+                tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
+                cursor++;
+                continue;
+            }
 
             if (c.startsWith(settings.escape)) {
                 // To use an escape sequence we just put in the next character exactly as is
@@ -118,15 +131,22 @@ public class Tokenizer {
                 continue;
             }
 
+            if (c.startsWith(settings.strongLiteral)) {
+                checkArgumentWhitespace = false;
+                inStrongLiteral = true;
+                cursor += settings.strongLiteral.length();
+                continue;
+            }
+
             if (c.startsWith(settings.forceLiteral)) {
+                checkArgumentWhitespace = false;
                 inLiteral = !inLiteral;
-                tokens.add(new Token(Token.TokenType.FORCE_LITERAL, '0'));
-                cursor++;
+                cursor += settings.forceLiteral.length();
                 continue;
             }
 
             if (inLiteral) {
-                tokens.add(new Token(Token.TokenType.LITERAL, input.charAt(cursor)));
+                tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
                 cursor++;
                 continue;
             }
@@ -138,7 +158,10 @@ public class Tokenizer {
                     tokens.add(new Token(Token.TokenType.VARIABLE_END, '0'));
                     cursor += settings.variableEnd.length();
                 } else {
-                    tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
+                    // Restrict newlines to only in literals
+                    if (c.charAt(0) != '\n') {
+                        tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
+                    }
                     cursor++;
                 }
                 continue;
@@ -156,6 +179,7 @@ public class Tokenizer {
                         continue;
                     } else if (c.startsWith(settings.argsDelim)) {
                         tokens.add(new Token(Token.TokenType.ARGUMENTS_DELIMINATOR, '0'));
+                        checkArgumentWhitespace = true;
                         cursor += settings.argsDelim.length();
                         continue;
                     }
@@ -172,7 +196,9 @@ public class Tokenizer {
                         currentFunction--;
                     } else {
                         // Isn't anything special and should just be a literal
-                        tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
+                        if (c.charAt(0) != '\n') {
+                            tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
+                        }
                         cursor++;
                     }
                     continue;
@@ -193,22 +219,29 @@ public class Tokenizer {
                 cursor += settings.variableStart.length();
                 continue;
             }
+            if (checkArgumentWhitespace && c.charAt(0) == ' ') {
+                cursor++;
+                continue;
+            }
             tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
             cursor++;
         }
 
         // Checks to make sure everything is balanced
         if (currentArguments > 0) {
-            throw new NodeException("Not all arguments were complete!");
+            throw new NodeException("Unmatched argument!");
         }
         if (currentFunction > 0) {
-            throw new NodeException("Not all functions were complete!");
+            throw new NodeException("Unmatched function!");
         }
         if (currentVariable > 0) {
-            throw new NodeException("Not all variables were complete!");
+            throw new NodeException("Unmatched variable!");
         }
         if (inLiteral) {
-            throw new NodeException("Force literal was not resolved!");
+            throw new NodeException("Unmatched string!");
+        }
+        if (inStrongLiteral) {
+            throw new NodeException("Unmatched strong string!");
         }
         return new Tokenizer(input, settings, tokens);
     }

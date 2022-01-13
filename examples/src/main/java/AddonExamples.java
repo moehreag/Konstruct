@@ -1,25 +1,21 @@
 import io.github.darkkronicle.Konstruct.NodeProcessor;
 import io.github.darkkronicle.Konstruct.builder.NodeBuilder;
-import io.github.darkkronicle.addons.CalculatorFunction;
-import io.github.darkkronicle.addons.GetFunction;
-import io.github.darkkronicle.addons.OwOFunction;
-import io.github.darkkronicle.addons.RandomFunction;
-import io.github.darkkronicle.addons.RomanNumeralFunction;
-import io.github.darkkronicle.addons.RoundFunction;
+import io.github.darkkronicle.addons.*;
 
 public class AddonExamples {
 
     public static void main(String[] arguments) {
         NodeProcessor processor = new NodeProcessor();
-        CalculatorFunction calculator = new CalculatorFunction();
-        RoundFunction round = new RoundFunction();
-        GetFunction get = new GetFunction();
-        processor.addFunction(calculator.getName(), calculator);
-        processor.addFunction(round.getName(), round);
-        processor.addFunction(get.getName(), get);
+
+        processor.addFunction(new CalculatorFunction());
+        processor.addFunction(new RoundFunction());
+        processor.addFunction(new GetFunction());
         processor.addFunction(new RandomFunction());
         processor.addFunction(new RomanNumeralFunction());
         processor.addFunction(new OwOFunction());
+        processor.addFunction(new ReplaceFunction());
+
+        evaluate(processor, "'''Look at all these \\chickens\\ Yeee ehaw\\'''");
 
         // Basic test
         evaluate(processor, "Cool calculator! [calc((5 / 3)^3 / 4 + 3)]");
@@ -33,13 +29,17 @@ public class AddonExamples {
         // Get
         evaluate(processor, "I really like the [get(2, first, second, third)] option!");
 
-        evaluate(processor, "I am [romannumeral(50321)] years old.");
+        evaluate(processor, "[replace('''\\[(.+)\\]''', 'I can use [regex] now in functions', $1)]");
+
+        evaluate(processor, "I am [romannumeral(321)] years old.");
 
         evaluate(processor, "[owo(This is very very cool lol <3)]");
 
         for (int i = 0; i < 5; i++) {
             evaluate(processor, "[get([randint(0,2)], wb, welcome, Welcome back!)]");
         }
+
+        evaluate(processor, "This is a multi-line\nVery cool string. When I [\nowo(do some function...\nenters can stay in... Not in function names.)]");
     }
 
     public static void evaluate(NodeProcessor processor, String input) {

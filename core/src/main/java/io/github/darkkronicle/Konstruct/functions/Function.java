@@ -23,9 +23,20 @@ public interface Function {
     /**
      * An {@link IntRange} for the amount of arguments to be put in.
      *
-     * The {@link Function#parse(List)} won't be called unless the amount of arguments is within this range.
+     * The {@link Function#parse(ParseContext, List)} won't be called unless the amount of arguments is within this range.
      * @return {@link IntRange} for arguments
      */
     IntRange getArgumentCount();
+
+    /**
+     * A utility function to parse and format an argument
+     * @param context {@link ParseContext} containing the context to parse the input
+     * @param input A list of arguments that are {@link Node}'s
+     * @throws IndexOutOfBoundsException if an index is out of bounds for the input
+     * @throws io.github.darkkronicle.Konstruct.NodeException if something internally goes wrong parsing
+     */
+    static String parseArgument(ParseContext context, List<Node> input, int index) {
+        return input.get(index).parse(context);
+    }
 
 }
