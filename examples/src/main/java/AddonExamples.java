@@ -29,7 +29,7 @@ public class AddonExamples {
         // Get
         evaluate(processor, "I really like the [get(2, first, second, third)] option!");
 
-        evaluate(processor, "[replace('''\\[(.+)\\]''', 'I can use [regex] now in functions', $1)]");
+        evaluate(processor, "[replace('''\\[(.+)\\]''', 'I can use [regex] now in functions', $1, regex)]");
 
         evaluate(processor, "I am [romannumeral(321)] years old.");
 
