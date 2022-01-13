@@ -9,6 +9,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A class to build a {@link FunctionNode}
@@ -24,7 +25,7 @@ public class FunctionBuilder implements Builder {
     }
 
     @Override
-    public Node build() throws NodeException {
+    public Optional<Node> build() throws NodeException {
         cursor = 1;
         String functionName = null;
         int funcs = 1;
@@ -84,7 +85,14 @@ public class FunctionBuilder implements Builder {
             // Constructs all the children that are in the arguments
             children.add(new NodeBuilder(new Tokenizer(reader.getInput(), reader.getSettings(), s)).build());
         }
-        return new FunctionNode(functionName, children);
+        if (functionName == null) {
+            functionName = nameBuilder.toString();
+        }
+        if (functionName.startsWith("#")) {
+            // A comment function
+            return Optional.empty();
+        }
+        return Optional.of(new FunctionNode(functionName, children));
     }
 
 }

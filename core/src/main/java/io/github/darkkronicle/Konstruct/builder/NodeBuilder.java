@@ -9,13 +9,14 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A class to build a {@link RootNode}
  *
  * <p>This should generally be used for any amount of node processing</p>
  */
-public class NodeBuilder implements Builder {
+public class NodeBuilder {
 
     @Getter
     private int cursor = 0;
@@ -37,7 +38,6 @@ public class NodeBuilder implements Builder {
         this.reader = reader;
     }
 
-    @Override
     public RootNode build() throws NodeException {
         List<Node> children = new ArrayList<>();
         cursor = 0;
@@ -54,11 +54,8 @@ public class NodeBuilder implements Builder {
                 cursor++;
                 continue;
             }
-            Node node = builder.build();
-            if (node == null) {
-                throw new NodeException("Invalid node!");
-            }
-            children.add(node);
+            Optional<Node> node = builder.build();
+            node.ifPresent(children::add);
             cursor += builder.getCursor();
         }
         return new RootNode(children);

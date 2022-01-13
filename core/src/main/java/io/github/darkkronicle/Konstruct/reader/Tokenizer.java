@@ -219,10 +219,11 @@ public class Tokenizer {
                 cursor += settings.variableStart.length();
                 continue;
             }
-            if (checkArgumentWhitespace && c.charAt(0) == ' ') {
+            if (checkArgumentWhitespace && (c.charAt(0) == ' ' || c.charAt(0) == '\n')) {
                 cursor++;
                 continue;
             }
+            checkArgumentWhitespace = false;
             tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
             cursor++;
         }

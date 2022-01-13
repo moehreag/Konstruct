@@ -3,10 +3,16 @@ package io.github.darkkronicle.Konstruct.nodes;
 import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.NodeException;
 import io.github.darkkronicle.Konstruct.functions.Function;
+import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A node to evaluate a {@link Function}
@@ -16,10 +22,21 @@ import java.util.Optional;
 public class FunctionNode implements Node {
 
     private final String name;
+    @Getter
+    private final List<String> modifiers;
     private final List<Node> arguments;
 
-    public FunctionNode(String name, List<Node> arguments) {
-        this.name = name;
+    public FunctionNode(String rawName, List<Node> arguments) {
+        Matcher matcher = Pattern.compile("\\b(\\w+)$").matcher(rawName);
+        if (matcher.find()) {
+            // Name should just be the last bit
+            this.name = matcher.group(1);
+            String mods = rawName.substring(0, matcher.start(1)).strip();
+            // Modifiers are anything that isn't the name
+            this.modifiers = Stream.of(mods.toCharArray()).map(String::valueOf).collect(Collectors.toList());
+        } else {
+            throw new NodeException(rawName + " is an invalid function name!");
+        }
         this.arguments = arguments;
     }
 

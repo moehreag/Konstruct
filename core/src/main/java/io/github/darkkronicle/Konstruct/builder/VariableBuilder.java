@@ -7,6 +7,8 @@ import io.github.darkkronicle.Konstruct.reader.Tokenizer;
 import io.github.darkkronicle.Konstruct.reader.Token;
 import lombok.Getter;
 
+import java.util.Optional;
+
 /**
  * A class to build a {@link VariableNode}
  */
@@ -21,7 +23,7 @@ public class VariableBuilder implements Builder {
     }
 
     @Override
-    public Node build() throws NodeException {
+    public Optional<Node> build() throws NodeException {
         cursor = 1;
         StringBuilder builder = new StringBuilder();
         while (cursor < reader.length()) {
@@ -33,7 +35,7 @@ public class VariableBuilder implements Builder {
             }
             if (token.tokenType == Token.TokenType.VARIABLE_END) {
                 cursor++;
-                return new VariableNode(builder.toString());
+                return Optional.of(new VariableNode(builder.toString()));
             }
             throw new NodeException("Invalid character within variable!");
         }

@@ -6,6 +6,7 @@ import io.github.darkkronicle.Konstruct.functions.Variable;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,8 @@ import java.util.Map;
  * parsed {@link Node}'s.
  */
 public class NodeProcessor {
+
+    public final String[] RESERVED_VARIABLES = {"konstructVersion", "functions", "variables", "%"};
 
     /**
      * All stored {@link Function}'s in this class
@@ -44,6 +47,13 @@ public class NodeProcessor {
     public NodeProcessor(Map<String, Function> functions, Map<String, Variable> variables) {
         this.functions = functions;
         this.variables = variables;
+        this.addDefaults();
+    }
+
+    private void addDefaults() {
+        this.variables.put("konstructVersion", Variable.of(Konstruct.INFO.getVersion()));
+        this.variables.put("functions", () -> String.join(", ", functions.keySet().stream().toList()));
+        this.variables.put("variables", () -> String.join(", ", variables.keySet().stream().toList()));
     }
 
     /**
@@ -52,6 +62,9 @@ public class NodeProcessor {
      * @param value {@link Variable} to get value
      */
     public void addVariable(String key, Variable value) {
+        if (Arrays.asList(RESERVED_VARIABLES).contains(key)) {
+            throw new NodeException("Variable name " + key + " is reserved for Konstruct!");
+        }
         variables.put(key, value);
     }
 

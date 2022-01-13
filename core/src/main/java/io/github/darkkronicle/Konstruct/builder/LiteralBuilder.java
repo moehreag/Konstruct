@@ -7,6 +7,8 @@ import io.github.darkkronicle.Konstruct.reader.Tokenizer;
 import io.github.darkkronicle.Konstruct.reader.Token;
 import lombok.Getter;
 
+import java.util.Optional;
+
 public class LiteralBuilder implements Builder {
 
     private Tokenizer reader;
@@ -18,7 +20,7 @@ public class LiteralBuilder implements Builder {
     }
 
     @Override
-    public Node build() throws NodeException {
+    public Optional<Node> build() throws NodeException {
         cursor = 0;
         StringBuilder builder = new StringBuilder();
         while (cursor < reader.length()) {
@@ -32,7 +34,10 @@ public class LiteralBuilder implements Builder {
         if (cursor == 0) {
             cursor = 1;
         }
-        return new LiteralNode(builder.toString());
+        if (builder.toString().length() == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(new LiteralNode(builder.toString()));
     }
 
 }

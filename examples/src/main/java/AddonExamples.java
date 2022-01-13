@@ -18,7 +18,7 @@ public class AddonExamples {
         evaluate(processor, "'''Look at all these \\chickens\\ Yeee ehaw\\'''");
 
         // Basic test
-        evaluate(processor, "Cool calculator! [calc((5 / 3)^3 / 4 + 3)]");
+        evaluate(processor, "Cool calculator! [calc((5 / 3)^3 / 4 + 3)] [#This calculates some cool stuff]");
 
         // Integral test
         evaluate(processor, "Integral thing: [calc('2*int(sqrt(1-x^2), x, -1, 1)')]");
@@ -40,6 +40,14 @@ public class AddonExamples {
         }
 
         evaluate(processor, "This is a multi-line\nVery cool string. When I [\nowo(do some function...\nenters can stay in... Not in function names.)]");
+
+        evaluate(processor, "Variables: {variables}\nFunctions: {functions}\nVersion: {konstructVersion}");
+
+        evaluate(processor, "[!calc({%})] 1 + 1");
+
+        evaluate(processor, "[!owo({%})]'''This is super duper duper cool and means that it's easier to write functions'''");
+
+        evaluate(processor, "This can [#\n]Absorb line breaks as well! POWER!!!");
     }
 
     public static void evaluate(NodeProcessor processor, String input) {
