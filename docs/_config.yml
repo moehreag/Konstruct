@@ -1,2 +1,14 @@
 remote_theme: pmarsceill/just-the-docs
 color_scheme: dark
+title: Konstruct Documentation
+description: Documentation for the Konstruct scripting language
+aux_links:
+  "Konstruct on GitHub":
+    - "https://github.com/DarkKronicle/Konstruct"
+    -
+gh_edit_link: true
+gh_edit_link_text: "Edit this page on GitHub"
+gh_edit_repository: "https://github.com/pmarsceill/just-the-docs"
+gh_edit_branch: "main"
+gh_edit_source: docs
+gh_edit_view_mode: "tree"
