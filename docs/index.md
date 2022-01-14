@@ -18,7 +18,7 @@ has_children: false
 
 # Overview
 
-Konstruct is a scripting-esk language designed to format input easily and provide many tools for customization. Konstruct takes an input and spits out a parsed object that can be evaluated at any point.
+Konstruct is a scripting language designed to format input easily and provide many tools for customization. Konstruct takes an input and spits out a parsed object that can be evaluated at any point.
 
 There are a few different object types in Konstruct. There are string literals, variables, functions, and arguments (which are essentially just string literals). Take a look at the menu to see how to use all of these.
 
