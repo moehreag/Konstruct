@@ -2,6 +2,10 @@
 
 Konstruct is a java library designed to evaluate strings by using defined variables and functions. This project allows for easy and powerful customization for string values a user may configure or output.
 
+# Wiki
+
+To see more information visit the [wiki](https://darkkronicle.github.io/Konstruct)
+
 # Examples
 
 Using the default settings within the `:addons` subproject things such as `[round(calc(5 / 3 * 4), 2)]` -> `6.667`, `[get(3,one,two,three,four)]` -> `four` are all possible, and only a taste of what Konstruct can do. New functions and variables can be defined very easily and referenced quickly. 

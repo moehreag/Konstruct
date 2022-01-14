@@ -75,7 +75,7 @@ Output: I can round... 4.7
 
 Randomized selections
 ```
-Input: [get([randint(0,2)], wb, welcome, Welcome back!)]
+Input: [get([randInt(0,2)], wb, welcome, Welcome back!)]
 Output: Welcome back!
 ```
 

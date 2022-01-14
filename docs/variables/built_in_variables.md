@@ -30,7 +30,7 @@ To access functions just use the variable `functions`
 {: .no_toc }
 ```
 Input: Functions - {functions}
-Output: Functions - randint, round, owo, get, replace, calc, romannumeral
+Output: Functions - randInt, round, owo, get, replace, calc, romannumeral
 ```
 
 ### variables

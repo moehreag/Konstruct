@@ -31,6 +31,14 @@ public class NodeBuilder {
     }
 
     /**
+     * Constructs a builder from a string and automatically {@link Tokenizer}'s it with specified {@link io.github.darkkronicle.Konstruct.reader.Token.TokenSettings}
+     * @param string String to {@link Tokenizer}
+     */
+    public NodeBuilder(String string, Token.TokenSettings settings) {
+        this(Tokenizer.parse(string, settings));
+    }
+
+    /**
      * Constructs a builder from an already parsed {@link Tokenizer}
      * @param reader Reader storing {@link Token}'s
      */

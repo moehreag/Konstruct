@@ -36,7 +36,7 @@ public class AddonExamples {
         evaluate(processor, "[owo(This is very very cool lol <3)]");
 
         for (int i = 0; i < 5; i++) {
-            evaluate(processor, "[get([randint(0,2)], wb, welcome, Welcome back!)]");
+            evaluate(processor, "[get([randInt(0,2)], wb, welcome, Welcome back!)]");
         }
 
         evaluate(processor, "This is a multi-line\nVery cool string. When I [\nowo(do some function...\nenters can stay in... Not in function names.)]");

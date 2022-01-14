@@ -54,7 +54,7 @@ public class RandomFunction implements NamedFunction {
 
     @Override
     public String getName() {
-        return "randint";
+        return "randInt";
     }
 
 }

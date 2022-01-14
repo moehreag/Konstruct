@@ -12,7 +12,7 @@ public class DebugExamples {
     public static void main(String[] arguments) {
         tree("This is a literal and this is a {placeholder}. Over here is a [function(argument)].");
         tree("This is a [function([func2(nestedArg,{placeholder})])].");
-        tree("Here is a [function({argument},[function(5{argument3},This is a \\, comma)]{argument2})]!");
+        tree("Here is a [function({argument},Function: [function(5 literal... {argument3},'''This is a , comma with a \\''')]{argument2})]!");
         NodeProcessor handler = new NodeProcessor();
         handler.addVariable("cool", "EPIC COOL BEANS");
         handler.addFunction("lower", new Function() {
