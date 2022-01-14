@@ -48,6 +48,19 @@ public class AddonExamples {
         evaluate(processor, "[!owo({%})]'''This is super duper duper cool and means that it's easier to write functions'''");
 
         evaluate(processor, "This can [#\n]Absorb line breaks as well! POWER!!!");
+
+        evaluate(processor, """
+                Hey whats up! This is a script for the video on Konstruct v{konstructVersion} [# This gets replaced with the version].
+
+                Using this cool stuff I can determine that I calculate what \\'15 * 15\\' is... on the top of my head that is [
+                    calc(
+                        15 * 15
+                    )
+                ]. I knew that because I am amazing. [# This will eat up all the newlines here...
+
+
+                ]'''Do you know I'm amazing? Thank you <3. I can'''[owo(' owo very cool stuff')].
+                """);
     }
 
     public static void evaluate(NodeProcessor processor, String input) {
