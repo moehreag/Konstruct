@@ -1,3 +1,9 @@
+---
+layout: default
+title: Literals
+nav_order: 1
+has_children: true
+---
 Literals are raw text that Konstruct does not modify in any way.
 
 ## Defining Literals

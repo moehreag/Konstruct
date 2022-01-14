@@ -1,3 +1,9 @@
+---
+layout: default
+title: Multi Line Formatting
+parent: Literals
+nav_order: 2
+---
 Konstruct has support for files and text that is multiple lines. Newline characters and whitespace will be retained by Konstruct. Arguments and functions that are in middle of declaration will not have newlines and whitespace retained (unless explicitly defined using a force literal or strong literal).
 
 Example Input:
