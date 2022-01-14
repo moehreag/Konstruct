@@ -12,3 +12,13 @@ gh_edit_repository: "https://github.com/pmarsceill/just-the-docs"
 gh_edit_branch: "main"
 gh_edit_source: docs
 gh_edit_view_mode: "tree"
+
+search_enabled: true
+search:
+  heading_level: 2
+  previews: 2
+  preview_words_before: 5
+  preview_words_after: 5
+  tokenizer_separator: /[\s\-/]+/
+  rel_url: true
+  button: true
