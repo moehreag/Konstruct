@@ -1,3 +1,23 @@
+---
+layout: default
+title: Home
+nav_order: 0
+has_children: false
+---
+
+# Konstruct
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
+
+# Overview
+
 Konstruct is a scripting-esk language designed to format input easily and provide many tools for customization. Konstruct takes an input and spits out a parsed object that can be evaluated at any point.
 
 There are a few different object types in Konstruct. There are string literals, variables, functions, and arguments (which are essentially just string literals). Take a look at the menu to see how to use all of these.

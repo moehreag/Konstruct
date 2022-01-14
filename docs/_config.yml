@@ -1,6 +1,6 @@
 remote_theme: pmarsceill/just-the-docs
 color_scheme: dark
-title: Konstruct Documentation
+title: Konstruct
 description: Documentation for the Konstruct scripting language
 aux_links:
   "Konstruct on GitHub":
