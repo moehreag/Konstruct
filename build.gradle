@@ -43,18 +43,11 @@ configure(subprojects.findAll {it.name != "examples"}) {
     }
 
     // https://stackoverflow.com/a/65830610 - Pretty cool stuff
-    task createProperties {
-        doLast {
-            File dir = new File("./src/main/resources/")
-            System.out.println(dir.toString())
-            File file = dir.toPath().resolve("version.properties").toFile()
-            dir.mkdirs()
-            file.withWriter { w ->
-                Properties p = new Properties()
-                p['version'] = project.version.toString()
-                p.store w, null
-            }
-        }
+    task createProperties(type: WriteProperties) {
+        File dir = new File("./src/main/resources/")
+        dir.mkdirs()
+        outputFile = dir.toPath().resolve("version.properties").toFile()
+        property 'version', project.version.toString()
     }
 
     classes {
