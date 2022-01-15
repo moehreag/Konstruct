@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class Konstruct {
@@ -20,15 +23,17 @@ public class Konstruct {
     public static class Info {
 
         String version;
-        String gitLastTag;
-        String gitHash;
-        String gitBranchName;
-        String gitIsCleanTag;
         Properties versionProperties = new Properties();
 
         private Info() {
             String gitProperties = "";
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("classpath:/version.properties");
+            InputStream inputStream;
+            try {
+                inputStream = getResource("version.properties");
+            } catch (URISyntaxException | IOException e) {
+                version = "Error";
+                return;
+            }
 
             if(inputStream == null)
             {
@@ -46,13 +51,20 @@ public class Konstruct {
             } catch (IOException e) {
             }
             version = versionProperties.getProperty("version", "1.0.0");
-            gitLastTag = versionProperties.getProperty("gitLastTag","last-tag-not-found");
-            gitHash = versionProperties.getProperty("gitHash","git-hash-not-found");
-            gitBranchName = versionProperties.getProperty("gitBranchName","git-branch-name-not-found");
-            gitIsCleanTag = versionProperties.getProperty("gitIsCleanTag","git-isCleanTag-not-found");
 
         }
 
+    }
+
+    private static InputStream getResource(String path) throws URISyntaxException, IOException {
+        URI uri = Thread.currentThread().getContextClassLoader().getResource(path).toURI();
+        if (uri.getScheme().contains("jar")) {
+            // Not IDE
+            return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+        } else {
+            // IDE
+            return new FileInputStream(Paths.get(uri).toFile());
+        }
     }
 
 }

@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id "io.freefair.lombok" version "6.0.0-m2"
     id 'maven-publish'
-//    id 'com.palantir.git-version' version "0.12.3"
 }
 
 repositories {
@@ -14,7 +13,6 @@ configure(subprojects.findAll {it.name != "examples"}) {
     apply plugin: 'java'
     apply plugin: "io.freefair.lombok"
     apply plugin: 'maven-publish'
-//    apply plugin: 'com.palantir.git-version'
 
     version = "${project.version}"
     group project.maven_group
@@ -47,25 +45,14 @@ configure(subprojects.findAll {it.name != "examples"}) {
     // https://stackoverflow.com/a/65830610 - Pretty cool stuff
     task createProperties {
         doLast {
-//            def details = versionDetails()
-            File dir = new File("$buildDir/resources/main/")
+            File dir = new File("./src/main/resources/")
+            System.out.println(dir.toString())
             File file = dir.toPath().resolve("version.properties").toFile()
             dir.mkdirs()
             file.withWriter { w ->
                 Properties p = new Properties()
                 p['version'] = project.version.toString()
-//                p['gitLastTag'] = details.lastTag
-//                p['gitCommitDistance'] = details.commitDistance.toString()
-//                p['gitHash'] = details.gitHash.toString()
-//                p['gitHashFull'] = details.gitHashFull.toString() // full 40-character Git commit hash
-//                p['gitBranchName'] = details.branchName // is null if the repository in detached HEAD mode
-//                p['gitIsCleanTag'] = details.isCleanTag.toString()
                 p.store w, null
-            }
-            // copy needed, otherwise the bean VersionController can't load the file at startup when running complete-app tests.
-            copy {
-                from "$buildDir/resources/main/version.properties"
-                into "bin/main/"
             }
         }
     }

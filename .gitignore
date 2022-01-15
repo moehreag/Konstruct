@@ -9,3 +9,4 @@ build/
 classes/
 lombok.config
 bin/
+version.properties
