@@ -26,32 +26,26 @@ public class Konstruct {
         Properties versionProperties = new Properties();
 
         private Info() {
-            String gitProperties = "";
-            InputStream inputStream;
+            String version1;
             try {
-                inputStream = getResource("version.properties");
-            } catch (URISyntaxException | IOException e) {
-                version = "Error";
-                return;
-            }
-
-            if(inputStream == null)
-            {
-                // When running unit tests, no jar is built, so we load a copy of the file that we saved during build.gradle.
-                // Possibly this also is the case during debugging, therefore we save in bin/main instead of bin/test.
+                InputStream inputStream;
                 try {
-                    inputStream = new FileInputStream("core/bin/main/version.properties");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    inputStream = getResource("version.properties");
+                } catch (URISyntaxException | IOException e) {
+                    version = "Error";
+                    return;
                 }
-            }
 
-            try {
-                versionProperties.load(inputStream);
-            } catch (IOException e) {
+                try {
+                    versionProperties.load(inputStream);
+                } catch (IOException e) {
+                }
+                version1 = versionProperties.getProperty("version", "1.0.0");
+            } catch (Exception e) {
+                e.printStackTrace();
+                version1 = "Error";
             }
-            version = versionProperties.getProperty("version", "1.0.0");
-
+            version = version1;
         }
 
     }
