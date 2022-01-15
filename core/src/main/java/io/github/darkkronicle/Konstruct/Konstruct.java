@@ -35,7 +35,7 @@ public class Konstruct {
                 try {
                     inputStream = getResource("version.properties");
                 } catch (URISyntaxException | IOException e) {
-                    return "Error"
+                    return "Error";
                 }
 
                 try {
