@@ -26,26 +26,27 @@ public class Konstruct {
         Properties versionProperties = new Properties();
 
         private Info() {
-            String version1;
+            version = getInfo();
+        }
+
+        private String getInfo() {
             try {
                 InputStream inputStream;
                 try {
                     inputStream = getResource("version.properties");
                 } catch (URISyntaxException | IOException e) {
-                    version = "Error";
-                    return;
+                    return "Error"
                 }
 
                 try {
                     versionProperties.load(inputStream);
                 } catch (IOException e) {
                 }
-                version1 = versionProperties.getProperty("version", "1.0.0");
+                return versionProperties.getProperty("version", "1.0.0");
             } catch (Exception e) {
                 e.printStackTrace();
-                version1 = "Error";
+                return "Error";
             }
-            version = version1;
         }
 
     }
