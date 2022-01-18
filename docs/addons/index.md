@@ -2,6 +2,7 @@
 layout: default
 title: Addons
 nav_order: 4
+has_children: true
 ---
 
 # Addons
@@ -170,3 +171,9 @@ Output
 Input: I am [romannumeral(321)] years old.
 Output: I am CCCXXI years old.
 ```
+
+---
+
+## Booleans
+
+You can look at booleans in the sidebar.

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Literals
+title: Built in Variables
 nav_order: 2
 parent: Variables
 ---

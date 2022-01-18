@@ -21,7 +21,7 @@ public class RootNode implements Node {
         StringBuilder builder = new StringBuilder();
         FunctionNode baseNode = null;
         // Check to see if it has the global modifier. If so, run everything else then work into it
-        if (children.get(0) instanceof FunctionNode func) {
+        if (children.size() != 0 && children.get(0) instanceof FunctionNode func) {
             List<String> modifiers = func.getModifiers();
             if (modifiers.contains("!")) {
                 baseNode = func;

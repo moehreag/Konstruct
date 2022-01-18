@@ -1,6 +1,7 @@
 import io.github.darkkronicle.Konstruct.NodeProcessor;
 import io.github.darkkronicle.Konstruct.builder.NodeBuilder;
 import io.github.darkkronicle.addons.*;
+import io.github.darkkronicle.addons.conditions.BooleanFunction;
 
 public class AddonExamples {
 
@@ -14,6 +15,9 @@ public class AddonExamples {
         processor.addFunction(new RomanNumeralFunction());
         processor.addFunction(new OwOFunction());
         processor.addFunction(new ReplaceFunction());
+        processor.addFunction(new IsMatchFunction());
+
+        BooleanFunction.addAllConditionalFunctions(processor);
 
         evaluate(processor, "'''Look at all these \\chickens\\ Yeee ehaw\\'''");
 
@@ -61,6 +65,8 @@ public class AddonExamples {
 
                 ]'''Do you know I'm amazing? Thank you <3. I can'''[owo(' owo very cool stuff')].
                 """);
+
+        evaluate(processor, "[if([bool([isMatch(b, You are not cool)], or, [isMatch(b, You are both cool!)])], Hahahah! True, ahahahaha false!)]");
     }
 
     public static void evaluate(NodeProcessor processor, String input) {

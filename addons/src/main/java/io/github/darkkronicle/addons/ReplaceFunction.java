@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class ReplaceFunction implements NamedFunction {
 
     @AllArgsConstructor
-    private enum ReplaceType {
+    public enum ReplaceType {
         LITERAL("literal"),
         REGEX("regex"),
         UPPER_LOWER("upper_lower")

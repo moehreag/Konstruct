@@ -42,6 +42,17 @@ public class IntRange {
         return new IntRange(value, value);
     }
 
+    /** Constructs an {@link IntRange} where a number will only be in range if it is within max and min.
+     *
+     * min <= x <= max
+     * @param min Minimum number
+     * @param max Maximum number
+     * @return Constructed {@link IntRange}
+     */
+    public static IntRange of(int min, int max) {
+        return new IntRange(min, max);
+    }
+
     /**
      * Constructs an {@link IntRange} where it will only be in range if it is 0;
      *
