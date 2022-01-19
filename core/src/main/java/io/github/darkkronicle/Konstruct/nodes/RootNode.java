@@ -3,6 +3,7 @@ package io.github.darkkronicle.Konstruct.nodes;
 import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.functions.Variable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,13 +12,22 @@ import java.util.List;
 public class RootNode implements Node {
 
     private List<Node> children;
+    private List<Node> precommands;
+
+    public RootNode(List<Node> precommands, List<Node> children) {
+        this.children = children;
+        this.precommands = precommands;
+    }
 
     public RootNode(List<Node> children) {
-        this.children = children;
+        this(new ArrayList<>(), children);
     }
 
     @Override
     public String parse(ParseContext context) {
+        for (Node pre : precommands) {
+            pre.parse(context);
+        }
         StringBuilder builder = new StringBuilder();
         FunctionNode baseNode = null;
         // Check to see if it has the global modifier. If so, run everything else then work into it

@@ -1,5 +1,6 @@
 import io.github.darkkronicle.Konstruct.NodeProcessor;
 import io.github.darkkronicle.Konstruct.builder.NodeBuilder;
+import io.github.darkkronicle.Konstruct.reader.Token;
 import io.github.darkkronicle.addons.*;
 import io.github.darkkronicle.addons.conditions.BooleanFunction;
 
@@ -16,6 +17,7 @@ public class AddonExamples {
         processor.addFunction(new OwOFunction());
         processor.addFunction(new ReplaceFunction());
         processor.addFunction(new IsMatchFunction());
+        processor.addFunction(new TimeFunction());
 
         BooleanFunction.addAllConditionalFunctions(processor);
 
@@ -67,6 +69,23 @@ public class AddonExamples {
                 """);
 
         evaluate(processor, "[if([bool([isMatch(b, You are not cool)], or, [isMatch(b, You are both cool!)])], Hahahah! True, ahahahaha false!)]");
+
+        evaluate(processor, """
+                [cool = ([owo(Holy freaking ****)])];
+                {cool}!!!
+                """);
+
+        evaluate(processor, """
+                [bool1 = ([isMatch(e, eee)])];
+                [bool2 = ([isMatch(b, bbb)])];
+                [bothOn = ([bool({bool1}, and, {bool2})])];
+                bool1 is {bool1} and bool2 is {bool2}
+                [if({bothOn}, Both are true!, 'not both are true :(')]
+                """);
+
+        evaluate(processor, "[calc([num = (5 + 5)] {num} + {num})]");
+
+        evaluate(processor, "Date: [time(yyyy-MM-dd)]");
     }
 
     public static void evaluate(NodeProcessor processor, String input) {

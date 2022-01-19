@@ -18,11 +18,11 @@ public class Tokenizer {
     private final String input;
 
     /**
-     * The {@link io.github.darkkronicle.Konstruct.reader.Token.TokenSettings} that contain the information
+     * The {@link io.github.darkkronicle.Konstruct.reader.TokenSettings} that contain the information
      * to create the tokens
      */
     @Getter
-    private final Token.TokenSettings settings;
+    private final TokenSettings settings;
 
     /**
      * The {@link List} of {@link Token}'s created
@@ -36,7 +36,7 @@ public class Tokenizer {
      * @param settings Settings used to create the tokens
      * @param tokens {@link List} of all the {@link Token}'s
      */
-    public Tokenizer(String input, Token.TokenSettings settings, List<Token> tokens) {
+    public Tokenizer(String input, TokenSettings settings, List<Token> tokens) {
         this.input = input;
         this.settings = settings;
         this.tokens = tokens;
@@ -85,16 +85,16 @@ public class Tokenizer {
      * @return Constructed {@link Tokenizer}
      */
     public static Tokenizer parse(String input) {
-        return parse(input, Token.TokenSettings.DEFAULT);
+        return parse(input, TokenSettings.DEFAULT);
     }
 
     /**
-     * Parses a string and returns a fully processed {@link Tokenizer} with the defined {@link io.github.darkkronicle.Konstruct.reader.Token.TokenSettings}
+     * Parses a string and returns a fully processed {@link Tokenizer} with the defined {@link io.github.darkkronicle.Konstruct.reader.TokenSettings}
      * @param input Input to tokenize
      * @param settings Settings to define tokens
      * @return Constructed {@link Tokenizer}
      */
-    public static Tokenizer parse(String input, Token.TokenSettings settings) {
+    public static Tokenizer parse(String input, TokenSettings settings) {
         List<Token> tokens = new ArrayList<>();
 
         // Setup information about current position within the input
@@ -194,17 +194,30 @@ public class Tokenizer {
                         tokens.add(new Token(Token.TokenType.FUNCTION_END, '0'));
                         cursor += settings.functionEnd.length();
                         currentFunction--;
+                    } else if (c.startsWith(settings.assignment)) {
+                        tokens.add(new Token(Token.TokenType.ASSIGNMENT, '0'));
+                        cursor += settings.assignment.length();
+                        checkArgumentWhitespace = true;
                     } else {
                         // Isn't anything special and should just be a literal
-                        if (c.charAt(0) != '\n') {
-                            tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
-                        }
                         cursor++;
+                        if (checkArgumentWhitespace && (c.charAt(0) == '\n' || c.charAt(0) == ' ')) {
+                            continue;
+                        }
+                        tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
+                        checkArgumentWhitespace = false;
                     }
                     continue;
                 } else {
                     // There should never be more argument starts than there are functions
                     throw new NodeException("More variable segments than functions at position " + cursor + "! " + input);
+                }
+            } else {
+                if (c.startsWith(settings.endLine)) {
+                    tokens.add(new Token(Token.TokenType.END_LINE, '0'));
+                    cursor += settings.endLine.length();
+                    checkArgumentWhitespace = true;
+                    continue;
                 }
             }
 
@@ -213,7 +226,8 @@ public class Tokenizer {
                 cursor += settings.functionStart.length();
                 currentFunction++;
                 continue;
-            } else if (c.startsWith(settings.variableStart)) {
+            }
+            if (c.startsWith(settings.variableStart)) {
                 currentVariable++;
                 tokens.add(new Token(Token.TokenType.VARIABLE_START, '0'));
                 cursor += settings.variableStart.length();

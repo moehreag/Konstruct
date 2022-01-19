@@ -1,7 +1,6 @@
 package io.github.darkkronicle.Konstruct.reader;
 
-import lombok.AllArgsConstructor;
-import lombok.Value;
+import lombok.*;
 
 /**
  * A class to store information about a parsed string. This stores a character and the {@link TokenType}
@@ -59,6 +58,16 @@ public class Token {
          * The end of a variable
          */
         VARIABLE_END,
+
+        /**
+         * Assigns a value to a variable
+         */
+        ASSIGNMENT,
+
+        /**
+         * Equivalent to a ; in java
+         */
+        END_LINE
     }
 
     @Override
@@ -67,76 +76,6 @@ public class Token {
             return String.valueOf(c);
         }
         return tokenType.toString();
-    }
-
-    /**
-     * Represents information about what characters or strings should become tokens.
-     *
-     * <p>Each part can be more than one character in length, but ones that start with others should be avoided.</p>
-     */
-    @Value
-    public static class TokenSettings {
-
-        /**
-         * Represents the default token settings
-         * <p>
-         * Variables: {}
-         * Functions: []
-         * Arguments: ()
-         * Escape: \
-         * </p>
-         */
-        public final static TokenSettings DEFAULT = new TokenSettings("[", "]", "(", ")", ",", "{", "}", "\\", "'", "'''");
-
-        public String functionStart;
-        public String functionEnd;
-
-        public String argsStart;
-        public String argsEnd;
-        public String argsDelim;
-
-        public String variableStart;
-        public String variableEnd;
-
-        public String escape;
-
-        /**
-         * Functions like a quotation mark and makes text within two of these count as literal. (Unless escaped out of)
-         */
-        public String forceLiteral;
-
-        /**
-         * Functions like a quotation mark, but nothing inside can be escaped
-         */
-        public String strongLiteral;
-
-        /**
-         * The maximum length of any token string
-         */
-        public int maxLength;
-
-        public TokenSettings(String functionStart, String functionEnd, String argsStart, String argsEnd, String argsDelim, String variableStart, String variableEnd, String escape, String forceLiteral, String strongLiteral) {
-            this.functionStart = functionStart;
-            this.functionEnd = functionEnd;
-            this.argsStart = argsStart;
-            this.argsEnd = argsEnd;
-            this.argsDelim = argsDelim;
-            this.variableStart = variableStart;
-            this.variableEnd = variableEnd;
-            this.escape = escape;
-            this.forceLiteral = forceLiteral;
-            this.strongLiteral = strongLiteral;
-            this.maxLength = getMax();
-        }
-
-        private int getMax() {
-            String[] strings = new String[]{functionStart, functionEnd, argsStart, argsEnd, argsDelim, variableStart, variableEnd, escape, forceLiteral, strongLiteral};
-            int max = 0;
-            for (String s : strings) {
-                max = Math.max(max, s.length());
-            }
-            return max;
-        }
     }
 
 }

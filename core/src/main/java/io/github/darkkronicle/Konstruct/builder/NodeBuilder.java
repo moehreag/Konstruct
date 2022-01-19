@@ -3,6 +3,7 @@ package io.github.darkkronicle.Konstruct.builder;
 import io.github.darkkronicle.Konstruct.NodeException;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 import io.github.darkkronicle.Konstruct.nodes.RootNode;
+import io.github.darkkronicle.Konstruct.reader.TokenSettings;
 import io.github.darkkronicle.Konstruct.reader.Tokenizer;
 import io.github.darkkronicle.Konstruct.reader.Token;
 import lombok.Getter;
@@ -31,10 +32,10 @@ public class NodeBuilder {
     }
 
     /**
-     * Constructs a builder from a string and automatically {@link Tokenizer}'s it with specified {@link io.github.darkkronicle.Konstruct.reader.Token.TokenSettings}
+     * Constructs a builder from a string and automatically {@link Tokenizer}'s it with specified {@link io.github.darkkronicle.Konstruct.reader.TokenSettings}
      * @param string String to {@link Tokenizer}
      */
-    public NodeBuilder(String string, Token.TokenSettings settings) {
+    public NodeBuilder(String string, TokenSettings settings) {
         this(Tokenizer.parse(string, settings));
     }
 
@@ -48,9 +49,16 @@ public class NodeBuilder {
 
     public RootNode build() throws NodeException {
         List<Node> children = new ArrayList<>();
+        List<Node> allCommands = new ArrayList<>();
         cursor = 0;
         while (cursor < reader.getTokens().size()) {
             Token token = reader.getTokens().get(cursor);
+            if (token.tokenType == Token.TokenType.END_LINE) {
+                allCommands.add(new RootNode(children));
+                children = new ArrayList<>();
+                cursor++;
+                continue;
+            }
             Builder builder = switch (token.tokenType) {
                 case VARIABLE_START -> new VariableBuilder(reader.substring(cursor));
                 case FUNCTION_START -> new FunctionBuilder(reader.substring(cursor));
@@ -66,7 +74,7 @@ public class NodeBuilder {
             node.ifPresent(children::add);
             cursor += builder.getCursor();
         }
-        return new RootNode(children);
+        return new RootNode(allCommands, children);
     }
 
 }

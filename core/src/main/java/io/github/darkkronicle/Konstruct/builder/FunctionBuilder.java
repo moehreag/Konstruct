@@ -1,6 +1,7 @@
 package io.github.darkkronicle.Konstruct.builder;
 
 import io.github.darkkronicle.Konstruct.NodeException;
+import io.github.darkkronicle.Konstruct.nodes.AssignmentNode;
 import io.github.darkkronicle.Konstruct.nodes.FunctionNode;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 import io.github.darkkronicle.Konstruct.reader.Tokenizer;
@@ -35,6 +36,8 @@ public class FunctionBuilder implements Builder {
         StringBuilder nameBuilder = new StringBuilder();
         List<Token> currentArgument = new ArrayList<>();
         List<List<Token>> arguments = new ArrayList<>();
+
+        boolean isAssignment = false;
 
         while (cursor < reader.length()) {
             Token token = reader.get(cursor);
@@ -76,6 +79,10 @@ public class FunctionBuilder implements Builder {
                 } else {
                     currentArgument.add(token);
                 }
+            } else if (token.tokenType == Token.TokenType.ASSIGNMENT && functionName == null) {
+                isAssignment = true;
+                functionName = nameBuilder.toString();
+                cursor++;
             } else {
                 currentArgument.add(token);
                 cursor++;
@@ -91,6 +98,9 @@ public class FunctionBuilder implements Builder {
         if (functionName.startsWith("#")) {
             // A comment function
             return Optional.empty();
+        }
+        if (isAssignment) {
+            return Optional.of(new AssignmentNode(functionName.strip(), children));
         }
         return Optional.of(new FunctionNode(functionName, children));
     }

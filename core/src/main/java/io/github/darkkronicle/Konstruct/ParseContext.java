@@ -4,6 +4,7 @@ import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.Variable;
 import lombok.Getter;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ public class ParseContext {
     private final Map<String, Variable> variables;
 
     @Getter
+    private final Map<String, Variable> localVariables;
+
+    @Getter
     private final Map<String, Function> functions;
 
     /**
@@ -28,6 +32,7 @@ public class ParseContext {
     public ParseContext(Map<String, Function> functions, Map<String, Variable> variables) {
         this.functions = functions;
         this.variables = variables;
+        this.localVariables = new HashMap<>();
     }
 
     /**
@@ -38,7 +43,10 @@ public class ParseContext {
     public Optional<Variable> getVariable(String key) {
         Variable variable = variables.get(key);
         if (variable == null) {
-            return Optional.empty();
+            variable = localVariables.get(key);
+            if (variable == null) {
+                return Optional.empty();
+            }
         }
         return Optional.of(variable);
     }

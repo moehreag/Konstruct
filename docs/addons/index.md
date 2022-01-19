@@ -174,6 +174,50 @@ Output: I am CCCXXI years old.
 
 ---
 
+## Null
+
+Evaluates any amount of arguments and returns a blank string.
+
+Name
+: `null`
+
+Arguments
+: `<any>...`
+
+Output
+: Evaluates each argument and then returns a blank string. If a function/variable is invalid within it, it will still throw an error.
+
+#### EXAMPLE
+{: .no_toc }
+```
+Input: This is [null(argument1, {coolstuff}, [calc(5 + 5)]].
+Output: This is .
+```
+
+---
+
+## Time
+
+Gets the current time in a specially formatted way.
+
+Name
+: `time`
+
+Arguments
+: `<time format>`
+
+Output
+: Formats the current time based off of [DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)
+
+#### EXAMPLE
+{: .no_toc }
+```
+Input: Date: [time(yyyy-MM-dd)]
+Output: Date: 2022-01-18
+```
+
+---
+
 ## Booleans
 
 You can look at booleans in the sidebar.
