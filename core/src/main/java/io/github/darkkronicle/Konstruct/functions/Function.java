@@ -2,6 +2,7 @@ package io.github.darkkronicle.Konstruct.functions;
 
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 
 import java.util.List;
@@ -14,11 +15,12 @@ import java.util.List;
 public interface Function {
 
     /**
-     * Parses a function with a {@link Function#getArgumentCount()} amount of arguments.
-     * @param input A {@link List} of all the variables
+     * Contains the result of the function
+     * @param context The context of the function
+     * @param input A {@link List} of all the arguments
      * @return The processed function
      */
-    String parse(ParseContext context, List<Node> input);
+    Result parse(ParseContext context, List<Node> input);
 
     /**
      * An {@link IntRange} for the amount of arguments to be put in.
@@ -35,8 +37,15 @@ public interface Function {
      * @throws IndexOutOfBoundsException if an index is out of bounds for the input
      * @throws io.github.darkkronicle.Konstruct.NodeException if something internally goes wrong parsing
      */
-    static String parseArgument(ParseContext context, List<Node> input, int index) {
+    static Result parseArgument(ParseContext context, List<Node> input, int index) {
         return input.get(index).parse(context);
+    }
+
+    /**
+     * Checks if a result is blocking and should stop current execution.
+     */
+    static boolean shouldReturn(Result result) {
+        return result.getType() == Result.ResultType.CANCEL || result.getType() == Result.ResultType.TERMINATE;
     }
 
 }

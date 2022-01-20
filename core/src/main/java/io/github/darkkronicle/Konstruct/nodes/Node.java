@@ -1,6 +1,7 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,9 @@ public interface Node {
     /**
      * Parses a {@link Node} to get an evaluated string
      * @param context {@link ParseContext} containing {@link io.github.darkkronicle.Konstruct.functions.Variable}'s and {@link io.github.darkkronicle.Konstruct.functions.Function}'s
-     * @return Evaluated string
+     * @return Evaluated {@link Result}
      */
-    String parse(ParseContext context);
+    Result parse(ParseContext context);
 
     /**
      * Returns children node of this node. Can be empty, but shouldn't be null.

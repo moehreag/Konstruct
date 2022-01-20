@@ -2,6 +2,7 @@ package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
@@ -25,26 +26,32 @@ public class RandomFunction implements NamedFunction {
     }
 
     @Override
-    public String parse(ParseContext context, List<Node> input) {
-        String minString = Function.parseArgument(context, input, 0);
-        String maxString = Function.parseArgument(context, input, 1);
+    public Result parse(ParseContext context, List<Node> input) {
+        Result minResult = Function.parseArgument(context, input, 0);
+        if (Function.shouldReturn(minResult)) {
+            return minResult;
+        }
+        Result maxResult = Function.parseArgument(context, input, 1);
+        if (Function.shouldReturn(maxResult)) {
+            return minResult;
+        }
         int min;
         int max;
         try {
-            min = Integer.parseInt(minString.strip());
-            max = Integer.parseInt(maxString.strip());
+            min = Integer.parseInt(minResult.getContent().strip());
+            max = Integer.parseInt(maxResult.getContent().strip());
         } catch (NumberFormatException e) {
-            return "NaN";
+            return Result.success("NaN");
         }
         if (min == max) {
-            return String.valueOf(min);
+            return Result.success(String.valueOf(min));
         }
         if (min > max) {
             int temp = max;
             max = min;
             min = temp;
         }
-        return String.valueOf(random.nextInt(max - min + 1) + min);
+        return Result.success(String.valueOf(random.nextInt(max - min + 1) + min));
     }
 
     @Override

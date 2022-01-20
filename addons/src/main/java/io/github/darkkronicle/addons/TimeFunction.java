@@ -2,6 +2,7 @@ package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
@@ -13,12 +14,14 @@ import java.util.List;
 public class TimeFunction implements NamedFunction {
 
     @Override
-    public String parse(ParseContext context, List<Node> input) {
+    public Result parse(ParseContext context, List<Node> input) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Function.parseArgument(context, input, 0));
-            return LocalDateTime.now().format(formatter);
+            Result res = Function.parseArgument(context, input, 0);
+            if (Function.shouldReturn(res)) return res;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(res.getContent());
+            return Result.success(LocalDateTime.now().format(formatter));
         } catch (IllegalArgumentException e) {
-            return "Invalid time";
+            return Result.success("Invalid time");
         }
     }
 

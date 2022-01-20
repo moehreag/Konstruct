@@ -1,6 +1,7 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,8 @@ public class LiteralNode implements Node {
     }
 
     @Override
-    public String parse(ParseContext context) {
-        return content;
+    public Result parse(ParseContext context) {
+        return Result.success(content);
     }
 
     @Override

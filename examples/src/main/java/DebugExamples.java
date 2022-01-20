@@ -1,6 +1,7 @@
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.NodeProcessor;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 import io.github.darkkronicle.Konstruct.builder.NodeBuilder;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.nodes.Node;
@@ -13,12 +14,15 @@ public class DebugExamples {
         tree("This is a literal and this is a {placeholder}. Over here is a [function(argument)].");
         tree("This is a [function([func2(nestedArg,{placeholder})])].");
         tree("Here is a [function({argument},Function: [function(5 literal... {argument3},'''This is a , comma with a \\''')]{argument2})]!");
+        tree("[func('')]");
         NodeProcessor handler = new NodeProcessor();
         handler.addVariable("cool", "EPIC COOL BEANS");
         handler.addFunction("lower", new Function() {
             @Override
-            public String parse(ParseContext context, List<Node> input) {
-                return Function.parseArgument(context, input, 0).toLowerCase();
+            public Result parse(ParseContext context, List<Node> input) {
+                Result res = Function.parseArgument(context, input, 0);
+                if (Function.shouldReturn(res)) return res;
+                return Result.success(res.getContent().toLowerCase());
             }
 
             @Override

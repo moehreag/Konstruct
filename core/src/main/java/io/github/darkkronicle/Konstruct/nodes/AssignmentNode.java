@@ -2,6 +2,8 @@ package io.github.darkkronicle.Konstruct.nodes;
 
 import io.github.darkkronicle.Konstruct.NodeException;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.Variable;
 import lombok.Getter;
 
@@ -28,12 +30,16 @@ public class AssignmentNode implements Node {
     }
 
     @Override
-    public String parse(ParseContext context) {
+    public Result parse(ParseContext context) {
         if (context.getVariables().containsKey(this.name)) {
             throw new NodeException("Variable " + this.name + "already exists!");
         }
-        context.getLocalVariables().put(this.name, Variable.of(this.node.parse(context)));
-        return "";
+        Result result = this.node.parse(context);
+        if (Function.shouldReturn(result)) {
+            return result;
+        }
+        context.addLocalVariable(this.name, Variable.of(result.getContent()));
+        return Result.success("");
     }
 
     @Override

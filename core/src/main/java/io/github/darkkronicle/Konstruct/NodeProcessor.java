@@ -1,8 +1,6 @@
 package io.github.darkkronicle.Konstruct;
 
-import io.github.darkkronicle.Konstruct.functions.Function;
-import io.github.darkkronicle.Konstruct.functions.NamedFunction;
-import io.github.darkkronicle.Konstruct.functions.Variable;
+import io.github.darkkronicle.Konstruct.functions.*;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 import lombok.Getter;
 
@@ -51,9 +49,12 @@ public class NodeProcessor {
     }
 
     private void addDefaults() {
+        this.variables.put("empty", Variable.of(""));
         this.variables.put("konstructVersion", Variable.of(Konstruct.INFO.getVersion()));
         this.variables.put("functions", () -> String.join(", ", functions.keySet().stream().toList()));
         this.variables.put("variables", () -> String.join(", ", variables.keySet().stream().toList()));
+        addFunction(new NullFunction());
+        addFunction(new ReturnFunction());
     }
 
     /**
@@ -116,8 +117,9 @@ public class NodeProcessor {
      * @param node {@link Node} to parse
      * @return The parsed string
      */
-    public String parse(Node node) {
-        return node.parse(createContext());
+    public ParseResult parse(Node node) {
+        ParseContext context = createContext();
+        return new ParseResult(context, node.parse(context));
     }
 
     /**

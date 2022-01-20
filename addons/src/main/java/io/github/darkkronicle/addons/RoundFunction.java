@@ -2,6 +2,7 @@ package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
@@ -13,31 +14,36 @@ public class RoundFunction implements NamedFunction {
 
 
     @Override
-    public String parse(ParseContext context, List<Node> input) {
+    public Result parse(ParseContext context, List<Node> input) {
         Double dub;
         try {
-            dub = Double.valueOf(Function.parseArgument(context, input, 0));
+            Result res = Function.parseArgument(context, input, 0);
+            if (Function.shouldReturn(res)) return res;
+            dub = Double.valueOf(res.getContent().strip());
         } catch (NumberFormatException e) {
-            return "NaN";
+            return Result.success("NaN");
         }
-        DecimalFormat format = getFormat(context, input);
-        return format.format(dub);
-    }
 
-    private DecimalFormat getFormat(ParseContext context, List<Node> input) {
+        DecimalFormat format;
         if (input.size() == 2) {
             try {
-                int places = Integer.parseInt(Function.parseArgument(context, input, 1));
+                Result res = Function.parseArgument(context, input, 1);
+                if (Function.shouldReturn(res)) return res;
+                int places = Integer.parseInt(res.getContent().strip());
                 places = Math.abs(places);
                 if (places == 0) {
-                    return new DecimalFormat("#");
+                    format = new DecimalFormat("#");
+                } else {
+                    format = new DecimalFormat("#." + "#".repeat(places));
                 }
-                return new DecimalFormat("#." + "#".repeat(places));
             } catch (NumberFormatException e) {
-                // Pass it and use default
+                format = new DecimalFormat("#");
             }
+        } else {
+            format = new DecimalFormat("#");
         }
-        return new DecimalFormat("#");
+
+        return Result.success(format.format(dub));
     }
 
     @Override

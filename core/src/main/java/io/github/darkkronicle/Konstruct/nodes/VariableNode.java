@@ -1,6 +1,7 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 import io.github.darkkronicle.Konstruct.functions.Variable;
 
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ public class VariableNode implements Node {
     }
 
     @Override
-    public String parse(ParseContext context) {
-        return context.getVariable(key).orElse(Variable.of("")).getValue();
+    public Result parse(ParseContext context) {
+        return Result.success(context.getVariable(key).orElse(Variable.of("")).getValue());
     }
 
     @Override

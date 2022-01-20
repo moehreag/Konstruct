@@ -1,20 +1,9 @@
 package io.github.darkkronicle.addons.conditions;
 
 import io.github.darkkronicle.Konstruct.NodeProcessor;
-import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
-import io.github.darkkronicle.Konstruct.nodes.Node;
-
-import java.util.List;
 
 public interface BooleanFunction extends NamedFunction {
-
-    @Override
-    default String parse(ParseContext context, List<Node> input) {
-        return boolToString(parseBool(context, input));
-    }
-
-    boolean parseBool(ParseContext context, List<Node> input);
 
     static boolean stringToBool(String string) {
         try {

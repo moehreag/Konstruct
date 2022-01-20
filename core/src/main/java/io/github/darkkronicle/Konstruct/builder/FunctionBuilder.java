@@ -74,7 +74,9 @@ public class FunctionBuilder implements Builder {
                 cursor++;
                 funcs--;
                 if (funcs == 0) {
-                    arguments.add(currentArgument);
+                    if (currentArgument.size() > 0 || arguments.size() > 0) {
+                        arguments.add(currentArgument);
+                    }
                     break;
                 } else {
                     currentArgument.add(token);

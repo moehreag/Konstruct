@@ -90,7 +90,7 @@ public class AddonExamples {
 
     public static void evaluate(NodeProcessor processor, String input) {
         System.out.print("Input: " + input + "\nOutput: ");
-        System.out.println(processor.parse(new NodeBuilder(input).build()) + "\n");
+        System.out.println(processor.parse(new NodeBuilder(input).build()).getResult().getContent() + "\n");
     }
 
 }

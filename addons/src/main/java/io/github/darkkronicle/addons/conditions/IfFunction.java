@@ -2,6 +2,7 @@ package io.github.darkkronicle.addons.conditions;
 
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
@@ -11,8 +12,10 @@ import java.util.List;
 public class IfFunction implements NamedFunction {
 
     @Override
-    public String parse(ParseContext context, List<Node> input) {
-        boolean val = BooleanFunction.stringToBool(Function.parseArgument(context, input, 0));
+    public Result parse(ParseContext context, List<Node> input) {
+        Result res = Function.parseArgument(context, input, 0);
+        if (Function.shouldReturn(res)) return res;
+        boolean val = BooleanFunction.stringToBool(res.getContent().strip());
         if (val) {
             return Function.parseArgument(context, input, 1);
         }
@@ -20,7 +23,7 @@ public class IfFunction implements NamedFunction {
             // Else
             return Function.parseArgument(context, input, 2);
         }
-        return "";
+        return Result.success("");
     }
 
     @Override

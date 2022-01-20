@@ -2,6 +2,7 @@ package io.github.darkkronicle.addons;
 
 import io.github.darkkronicle.Konstruct.IntRange;
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
@@ -36,14 +37,22 @@ public class ReplaceFunction implements NamedFunction {
     }
 
     @Override
-    public String parse(ParseContext context, List<Node> input) {
+    public Result parse(ParseContext context, List<Node> input) {
         ReplaceType type = ReplaceType.LITERAL;
+        Result res;
         if (input.size() == 4) {
-            String replaceTypeString = Function.parseArgument(context, input, 3).strip().toLowerCase(Locale.ROOT);
+            res = Function.parseArgument(context, input, 3);
+            if (Function.shouldReturn(res)) return res;
+
+            String replaceTypeString = res.getContent().strip().toLowerCase(Locale.ROOT);
             type = ReplaceType.getType(replaceTypeString);
         }
         Pattern pattern;
-        String patternString = Function.parseArgument(context, input, 0);
+
+        res = Function.parseArgument(context, input, 0);
+        if (Function.shouldReturn(res)) return res;
+
+        String patternString = res.getContent();
         if (type == ReplaceType.LITERAL) {
             pattern = Pattern.compile(patternString, Pattern.LITERAL);
         } else if (type == ReplaceType.UPPER_LOWER) {
@@ -51,9 +60,16 @@ public class ReplaceFunction implements NamedFunction {
         } else {
             pattern = Pattern.compile(patternString);
         }
-        Matcher matcher = pattern.matcher(Function.parseArgument(context, input, 1));
-        String replaceTo = Function.parseArgument(context, input, 2);
-        return matcher.replaceAll(replaceTo);
+
+        res = Function.parseArgument(context, input, 1);
+        if (Function.shouldReturn(res)) return res;
+        Matcher matcher = pattern.matcher(res.getContent());
+
+        res = Function.parseArgument(context, input, 2);
+        if (Function.shouldReturn(res)) return res;
+
+        String replaceTo = res.getContent() ;
+        return Result.success(matcher.replaceAll(replaceTo));
     }
 
     @Override

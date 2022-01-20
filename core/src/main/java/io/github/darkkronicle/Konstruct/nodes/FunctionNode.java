@@ -2,11 +2,11 @@ package io.github.darkkronicle.Konstruct.nodes;
 
 import io.github.darkkronicle.Konstruct.ParseContext;
 import io.github.darkkronicle.Konstruct.NodeException;
+import io.github.darkkronicle.Konstruct.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -41,7 +41,7 @@ public class FunctionNode implements Node {
     }
 
     @Override
-    public String parse(ParseContext context) {
+    public Result parse(ParseContext context) {
         Optional<Function> function = context.getFunction(name);
         if (function.isEmpty()) {
             throw new NodeException("No function named " + name + " defined!");

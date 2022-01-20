@@ -1,6 +1,8 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
 import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.Variable;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class RootNode implements Node {
     }
 
     @Override
-    public String parse(ParseContext context) {
+    public Result parse(ParseContext context) {
         for (Node pre : precommands) {
             pre.parse(context);
         }
@@ -43,10 +45,14 @@ public class RootNode implements Node {
                 first = true;
                 continue;
             }
-            builder.append(child.parse(context));
+            Result result = child.parse(context);
+            if (Function.shouldReturn(result)) {
+                return result;
+            }
+            builder.append(result.getContent());
         }
         if (baseNode == null) {
-            return builder.toString();
+            return Result.success(builder.toString());
         }
         context.getVariables().put("%", Variable.of(builder.toString()));
         return baseNode.parse(context);

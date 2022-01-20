@@ -104,7 +104,7 @@ public class Tokenizer {
         int currentVariable = 0;
         boolean inLiteral = false;
         boolean inStrongLiteral = false;
-        boolean checkArgumentWhitespace = false;
+        boolean removeWhitespace = false;
 
         while (cursor < input.length()) {
             String c = input.substring(cursor, Math.min(input.length(), cursor + settings.getMaxLength()));
@@ -132,14 +132,14 @@ public class Tokenizer {
             }
 
             if (c.startsWith(settings.strongLiteral)) {
-                checkArgumentWhitespace = false;
+                removeWhitespace = false;
                 inStrongLiteral = true;
                 cursor += settings.strongLiteral.length();
                 continue;
             }
 
             if (c.startsWith(settings.forceLiteral)) {
-                checkArgumentWhitespace = false;
+                removeWhitespace = false;
                 inLiteral = !inLiteral;
                 cursor += settings.forceLiteral.length();
                 continue;
@@ -179,7 +179,7 @@ public class Tokenizer {
                         continue;
                     } else if (c.startsWith(settings.argsDelim)) {
                         tokens.add(new Token(Token.TokenType.ARGUMENTS_DELIMINATOR, '0'));
-                        checkArgumentWhitespace = true;
+                        removeWhitespace = true;
                         cursor += settings.argsDelim.length();
                         continue;
                     }
@@ -190,6 +190,7 @@ public class Tokenizer {
                         tokens.add(new Token(Token.TokenType.ARGUMENTS_START, '0'));
                         cursor += settings.argsStart.length();
                         currentArguments++;
+                        removeWhitespace = true;
                     } else if (c.startsWith(settings.functionEnd)) {
                         tokens.add(new Token(Token.TokenType.FUNCTION_END, '0'));
                         cursor += settings.functionEnd.length();
@@ -197,15 +198,15 @@ public class Tokenizer {
                     } else if (c.startsWith(settings.assignment)) {
                         tokens.add(new Token(Token.TokenType.ASSIGNMENT, '0'));
                         cursor += settings.assignment.length();
-                        checkArgumentWhitespace = true;
+                        removeWhitespace = true;
                     } else {
                         // Isn't anything special and should just be a literal
                         cursor++;
-                        if (checkArgumentWhitespace && (c.charAt(0) == '\n' || c.charAt(0) == ' ')) {
+                        if (removeWhitespace && (c.charAt(0) == '\n' || c.charAt(0) == ' ')) {
                             continue;
                         }
                         tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
-                        checkArgumentWhitespace = false;
+                        removeWhitespace = false;
                     }
                     continue;
                 } else {
@@ -216,7 +217,7 @@ public class Tokenizer {
                 if (c.startsWith(settings.endLine)) {
                     tokens.add(new Token(Token.TokenType.END_LINE, '0'));
                     cursor += settings.endLine.length();
-                    checkArgumentWhitespace = true;
+                    removeWhitespace = true;
                     continue;
                 }
             }
@@ -225,6 +226,7 @@ public class Tokenizer {
                 tokens.add(new Token(Token.TokenType.FUNCTION_START, '0'));
                 cursor += settings.functionStart.length();
                 currentFunction++;
+                removeWhitespace = true;
                 continue;
             }
             if (c.startsWith(settings.variableStart)) {
@@ -233,11 +235,11 @@ public class Tokenizer {
                 cursor += settings.variableStart.length();
                 continue;
             }
-            if (checkArgumentWhitespace && (c.charAt(0) == ' ' || c.charAt(0) == '\n')) {
+            if (removeWhitespace && (c.charAt(0) == ' ' || c.charAt(0) == '\n')) {
                 cursor++;
                 continue;
             }
-            checkArgumentWhitespace = false;
+            removeWhitespace = false;
             tokens.add(new Token(Token.TokenType.LITERAL, c.charAt(0)));
             cursor++;
         }
