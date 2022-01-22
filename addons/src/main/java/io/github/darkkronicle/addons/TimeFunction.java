@@ -1,8 +1,8 @@
 package io.github.darkkronicle.addons;
 
-import io.github.darkkronicle.Konstruct.IntRange;
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.IntRange;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
@@ -18,7 +18,7 @@ public class TimeFunction implements NamedFunction {
         try {
             Result res = Function.parseArgument(context, input, 0);
             if (Function.shouldReturn(res)) return res;
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(res.getContent());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(res.getContent().getString());
             return Result.success(LocalDateTime.now().format(formatter));
         } catch (IllegalArgumentException e) {
             return Result.success("Invalid time");

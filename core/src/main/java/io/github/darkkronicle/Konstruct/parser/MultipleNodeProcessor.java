@@ -1,8 +1,7 @@
-package io.github.darkkronicle.Konstruct;
+package io.github.darkkronicle.Konstruct.parser;
 
-import io.github.darkkronicle.Konstruct.builder.NodeBuilder;
+import io.github.darkkronicle.Konstruct.reader.builder.NodeBuilder;
 import io.github.darkkronicle.Konstruct.nodes.Node;
-import io.github.darkkronicle.Konstruct.reader.TokenSettings;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -57,7 +56,7 @@ public class MultipleNodeProcessor {
                 return Optional.of(Result.success(input));
             }
             if (useResult.test(result)) {
-                input = result.getResult().getContent();
+                input = result.getResult().getContent().getString();
             }
             processor.getVariables().remove(inputVariable);
         }
@@ -72,14 +71,14 @@ public class MultipleNodeProcessor {
      * @param string String containing all node data
      * @return A newly constructed class
      */
-    public static MultipleNodeProcessor fromString(NodeProcessor processor, MultipleNodeSettings settings, TokenSettings tokenSettings, String string) {
+    public static MultipleNodeProcessor fromString(NodeProcessor processor, MultipleNodeSettings settings, String string) {
         if (settings.commentLines) {
             string = removeComments(string);
         }
         String[] nodeStrings = string.split(settings.separatorRegex);
         List<Node> nodes = new ArrayList<>();
         for (String s : nodeStrings) {
-            nodes.add(new NodeBuilder(s, tokenSettings).build());
+            nodes.add(new NodeBuilder(s).build());
         }
         return new MultipleNodeProcessor(processor, nodes);
     }

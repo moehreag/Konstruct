@@ -2,6 +2,8 @@ package io.github.darkkronicle.Konstruct.reader;
 
 import lombok.*;
 
+import java.util.Set;
+
 /**
  * A class to store information about a parsed string. This stores a character and the {@link TokenType}
  */
@@ -14,50 +16,25 @@ public class Token {
     public final TokenType tokenType;
 
     /**
-     * The character that is stored
+     * The string that is stored
      */
-    public final char c;
+    public final String content;
 
     public enum TokenType {
+
         /**
          * A literal string
          */
         LITERAL,
 
-        /**
-         * The start of a function
-         */
-        FUNCTION_START,
-
-        /**
-         * The end of a function
-         */
-        FUNCTION_END,
-
-        /**
-         * The start of arguments within a function
-         */
-        ARGUMENTS_START,
-
-        /**
-         * The end of arguments within a function
-         */
-        ARGUMENTS_END,
+        BLOCK_START,
+        BLOCK_END,
 
         /**
          * The separator of arguments within a function
          */
         ARGUMENTS_DELIMINATOR,
 
-        /**
-         * The start of a variable
-         */
-        VARIABLE_START,
-
-        /**
-         * The end of a variable
-         */
-        VARIABLE_END,
 
         /**
          * Assigns a value to a variable
@@ -67,13 +44,36 @@ public class Token {
         /**
          * Equivalent to a ; in java
          */
-        END_LINE
+        END_LINE,
+
+        PLUS,
+        MINUS,
+        MULTIPLY,
+        DIVIDE,
+        INT_DIVIDE,
+        PAREN_OPEN,
+        PAREN_CLOSE,
+        KEYWORD,
+        IDENTIFIER,
+        GREATER,
+        LESS,
+        GREATER_EQUAL,
+        LESS_EQUAL,
+        BANG,
+        EQUAL,
+        NOT_EQUAL,
+        DOUBLE,
+        INT
     }
+
+    public static final Set<TokenType> OPERATOR = Set.of(TokenType.PLUS, TokenType.MINUS, TokenType.DIVIDE, TokenType.INT_DIVIDE, TokenType.MULTIPLY);
+
+    public static final Set<TokenType> CONDITIONAL = Set.of(TokenType.GREATER, TokenType.GREATER_EQUAL, TokenType.LESS, TokenType.LESS_EQUAL, TokenType.EQUAL, TokenType.NOT_EQUAL);
 
     @Override
     public String toString() {
-        if (tokenType == TokenType.LITERAL) {
-            return String.valueOf(c);
+        if (tokenType == TokenType.LITERAL || tokenType == TokenType.INT || tokenType == TokenType.DOUBLE || tokenType == TokenType.IDENTIFIER || tokenType == TokenType.KEYWORD) {
+            return tokenType + " - " + content;
         }
         return tokenType.toString();
     }

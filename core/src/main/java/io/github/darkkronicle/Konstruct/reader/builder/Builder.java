@@ -1,7 +1,8 @@
-package io.github.darkkronicle.Konstruct.builder;
+package io.github.darkkronicle.Konstruct.reader.builder;
 
 import io.github.darkkronicle.Konstruct.NodeException;
 import io.github.darkkronicle.Konstruct.nodes.Node;
+import io.github.darkkronicle.Konstruct.reader.Tokener;
 
 import java.util.Optional;
 
@@ -14,12 +15,12 @@ public interface Builder {
      * Build's a {@link Node}
      * @return Built {@link Node}. If empty don't add
      */
-    Optional<Node> build() throws NodeException;
+    Optional<Node> build(Tokener reader, int currentToken) throws NodeException;
 
     /**
-     * The current cursor position of the string. This should be at the end of the created {@link Node}
-     * @return Position of cursor
+     * Returns the index of the next token to be processed
+     * @return Next token
      */
-    int getCursor();
+    int getNextToken();
 
 }

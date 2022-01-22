@@ -2,24 +2,24 @@ package io.github.darkkronicle.Konstruct.nodes;
 
 import io.github.darkkronicle.Konstruct.parser.ParseContext;
 import io.github.darkkronicle.Konstruct.parser.Result;
+import io.github.darkkronicle.Konstruct.type.IntegerObject;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A node containing only literal string values. This node when parsed will not evaluate anything.
- */
-public class LiteralNode implements Node {
+public class IntNode implements Node {
 
-    private final String content;
+    @Getter
+    private final int value;
 
-    public LiteralNode(String content) {
-        this.content = content;
+    public IntNode(int value) {
+        this.value = value;
     }
 
     @Override
     public Result parse(ParseContext context) {
-        return Result.success(content);
+        return Result.success(new IntegerObject(value));
     }
 
     @Override
@@ -28,12 +28,12 @@ public class LiteralNode implements Node {
     }
 
     @Override
-    public void addChild(Node node) {
-
+    public String toString() {
+        return "<int " + value + ">";
     }
 
     @Override
-    public String toString() {
-        return "<literal " + content + ">";
+    public void addChild(Node node) {
+
     }
 }

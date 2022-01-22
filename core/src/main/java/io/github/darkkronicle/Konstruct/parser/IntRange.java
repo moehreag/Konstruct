@@ -1,4 +1,4 @@
-package io.github.darkkronicle.Konstruct;
+package io.github.darkkronicle.Konstruct.parser;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;

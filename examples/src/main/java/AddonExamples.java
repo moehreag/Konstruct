@@ -1,6 +1,5 @@
-import io.github.darkkronicle.Konstruct.NodeProcessor;
-import io.github.darkkronicle.Konstruct.builder.NodeBuilder;
-import io.github.darkkronicle.Konstruct.reader.Token;
+import io.github.darkkronicle.Konstruct.parser.NodeProcessor;
+import io.github.darkkronicle.Konstruct.reader.builder.NodeBuilder;
 import io.github.darkkronicle.addons.*;
 import io.github.darkkronicle.addons.conditions.BooleanFunction;
 
@@ -86,11 +85,15 @@ public class AddonExamples {
         evaluate(processor, "[calc([num = (5 + 5)] {num} + {num})]");
 
         evaluate(processor, "Date: [time(yyyy-MM-dd)]");
+
+        evaluate(processor, "[type([calc(5 + 5)])]");
+
+        evaluate(processor, "[variable = ([calc(1 + 1)])];\n[type({variable})] \n- [type({variable}a)]\n[type([isType({variable}, string)])]");
     }
 
     public static void evaluate(NodeProcessor processor, String input) {
         System.out.print("Input: " + input + "\nOutput: ");
-        System.out.println(processor.parse(new NodeBuilder(input).build()).getResult().getContent() + "\n");
+        System.out.println(processor.parse(new NodeBuilder(input).build()).getResult().getContent().getString() + "\n");
     }
 
 }

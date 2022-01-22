@@ -1,8 +1,8 @@
 package io.github.darkkronicle.addons;
 
-import io.github.darkkronicle.Konstruct.IntRange;
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.IntRange;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
@@ -44,7 +44,7 @@ public class ReplaceFunction implements NamedFunction {
             res = Function.parseArgument(context, input, 3);
             if (Function.shouldReturn(res)) return res;
 
-            String replaceTypeString = res.getContent().strip().toLowerCase(Locale.ROOT);
+            String replaceTypeString = res.getContent().getString().strip().toLowerCase(Locale.ROOT);
             type = ReplaceType.getType(replaceTypeString);
         }
         Pattern pattern;
@@ -52,7 +52,7 @@ public class ReplaceFunction implements NamedFunction {
         res = Function.parseArgument(context, input, 0);
         if (Function.shouldReturn(res)) return res;
 
-        String patternString = res.getContent();
+        String patternString = res.getContent().getString();
         if (type == ReplaceType.LITERAL) {
             pattern = Pattern.compile(patternString, Pattern.LITERAL);
         } else if (type == ReplaceType.UPPER_LOWER) {
@@ -63,12 +63,12 @@ public class ReplaceFunction implements NamedFunction {
 
         res = Function.parseArgument(context, input, 1);
         if (Function.shouldReturn(res)) return res;
-        Matcher matcher = pattern.matcher(res.getContent());
+        Matcher matcher = pattern.matcher(res.getContent().getString());
 
         res = Function.parseArgument(context, input, 2);
         if (Function.shouldReturn(res)) return res;
 
-        String replaceTo = res.getContent() ;
+        String replaceTo = res.getContent().getString();
         return Result.success(matcher.replaceAll(replaceTo));
     }
 

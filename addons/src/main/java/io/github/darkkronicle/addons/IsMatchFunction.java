@@ -1,12 +1,12 @@
 package io.github.darkkronicle.addons;
 
-import io.github.darkkronicle.Konstruct.IntRange;
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.IntRange;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
-import io.github.darkkronicle.addons.conditions.BooleanFunction;
+import io.github.darkkronicle.Konstruct.type.BooleanObject;
 
 import java.util.List;
 import java.util.Locale;
@@ -22,13 +22,13 @@ public class IsMatchFunction implements NamedFunction {
         if (input.size() == 3) {
             res = Function.parseArgument(context, input, 2);
             if (Function.shouldReturn(res)) return res;
-            String replaceTypeString = res.getContent().strip().toLowerCase(Locale.ROOT);
+            String replaceTypeString = res.getContent().getString().strip().toLowerCase(Locale.ROOT);
             type = ReplaceFunction.ReplaceType.getType(replaceTypeString);
         }
         Pattern pattern;
         res = Function.parseArgument(context, input, 0);
         if (Function.shouldReturn(res)) return res;
-        String patternString = res.getContent();
+        String patternString = res.getContent().getString();
         if (type == ReplaceFunction.ReplaceType.LITERAL) {
             pattern = Pattern.compile(patternString, Pattern.LITERAL);
         } else if (type == ReplaceFunction.ReplaceType.UPPER_LOWER) {
@@ -38,8 +38,8 @@ public class IsMatchFunction implements NamedFunction {
         }
         res = Function.parseArgument(context, input, 1);
         if (Function.shouldReturn(res)) return res;
-        Matcher matcher = pattern.matcher(res.getContent());
-        return Result.success(BooleanFunction.boolToString(matcher.find()));
+        Matcher matcher = pattern.matcher(res.getContent().getString());
+        return Result.success(new BooleanObject(matcher.find()));
     }
 
     @Override

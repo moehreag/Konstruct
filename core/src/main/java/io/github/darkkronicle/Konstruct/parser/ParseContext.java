@@ -1,4 +1,4 @@
-package io.github.darkkronicle.Konstruct;
+package io.github.darkkronicle.Konstruct.parser;
 
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.Variable;

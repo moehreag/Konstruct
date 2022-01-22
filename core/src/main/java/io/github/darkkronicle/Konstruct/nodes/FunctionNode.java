@@ -1,8 +1,8 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
-import io.github.darkkronicle.Konstruct.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
 import io.github.darkkronicle.Konstruct.NodeException;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import lombok.Getter;
 

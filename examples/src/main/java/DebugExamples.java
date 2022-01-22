@@ -1,8 +1,8 @@
-import io.github.darkkronicle.Konstruct.IntRange;
-import io.github.darkkronicle.Konstruct.NodeProcessor;
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
-import io.github.darkkronicle.Konstruct.builder.NodeBuilder;
+import io.github.darkkronicle.Konstruct.parser.IntRange;
+import io.github.darkkronicle.Konstruct.parser.NodeProcessor;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
+import io.github.darkkronicle.Konstruct.reader.builder.NodeBuilder;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 
@@ -22,7 +22,7 @@ public class DebugExamples {
             public Result parse(ParseContext context, List<Node> input) {
                 Result res = Function.parseArgument(context, input, 0);
                 if (Function.shouldReturn(res)) return res;
-                return Result.success(res.getContent().toLowerCase());
+                return Result.success(res.getContent().getString().toLowerCase());
             }
 
             @Override

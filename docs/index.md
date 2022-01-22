@@ -81,7 +81,7 @@ Output: Welcome back!
 
 Weird functions (imagine that the `\%` doesn't have the backslash. Website issues.)
 ```
-Input: [!owo({\%})]'''This is super duper duper cool and means that it's easier to write functions'''
+Input: [owo('''This is super duper duper cool and means that it's easier to write functions''')]
 Output: Thais is supew dupew dupew coow and means that it's easiew to wwite functions
 ```
 

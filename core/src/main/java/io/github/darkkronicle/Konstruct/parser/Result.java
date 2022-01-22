@@ -1,5 +1,7 @@
-package io.github.darkkronicle.Konstruct;
+package io.github.darkkronicle.Konstruct.parser;
 
+import io.github.darkkronicle.Konstruct.type.KonstructObject;
+import io.github.darkkronicle.Konstruct.type.StringObject;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 
@@ -35,14 +37,18 @@ public class Result {
     /**
      * The content of the result. Can be null which indicates blank.
      */
-    String content;
+    KonstructObject content;
 
     public static Result success(String content) {
+        return new Result(ResultType.SUCCESS, new StringObject(content));
+    }
+
+    public static Result success(KonstructObject content) {
         return new Result(ResultType.SUCCESS, content);
     }
 
     public static Result of(ResultType type, String content) {
-        return new Result(type, content);
+        return new Result(type, new StringObject(content));
     }
 
 }

@@ -1,13 +1,15 @@
 package io.github.darkkronicle.addons;
 
-import io.github.darkkronicle.Konstruct.IntRange;
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.IntRange;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
+import io.github.darkkronicle.Konstruct.type.IntegerObject;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.TreeMap;
 
 /**
@@ -65,18 +67,16 @@ public class RomanNumeralFunction implements NamedFunction {
 
     @Override
     public Result parse(ParseContext context, List<Node> input) {
-        int num;
-        try {
-            Result res = Function.parseArgument(context, input, 0);
-            if (Function.shouldReturn(res)) return res;
-            num = Integer.parseInt(res.getContent());
-        } catch (NumberFormatException e) {
+        Result res = Function.parseArgument(context, input, 0);
+        if (Function.shouldReturn(res)) return res;
+        Optional<Integer> num = IntegerObject.fromObject(res.getContent());
+        if (num.isEmpty()) {
             return Result.success("NaN");
         }
-        if (Math.abs(num) > 1000000) {
+        if (Math.abs(num.get()) > 1000000) {
             return Result.success("TooBig");
         }
-        return Result.success(toRoman(num));
+        return Result.success(toRoman(num.get()));
     }
 
     @Override

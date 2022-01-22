@@ -1,7 +1,10 @@
-package io.github.darkkronicle.Konstruct;
+package io.github.darkkronicle.Konstruct.parser;
 
+import io.github.darkkronicle.Konstruct.Konstruct;
+import io.github.darkkronicle.Konstruct.NodeException;
 import io.github.darkkronicle.Konstruct.functions.*;
 import io.github.darkkronicle.Konstruct.nodes.Node;
+import io.github.darkkronicle.Konstruct.type.StringObject;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -51,10 +54,13 @@ public class NodeProcessor {
     private void addDefaults() {
         this.variables.put("empty", Variable.of(""));
         this.variables.put("konstructVersion", Variable.of(Konstruct.INFO.getVersion()));
-        this.variables.put("functions", () -> String.join(", ", functions.keySet().stream().toList()));
-        this.variables.put("variables", () -> String.join(", ", variables.keySet().stream().toList()));
+        this.variables.put("functions", () -> new StringObject(String.join(", ", functions.keySet().stream().toList())));
+        this.variables.put("variables", () -> new StringObject(String.join(", ", variables.keySet().stream().toList())));
         addFunction(new NullFunction());
         addFunction(new ReturnFunction());
+        addFunction(new ExitFunction());
+        addFunction(new TypeFunction());
+        addFunction(new IsTypeFunction());
     }
 
     /**

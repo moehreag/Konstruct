@@ -1,11 +1,12 @@
 package io.github.darkkronicle.addons;
 
-import io.github.darkkronicle.Konstruct.IntRange;
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.IntRange;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
+import io.github.darkkronicle.Konstruct.type.IntegerObject;
 
 import java.util.List;
 
@@ -17,14 +18,9 @@ public class GetFunction implements NamedFunction {
 
     @Override
     public Result parse(ParseContext context, List<Node> input) {
-        int val;
-        try {
-            Result res = Function.parseArgument(context, input, 0);
-            if (Function.shouldReturn(res)) return res;
-            val = Integer.parseInt(res.getContent());
-        } catch (NumberFormatException e) {
-            return Function.parseArgument(context, input, 1);
-        }
+        Result res = Function.parseArgument(context, input, 0);
+        if (Function.shouldReturn(res)) return res;
+        int val = IntegerObject.fromObject(res.getContent()).orElse(0);
         if (val < 0 || val >= input.size() - 1) {
             return Function.parseArgument(context, input, 1);
         }

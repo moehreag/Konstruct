@@ -1,11 +1,12 @@
 package io.github.darkkronicle.addons;
 
-import io.github.darkkronicle.Konstruct.IntRange;
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.IntRange;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.NamedFunction;
 import io.github.darkkronicle.Konstruct.nodes.Node;
+import io.github.darkkronicle.Konstruct.type.IntegerObject;
 
 import java.util.List;
 import java.util.Random;
@@ -28,21 +29,11 @@ public class RandomFunction implements NamedFunction {
     @Override
     public Result parse(ParseContext context, List<Node> input) {
         Result minResult = Function.parseArgument(context, input, 0);
-        if (Function.shouldReturn(minResult)) {
-            return minResult;
-        }
+        if (Function.shouldReturn(minResult)) return minResult;
         Result maxResult = Function.parseArgument(context, input, 1);
-        if (Function.shouldReturn(maxResult)) {
-            return minResult;
-        }
-        int min;
-        int max;
-        try {
-            min = Integer.parseInt(minResult.getContent().strip());
-            max = Integer.parseInt(maxResult.getContent().strip());
-        } catch (NumberFormatException e) {
-            return Result.success("NaN");
-        }
+        if (Function.shouldReturn(maxResult)) return minResult;
+        int min = IntegerObject.fromObject(minResult.getContent()).orElse(0);
+        int max = IntegerObject.fromObject(maxResult.getContent()).orElse(1);
         if (min == max) {
             return Result.success(String.valueOf(min));
         }
@@ -51,7 +42,7 @@ public class RandomFunction implements NamedFunction {
             max = min;
             min = temp;
         }
-        return Result.success(String.valueOf(random.nextInt(max - min + 1) + min));
+        return Result.success(new IntegerObject(random.nextInt(max - min + 1) + min));
     }
 
     @Override

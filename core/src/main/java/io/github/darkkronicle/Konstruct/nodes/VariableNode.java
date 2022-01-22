@@ -1,8 +1,9 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Variable;
+import io.github.darkkronicle.Konstruct.type.NullObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class VariableNode implements Node {
 
     @Override
     public Result parse(ParseContext context) {
-        return Result.success(context.getVariable(key).orElse(Variable.of("")).getValue());
+        return new Result(Result.ResultType.SUCCESS, context.getVariable(key).orElse(Variable.of(new NullObject())).getValue());
     }
 
     @Override

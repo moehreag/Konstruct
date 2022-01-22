@@ -1,9 +1,9 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
-import io.github.darkkronicle.Konstruct.functions.Variable;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import java.util.List;
 public class RootNode implements Node {
 
     private List<Node> children;
+    @Getter
     private List<Node> precommands;
 
     public RootNode(List<Node> precommands, List<Node> children) {
@@ -30,32 +31,20 @@ public class RootNode implements Node {
         for (Node pre : precommands) {
             pre.parse(context);
         }
-        StringBuilder builder = new StringBuilder();
-        FunctionNode baseNode = null;
+        Result result = null;
         // Check to see if it has the global modifier. If so, run everything else then work into it
-        if (children.size() != 0 && children.get(0) instanceof FunctionNode func) {
-            List<String> modifiers = func.getModifiers();
-            if (modifiers.contains("!")) {
-                baseNode = func;
-            }
-        }
-        boolean first = false;
         for (Node child : children) {
-            if (!first && baseNode != null) {
-                first = true;
-                continue;
-            }
-            Result result = child.parse(context);
-            if (Function.shouldReturn(result)) {
+            Result result2 = child.parse(context);
+            if (Function.shouldReturn(result2)) {
                 return result;
             }
-            builder.append(result.getContent());
+            if (result == null) {
+                result = result2;
+            } else {
+                result = Result.success(result.getContent().add(result2.getContent()));
+            }
         }
-        if (baseNode == null) {
-            return Result.success(builder.toString());
-        }
-        context.getVariables().put("%", Variable.of(builder.toString()));
-        return baseNode.parse(context);
+        return result;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
 import io.github.darkkronicle.Konstruct.NodeException;
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.Variable;
 import lombok.Getter;
@@ -18,15 +18,15 @@ public class AssignmentNode implements Node {
     @Getter
     private final Node node;
 
-    public AssignmentNode(String name, List<Node> children) {
+    public AssignmentNode(String name, Node node) {
         this.name = name;
-        this.node = new RootNode(children);
+        this.node = node;
     }
 
     @Override
     public List<Node> getChildren() {
         // No children
-        return new ArrayList<>();
+        return List.of(node);
     }
 
     @Override
@@ -45,6 +45,11 @@ public class AssignmentNode implements Node {
     @Override
     public void addChild(Node node) {
         // No children
+    }
+
+    @Override
+    public String toString() {
+        return "<assignment " + name + ">";
     }
 
 }

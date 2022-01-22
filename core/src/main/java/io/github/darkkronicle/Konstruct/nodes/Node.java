@@ -1,7 +1,7 @@
 package io.github.darkkronicle.Konstruct.nodes;
 
-import io.github.darkkronicle.Konstruct.ParseContext;
-import io.github.darkkronicle.Konstruct.Result;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
 
 import java.util.ArrayList;
 import java.util.List;

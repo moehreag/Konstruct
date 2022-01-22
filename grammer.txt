@@ -1,0 +1,33 @@
+Variable Declaration
+    <name> = <expr>;
+
+Function Declaration
+    def <name>(<args>) {};
+
+Function Evaluate
+    <name>(<args>);
+
+If
+    if (<conditional>) {<expr>};
+    if (<conditional>) {<expr>} else {<expr>};
+
+
+Return
+    stuff; <- this is blank
+    stuff <- This is returned
+
+  OR
+    stuff; <- this is blank
+    return stuff; <- this is returned
+
+Comments
+    # Comment
+    <expr> # Comment
+    <expr> #| Comment |# <expr
+
+Objects
+    Literals: 'text' "text" '''text'''
+    Int: 513
+    Double: 5.135
+    List: [<value>, <value2>, <value3>, <value4>...]
+    Object Creation: <type>()
