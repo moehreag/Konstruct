@@ -1,7 +1,9 @@
 package io.github.darkkronicle.Konstruct.reader.builder;
 
 import io.github.darkkronicle.Konstruct.NodeException;
+import io.github.darkkronicle.Konstruct.nodes.BooleanNode;
 import io.github.darkkronicle.Konstruct.nodes.Node;
+import io.github.darkkronicle.Konstruct.reader.Token;
 import io.github.darkkronicle.Konstruct.reader.Tokener;
 
 import java.util.Optional;
@@ -15,8 +17,16 @@ public class KeywordBuilder implements Builder {
         String keyword = reader.get(currentToken).content;
         currentToken++;
         lastToken = currentToken;
-        if (keyword.equals("def")) {
-
+        boolean bool = keyword.equals("true");
+        if (bool || keyword.equals("false")) {
+            return Optional.of(new BooleanNode(bool));
+        }
+        Token nextToken = reader.get(lastToken);
+        if (nextToken.tokenType == Token.TokenType.PAREN_OPEN) {
+            FunctionBuilder function = new FunctionBuilder(keyword);
+            Optional<Node> f = function.build(reader, currentToken);
+            lastToken = function.getNextToken();
+            return f;
         }
         return Optional.empty();
     }

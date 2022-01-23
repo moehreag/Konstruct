@@ -19,7 +19,6 @@ public class Tokener {
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B',
             'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
             'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_');
-    private final static Set<String> KEYWORDS = Set.of("if", "else", "and", "or");
 
     public Tokener(String string) {
         this.original = string;
@@ -99,6 +98,7 @@ public class Tokener {
                 case '+' -> addPlus();
                 case '-' -> addMinus();
                 case '*' -> addMultiply();
+                case '%' -> addModulo();
                 case '/' -> addDivide();
                 case '(' -> addOpenParen();
                 case ')' -> addCloseParen();
@@ -126,6 +126,11 @@ public class Tokener {
             updateLine(currentCharacter);
         }
         setDone();
+    }
+
+    private void addModulo() {
+        cursor++;
+        add(new Token(Token.TokenType.MODULO, " "));
     }
 
     private void goThroughComment() {
@@ -166,7 +171,7 @@ public class Tokener {
             getCharacter().ifPresent(this::updateLine);
         }
         String built = string.toString();
-        if (KEYWORDS.contains(built)) {
+        if (Token.KEYWORDS.contains(built)) {
             add(new Token(Token.TokenType.KEYWORD, built));
         } else {
             add(new Token(Token.TokenType.IDENTIFIER, built));

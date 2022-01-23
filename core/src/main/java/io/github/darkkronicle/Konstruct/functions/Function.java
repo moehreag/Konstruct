@@ -45,7 +45,7 @@ public interface Function {
      * Checks if a result is blocking and should stop current execution.
      */
     static boolean shouldReturn(Result result) {
-        return result.getType() == Result.ResultType.CANCEL || result.getType() == Result.ResultType.TERMINATE;
+        return result != null && (result.getType() == Result.ResultType.CANCEL || result.getType() == Result.ResultType.TERMINATE);
     }
 
 }

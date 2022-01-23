@@ -24,4 +24,14 @@ public class StringObject implements KonstructObject {
     public String getTypeName() {
         return TYPE_NAME;
     }
+
+    @Override
+    public KonstructObject equal(KonstructObject other) {
+        return new BooleanObject(other.getString().equals(getString()));
+    }
+
+    @Override
+    public KonstructObject notEqual(KonstructObject other) {
+        return new BooleanObject(!other.getString().equals(getString()));
+    }
 }

@@ -27,6 +27,7 @@ public class MathBuilder implements Builder {
         MULTIPLY((first, second) -> first.multiply(second)),
         DIVIDE((first, second) -> first.divide(second)),
         INT_DIVIDE((first, second) -> first.intDivide(second)),
+        MODULO((first, second) -> first.modulo(second)),
         ;
 
         private final BiFunction<KonstructObject, KonstructObject, KonstructObject> evaluate;
@@ -37,6 +38,7 @@ public class MathBuilder implements Builder {
                 case MULTIPLY -> Operator.MULTIPLY;
                 case DIVIDE -> Operator.DIVIDE;
                 case INT_DIVIDE -> Operator.INT_DIVIDE;
+                case MODULO -> Operator.MODULO;
                 default -> PLUS;
             };
         }

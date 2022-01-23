@@ -76,6 +76,26 @@ public class NodeBuilder {
                         break;
                     }
                 }
+                while (currentToken < reader.size() && Token.GATES.containsKey(reader.get(currentToken).content) && reader.get(currentToken).tokenType == Token.TokenType.KEYWORD) {
+                    GateBuilder condition = new GateBuilder(node.get());
+                    Optional<Node> newNode = condition.build(reader, currentToken);
+                    currentToken = condition.getNextToken();
+                    if (newNode.isPresent()) {
+                        node = newNode;
+                    } else {
+                        break;
+                    }
+                }
+                while (currentToken < reader.size() && Token.CONDITIONAL.contains(reader.get(currentToken).tokenType)) {
+                    ConditionalBuilder condition = new ConditionalBuilder(node.get());
+                    Optional<Node> newNode = condition.build(reader, currentToken);
+                    currentToken = condition.getNextToken();
+                    if (newNode.isPresent()) {
+                        node = newNode;
+                    } else {
+                        break;
+                    }
+                }
             }
             node.ifPresent(children::add);
         }
@@ -97,7 +117,7 @@ public class NodeBuilder {
                 return i;
             }
         }
-        return index;
+        return tokener.size();
     }
 
 }

@@ -1,6 +1,10 @@
 package io.github.darkkronicle.Konstruct.type;
 
-public class BooleanObject implements KonstructObject{
+import io.github.darkkronicle.Konstruct.Gate;
+
+import java.util.Locale;
+
+public class BooleanObject implements KonstructObject {
 
     private final boolean value;
 
@@ -25,15 +29,18 @@ public class BooleanObject implements KonstructObject{
     }
 
     public static boolean stringToBool(String string) {
-        try {
-            return Integer.parseInt(string) != 0;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+        return Boolean.parseBoolean(string);
     }
 
     public static String boolToString(boolean bool) {
-        return bool ? "1" : "0";
+        return String.valueOf(bool).toLowerCase(Locale.ROOT);
+    }
+
+    @Override
+    public KonstructObject gate(Gate gate, KonstructObject other) {
+        boolean bool1 = getBoolean();
+        boolean bool2 = other.getBoolean();
+        return new BooleanObject(gate.evaluate(bool1, bool2));
     }
 
     public static boolean fromObject(KonstructObject object) {
@@ -43,4 +50,24 @@ public class BooleanObject implements KonstructObject{
         return stringToBool(object.getString());
     }
 
+    @Override
+    public KonstructObject equal(KonstructObject other) {
+        if (other instanceof BooleanObject booleanObject) {
+            return new BooleanObject(value == booleanObject.value);
+        }
+        return KonstructObject.super.equal(other);
+    }
+
+    @Override
+    public KonstructObject notEqual(KonstructObject other) {
+        if (other instanceof BooleanObject booleanObject) {
+            return new BooleanObject(value != booleanObject.value);
+        }
+        return KonstructObject.super.notEqual(other);
+    }
+
+    @Override
+    public boolean getBoolean() {
+        return value;
+    }
 }

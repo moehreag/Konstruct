@@ -1,7 +1,6 @@
 import io.github.darkkronicle.Konstruct.parser.NodeProcessor;
 import io.github.darkkronicle.Konstruct.reader.builder.NodeBuilder;
 import io.github.darkkronicle.addons.*;
-import io.github.darkkronicle.addons.conditions.BooleanFunction;
 
 public class AddonExamples {
 
@@ -17,8 +16,6 @@ public class AddonExamples {
         processor.addFunction(new ReplaceFunction());
         processor.addFunction(new IsMatchFunction());
         processor.addFunction(new TimeFunction());
-
-        BooleanFunction.addAllConditionalFunctions(processor);
 
         evaluate(processor, "'''Look at all these \\chickens\\ Yeee ehaw\\'''");
 

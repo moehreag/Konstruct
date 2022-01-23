@@ -4,13 +4,23 @@ import io.github.darkkronicle.Konstruct.parser.NodeProcessor;
 import io.github.darkkronicle.Konstruct.reader.Tokener;
 import io.github.darkkronicle.Konstruct.reader.Token;
 import io.github.darkkronicle.Konstruct.reader.builder.NodeBuilder;
+import io.github.darkkronicle.addons.*;
 
 public class TokenExamples {
 
     public static void main(String[] arguments) {
         NodeProcessor processor = new NodeProcessor();
+        processor.addFunction(new OwOFunction());
+        processor.addFunction(new CalculatorFunction());
+        processor.addFunction(new RoundFunction());
+        processor.addFunction(new GetFunction());
+        processor.addFunction(new RandomFunction());
+        processor.addFunction(new RomanNumeralFunction());
+        processor.addFunction(new ReplaceFunction());
+        processor.addFunction(new IsMatchFunction());
+        processor.addFunction(new TimeFunction());
 //        evaluate(processor, "dingus = 'Your mother'; 'Hello! ' dingus");
-        evaluate(processor, "(8) - 4");
+        evaluate(processor, "time('hh:mm:ss')");
     }
 
     public static void printTokens(String argument) {

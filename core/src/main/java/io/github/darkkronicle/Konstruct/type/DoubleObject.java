@@ -60,6 +60,17 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
+    public KonstructObject modulo(KonstructObject other) {
+        if (other instanceof DoubleObject doubleObject) {
+            return new DoubleObject(value % doubleObject.getValue());
+        }
+        if (other instanceof IntegerObject intObject) {
+            return new DoubleObject(value % intObject.getValue());
+        }
+        throw new NodeException(other.getTypeName() + " and " + getTypeName() + " cannot be modulo'd!");
+    }
+
+    @Override
     public KonstructObject divide(KonstructObject other) {
         if (other instanceof DoubleObject doubleObject) {
             return new DoubleObject(value / doubleObject.getValue());
@@ -80,6 +91,74 @@ public class DoubleObject implements KonstructObject {
         }
         throw new NodeException(other.getTypeName() + " and " + getTypeName() + " cannot be int divided!");
     }
+
+    @Override
+    public KonstructObject greaterThan(KonstructObject other) {
+        if (other instanceof DoubleObject doubleObject) {
+            return new BooleanObject(value > doubleObject.getValue());
+        }
+        if (other instanceof IntegerObject intObject) {
+            return new BooleanObject(value > intObject.getValue());
+        }
+        throw new NodeException(other.getTypeName() + " and " + getTypeName() + " cannot be tested greater than!");
+    }
+
+    @Override
+    public KonstructObject greaterThanEqual(KonstructObject other) {
+        if (other instanceof DoubleObject doubleObject) {
+            return new BooleanObject(value >= doubleObject.getValue());
+        }
+        if (other instanceof IntegerObject intObject) {
+            return new BooleanObject(value >= intObject.getValue());
+        }
+        throw new NodeException(other.getTypeName() + " and " + getTypeName() + " cannot be tested greater than equal!");
+    }
+
+    @Override
+    public KonstructObject lessThan(KonstructObject other) {
+        if (other instanceof DoubleObject doubleObject) {
+            return new BooleanObject(value < doubleObject.getValue());
+        }
+        if (other instanceof IntegerObject intObject) {
+            return new BooleanObject(value < intObject.getValue());
+        }
+        throw new NodeException(other.getTypeName() + " and " + getTypeName() + " cannot be tested less than!");
+    }
+
+    @Override
+    public KonstructObject lessThanEqual(KonstructObject other) {
+        if (other instanceof DoubleObject doubleObject) {
+            return new BooleanObject(value <= doubleObject.getValue());
+        }
+        if (other instanceof IntegerObject intObject) {
+            return new BooleanObject(value <= intObject.getValue());
+        }
+        throw new NodeException(other.getTypeName() + " and " + getTypeName() + " cannot be tested greater than equal!");
+    }
+
+    @Override
+    public KonstructObject equal(KonstructObject other) {
+        if (other instanceof DoubleObject doubleObject) {
+            return new BooleanObject(value == doubleObject.getValue());
+        }
+        if (other instanceof IntegerObject intObject) {
+            return new BooleanObject(Double.valueOf(intObject.getValue()).equals(value));
+        }
+        return KonstructObject.super.equal(other);
+
+    }
+
+    @Override
+    public KonstructObject notEqual(KonstructObject other) {
+        if (other instanceof DoubleObject doubleObject) {
+            return new BooleanObject(value != doubleObject.getValue());
+        }
+        if (other instanceof IntegerObject intObject) {
+            return new BooleanObject(!Double.valueOf(intObject.getValue()).equals(value));
+        }
+        return KonstructObject.super.notEqual(other);
+    }
+
 
     public static Optional<Double> fromObject(KonstructObject object) {
         if (object instanceof IntegerObject intObj) {
