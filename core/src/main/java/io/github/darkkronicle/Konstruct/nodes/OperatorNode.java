@@ -41,6 +41,6 @@ public class OperatorNode implements Node {
 
     @Override
     public String toString() {
-        return "<operator " + " (" + first.toString() + ") (" + second.toString() + ")>";
+        return "<operator " + " (<node>) (<node>)>";
     }
 }

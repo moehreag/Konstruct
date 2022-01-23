@@ -48,7 +48,7 @@ public interface Node {
         strings.add("- " +node.toString());
         for (Node child : node.getChildren()) {
             for (String string : getTreeString(child)) {
-                strings.add("  " + string);
+                strings.add("| " + string);
             }
         }
         return strings;

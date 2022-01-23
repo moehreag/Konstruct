@@ -214,8 +214,8 @@ public class Tokener {
             }
         }
         StringBuilder literal = new StringBuilder();
+        cursor++;
         while (cursor < original.length()) {
-            cursor++;
             updateLine(getCharacter().get());
             if (getCharacter().get() == starter) {
                 cursor++;
@@ -231,6 +231,7 @@ public class Tokener {
                 continue;
             }
             literal.append(getCharacter().get());
+            cursor++;
         }
         throwException("String wasn't closed!");
     }

@@ -10,7 +10,7 @@ public class TokenExamples {
     public static void main(String[] arguments) {
         NodeProcessor processor = new NodeProcessor();
 //        evaluate(processor, "dingus = 'Your mother'; 'Hello! ' dingus");
-        evaluate(processor,"5 + 5 + 5");
+        evaluate(processor, "(8) - 4");
     }
 
     public static void printTokens(String argument) {

@@ -34,7 +34,7 @@ public class DoubleNode implements Node {
 
     @Override
     public String toString() {
-        return "<int " + value + ">";
+        return "<double " + value + ">";
     }
 
 }

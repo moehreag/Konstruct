@@ -55,6 +55,7 @@ public class NodeBuilder {
                 case IDENTIFIER -> new IdentifierBuilder();
                 case LITERAL -> new LiteralBuilder();
                 case INT, DOUBLE -> new NumberBuilder();
+                case PAREN_OPEN -> new ParenBuilder();
                 default -> null;
             };
             if (builder == null) {
@@ -64,13 +65,15 @@ public class NodeBuilder {
             }
             Optional<Node> node = builder.build(reader, currentToken);
             currentToken = builder.getNextToken();
-            if (node.isPresent() && currentToken < reader.size()) {
-                if (Token.OPERATOR.contains(reader.get(currentToken).tokenType)) {
+            if (node.isPresent()) {
+                while (currentToken < reader.size() && Token.OPERATOR.contains(reader.get(currentToken).tokenType)) {
                     MathBuilder math = new MathBuilder(node.get());
                     Optional<Node> newNode = math.build(reader, currentToken);
                     currentToken = math.getNextToken();
                     if (newNode.isPresent()) {
                         node = newNode;
+                    } else {
+                        break;
                     }
                 }
             }

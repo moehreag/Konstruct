@@ -58,7 +58,21 @@ public class MathBuilder implements Builder {
         if (inside.getChildren().size() == 1) {
             inside = inside.getChildren().get(0);
         }
-        nextToken = next + 1;
+        nextToken = next;
+        if (nextToken >= reader.size() || !Token.OPERATOR.contains(reader.get(nextToken).tokenType)) {
+            return Optional.of(new OperatorNode(starting, inside, intial.evaluate));
+        }
+        Token following = reader.get(nextToken);
+        if (following.tokenType == Token.TokenType.MULTIPLY || following.tokenType == Token.TokenType.DIVIDE || following.tokenType == Token.TokenType.INT_DIVIDE) {
+            Operator intial2 = Operator.fromToken(following.tokenType);
+            next = toNextOperator(reader, nextToken + 1);
+            Node inside2 = new NodeBuilder(reader.split(nextToken, next)).build();
+            if (inside2.getChildren().size() == 1) {
+                inside2 = inside2.getChildren().get(0);
+            }
+            nextToken = next;
+            return Optional.of(new OperatorNode(starting, new OperatorNode(inside, inside2, intial2.evaluate), intial.evaluate));
+        }
         return Optional.of(new OperatorNode(starting, inside, intial.evaluate));
     }
 
