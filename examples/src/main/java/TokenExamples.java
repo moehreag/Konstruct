@@ -20,7 +20,17 @@ public class TokenExamples {
         processor.addFunction(new IsMatchFunction());
         processor.addFunction(new TimeFunction());
 //        evaluate(processor, "dingus = 'Your mother'; 'Hello! ' dingus");
-        evaluate(processor, "time('hh:mm:ss')");
+        evaluate(processor, """
+                if (5 < 0) {
+                    out = '5 is less than 0'
+                } elif (5 > 0) {
+                    out = '5 is greater than 0'
+                } else {
+                    out = 'Well this is awkward'
+                };
+                out = out + " ye!";
+                type(out)
+                """);
     }
 
     public static void printTokens(String argument) {

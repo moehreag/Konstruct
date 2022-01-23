@@ -21,6 +21,12 @@ public class KeywordBuilder implements Builder {
         if (bool || keyword.equals("false")) {
             return Optional.of(new BooleanNode(bool));
         }
+        if (keyword.equals("if")) {
+            IfBuilder ifBuilder = new IfBuilder();
+            Optional<Node> node = ifBuilder.build(reader, currentToken);
+            lastToken = ifBuilder.getNextToken();
+            return node;
+        }
         Token nextToken = reader.get(lastToken);
         if (nextToken.tokenType == Token.TokenType.PAREN_OPEN) {
             FunctionBuilder function = new FunctionBuilder(keyword);
@@ -28,7 +34,7 @@ public class KeywordBuilder implements Builder {
             lastToken = function.getNextToken();
             return f;
         }
-        return Optional.empty();
+        throw new NodeException("Unexpected keyword " + keyword);
     }
 
     @Override

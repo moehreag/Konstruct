@@ -69,7 +69,7 @@ public class Token {
         INT
     }
 
-    public final static Set<String> KEYWORDS = Set.of("if", "else", "and", "or", "nand", "nor", "xor", "xnor", "true", "false");
+    public final static Set<String> KEYWORDS = Set.of("if", "else", "elif", "and", "or", "nand", "nor", "xor", "xnor", "true", "false");
 
     public final static Map<String, Gate> GATES = Map.of("and", Gate.AND, "or", Gate.OR, "nand", Gate.NAND, "nor", Gate.NOR, "xor", Gate.XOR, "xnor", Gate.XNOR);
 
