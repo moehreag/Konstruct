@@ -23,10 +23,13 @@ public class TokenExamples {
         processor.addFunction(new TimeFunction());
 //        evaluate(processor, "dingus = 'Your mother'; 'Hello! ' dingus");
         evaluate(processor, """
-                def hey(word) {
-                    'hey ' + word
+                i = 0;
+                word = "e";
+                while (i < 5) {
+                    i = i + 1;
+                    word = word + "e";
                 };
-                hey('bro')
+                word
                 """);
         evaluateInput(processor, """
                 Hello yes, 5 + 5 is [[5 + 5]]
