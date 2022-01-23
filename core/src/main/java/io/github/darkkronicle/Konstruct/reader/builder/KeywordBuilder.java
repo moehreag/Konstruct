@@ -27,6 +27,12 @@ public class KeywordBuilder implements Builder {
             lastToken = ifBuilder.getNextToken();
             return node;
         }
+        if (keyword.equals("def")) {
+            FunctionDefinitionBuilder function = new FunctionDefinitionBuilder();
+            Optional<Node> node = function.build(reader, currentToken);
+            lastToken = function.getNextToken();
+            return node;
+        }
         Token nextToken = reader.get(lastToken);
         if (nextToken.tokenType == Token.TokenType.PAREN_OPEN) {
             FunctionBuilder function = new FunctionBuilder(keyword);

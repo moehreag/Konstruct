@@ -1,8 +1,10 @@
+import io.github.darkkronicle.Konstruct.nodes.InputNode;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 import io.github.darkkronicle.Konstruct.nodes.RootNode;
 import io.github.darkkronicle.Konstruct.parser.NodeProcessor;
 import io.github.darkkronicle.Konstruct.reader.Tokener;
 import io.github.darkkronicle.Konstruct.reader.Token;
+import io.github.darkkronicle.Konstruct.reader.builder.InputNodeBuilder;
 import io.github.darkkronicle.Konstruct.reader.builder.NodeBuilder;
 import io.github.darkkronicle.addons.*;
 
@@ -21,15 +23,13 @@ public class TokenExamples {
         processor.addFunction(new TimeFunction());
 //        evaluate(processor, "dingus = 'Your mother'; 'Hello! ' dingus");
         evaluate(processor, """
-                if (5 < 0) {
-                    out = '5 is less than 0'
-                } elif (5 > 0) {
-                    out = '5 is greater than 0'
-                } else {
-                    out = 'Well this is awkward'
+                def hey(word) {
+                    'hey ' + word
                 };
-                out = out + " ye!";
-                type(out)
+                hey('bro')
+                """);
+        evaluateInput(processor, """
+                Hello yes, 5 + 5 is [[5 + 5]]
                 """);
     }
 
@@ -46,6 +46,13 @@ public class TokenExamples {
         tree(input);
         System.out.print("Input: " + input + "\nOutput: ");
         System.out.println(processor.parse(new NodeBuilder(input).build()).getResult().getContent().getString() + "\n");
+    }
+
+    public static void evaluateInput(NodeProcessor processor, String input) {
+        InputNode node = new InputNodeBuilder(input).build();
+        System.out.println(node.getTreeString() + "\n\n");
+        System.out.print("Input: " + input + "\nOutput: ");
+        System.out.println(processor.parse(node).getResult().getContent().getString() + "\n");
     }
 
     public static void tree(String input) {

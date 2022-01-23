@@ -66,6 +66,7 @@ public class NodeBuilder {
             Optional<Node> node = builder.build(reader, currentToken);
             currentToken = builder.getNextToken();
             if (node.isPresent()) {
+                // Do operators first
                 while (currentToken < reader.size() && Token.OPERATOR.contains(reader.get(currentToken).tokenType)) {
                     MathBuilder math = new MathBuilder(node.get());
                     Optional<Node> newNode = math.build(reader, currentToken);
@@ -76,8 +77,9 @@ public class NodeBuilder {
                         break;
                     }
                 }
-                while (currentToken < reader.size() && Token.GATES.containsKey(reader.get(currentToken).content) && reader.get(currentToken).tokenType == Token.TokenType.KEYWORD) {
-                    GateBuilder condition = new GateBuilder(node.get());
+                // Conditions
+                while (currentToken < reader.size() && Token.CONDITIONAL.contains(reader.get(currentToken).tokenType)) {
+                    ConditionalBuilder condition = new ConditionalBuilder(node.get());
                     Optional<Node> newNode = condition.build(reader, currentToken);
                     currentToken = condition.getNextToken();
                     if (newNode.isPresent()) {
@@ -86,8 +88,9 @@ public class NodeBuilder {
                         break;
                     }
                 }
-                while (currentToken < reader.size() && Token.CONDITIONAL.contains(reader.get(currentToken).tokenType)) {
-                    ConditionalBuilder condition = new ConditionalBuilder(node.get());
+                // Gates!
+                while (currentToken < reader.size() && Token.GATES.containsKey(reader.get(currentToken).content) && reader.get(currentToken).tokenType == Token.TokenType.KEYWORD) {
+                    GateBuilder condition = new GateBuilder(node.get());
                     Optional<Node> newNode = condition.build(reader, currentToken);
                     currentToken = condition.getNextToken();
                     if (newNode.isPresent()) {

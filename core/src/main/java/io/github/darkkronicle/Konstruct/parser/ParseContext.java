@@ -1,8 +1,10 @@
 package io.github.darkkronicle.Konstruct.parser;
 
+import io.github.darkkronicle.Konstruct.NodeException;
 import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.Variable;
 import lombok.Getter;
+import org.w3c.dom.traversal.NodeFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +35,12 @@ public class ParseContext {
         this.functions = functions;
         this.variables = variables;
         this.localVariables = new HashMap<>();
+    }
+
+    private ParseContext(Map<String, Function> functions, Map<String, Variable> variables, Map<String, Variable> localVariables) {
+        this.functions = functions;
+        this.variables = variables;
+        this.localVariables = localVariables;
     }
 
     /**
@@ -96,4 +104,14 @@ public class ParseContext {
         return Optional.of(variable);
     }
 
+    public ParseContext copy() {
+        return new ParseContext(functions, variables, new HashMap<>(localVariables));
+    }
+
+    public void addFunction(String name, Function function) {
+        if (functions.containsKey(name)) {
+            throw new NodeException("Function " + name + " has already been declared!");
+        }
+        functions.put(name, function);
+    }
 }
