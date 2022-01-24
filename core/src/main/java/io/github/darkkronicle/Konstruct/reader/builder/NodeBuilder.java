@@ -21,20 +21,27 @@ public class NodeBuilder {
     @Getter
     private int currentToken = 0;
     private Tokener reader;
+    @Getter
+    private int scope;
 
     /**
      * Constructs a builder from a string and automatically {@link Tokener}'s it
      * @param string String to {@link Tokener}
      */
     public NodeBuilder(String string) {
-        this(new Tokener(string));
+        this(new Tokener(string), 0);
+    }
+
+    public NodeBuilder(String string, int scope) {
+        this(new Tokener(string), scope);
     }
 
     /**
      * Constructs a builder from an already parsed {@link Tokener}
      * @param reader Reader storing {@link Token}'s
      */
-    public NodeBuilder(Tokener reader) {
+    public NodeBuilder(Tokener reader, int scope) {
+        this.scope = scope;
         this.reader = reader;
     }
 
@@ -45,7 +52,7 @@ public class NodeBuilder {
         while (currentToken < reader.size()) {
             Token token = reader.get(currentToken);
             if (token.tokenType == Token.TokenType.END_LINE) {
-                allCommands.add(new RootNode(children));
+                allCommands.add(new RootNode(scope, children));
                 children = new ArrayList<>();
                 currentToken++;
                 continue;
@@ -63,13 +70,13 @@ public class NodeBuilder {
                 currentToken++;
                 continue;
             }
-            Optional<Node> node = builder.build(reader, currentToken);
+            Optional<Node> node = builder.build(scope, reader, currentToken);
             currentToken = builder.getNextToken();
             if (node.isPresent()) {
                 // Do operators first
                 while (currentToken < reader.size() && Token.OPERATOR.contains(reader.get(currentToken).tokenType)) {
                     MathBuilder math = new MathBuilder(node.get());
-                    Optional<Node> newNode = math.build(reader, currentToken);
+                    Optional<Node> newNode = math.build(scope, reader, currentToken);
                     currentToken = math.getNextToken();
                     if (newNode.isPresent()) {
                         node = newNode;
@@ -80,7 +87,7 @@ public class NodeBuilder {
                 // Conditions
                 while (currentToken < reader.size() && Token.CONDITIONAL.contains(reader.get(currentToken).tokenType)) {
                     ConditionalBuilder condition = new ConditionalBuilder(node.get());
-                    Optional<Node> newNode = condition.build(reader, currentToken);
+                    Optional<Node> newNode = condition.build(scope, reader, currentToken);
                     currentToken = condition.getNextToken();
                     if (newNode.isPresent()) {
                         node = newNode;
@@ -91,7 +98,7 @@ public class NodeBuilder {
                 // Gates!
                 while (currentToken < reader.size() && Token.GATES.containsKey(reader.get(currentToken).content) && reader.get(currentToken).tokenType == Token.TokenType.KEYWORD) {
                     GateBuilder condition = new GateBuilder(node.get());
-                    Optional<Node> newNode = condition.build(reader, currentToken);
+                    Optional<Node> newNode = condition.build(scope, reader, currentToken);
                     currentToken = condition.getNextToken();
                     if (newNode.isPresent()) {
                         node = newNode;
@@ -102,7 +109,7 @@ public class NodeBuilder {
             }
             node.ifPresent(children::add);
         }
-        return new RootNode(allCommands, children);
+        return new RootNode(scope, allCommands, children);
     }
 
     public static int subToEnd(Tokener tokener, int index) {

@@ -47,14 +47,14 @@ public class ConditionalBuilder implements Builder {
     }
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         Conditional condition = Conditional.fromToken(reader.get(currentToken).tokenType);
         nextToken = currentToken + 1;
         if (nextToken >= reader.size()) {
             throw new NodeException("Condition " + condition.name() + " is unmatched!");
         }
         int next = toNextConditional(reader, nextToken);
-        Node inside = new NodeBuilder(reader.split(nextToken, next)).build();
+        Node inside = new NodeBuilder(reader.split(nextToken, next), scope).build();
         if (inside.getChildren().size() == 1) {
             inside = inside.getChildren().get(0);
         }

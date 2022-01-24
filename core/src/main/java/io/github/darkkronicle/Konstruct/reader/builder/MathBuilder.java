@@ -49,14 +49,14 @@ public class MathBuilder implements Builder {
     }
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         Operator intial = Operator.fromToken(reader.get(currentToken).tokenType);
         nextToken = currentToken + 1;
         if (nextToken >= reader.size()) {
             throw new NodeException("Operator " + intial.name() + " is unmatched!");
         }
         int next = toNextOperator(reader, nextToken);
-        Node inside = new NodeBuilder(reader.split(nextToken, next)).build();
+        Node inside = new NodeBuilder(reader.split(nextToken, next), scope).build();
         if (inside.getChildren().size() == 1) {
             inside = inside.getChildren().get(0);
         }
@@ -68,7 +68,7 @@ public class MathBuilder implements Builder {
         if (following.tokenType == Token.TokenType.MULTIPLY || following.tokenType == Token.TokenType.DIVIDE || following.tokenType == Token.TokenType.INT_DIVIDE) {
             Operator intial2 = Operator.fromToken(following.tokenType);
             next = toNextOperator(reader, nextToken + 1);
-            Node inside2 = new NodeBuilder(reader.split(nextToken, next)).build();
+            Node inside2 = new NodeBuilder(reader.split(nextToken, next), scope).build();
             if (inside2.getChildren().size() == 1) {
                 inside2 = inside2.getChildren().get(0);
             }

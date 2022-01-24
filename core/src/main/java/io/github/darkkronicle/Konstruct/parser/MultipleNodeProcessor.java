@@ -52,7 +52,7 @@ public class MultipleNodeProcessor {
             if (result.getResult().getType() == Result.ResultType.TERMINATE) {
                 return Optional.empty();
             }
-            if (result.getResult().getType() == Result.ResultType.CANCEL) {
+            if (result.getResult().getType() == Result.ResultType.RETURN) {
                 return Optional.of(Result.success(input));
             }
             if (useResult.test(result)) {

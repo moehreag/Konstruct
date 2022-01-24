@@ -13,7 +13,7 @@ public class KeywordBuilder implements Builder {
     private int lastToken;
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         String keyword = reader.get(currentToken).content;
         currentToken++;
         lastToken = currentToken;
@@ -23,26 +23,26 @@ public class KeywordBuilder implements Builder {
         }
         if (keyword.equals("if")) {
             IfBuilder ifBuilder = new IfBuilder();
-            Optional<Node> node = ifBuilder.build(reader, currentToken);
+            Optional<Node> node = ifBuilder.build(scope, reader, currentToken);
             lastToken = ifBuilder.getNextToken();
             return node;
         }
         if (keyword.equals("while")) {
             WhileBuilder builder = new WhileBuilder();
-            Optional<Node> node = builder.build(reader, currentToken);
+            Optional<Node> node = builder.build(scope, reader, currentToken);
             lastToken = builder.getNextToken();
             return node;
         }
         if (keyword.equals("def")) {
             FunctionDefinitionBuilder function = new FunctionDefinitionBuilder();
-            Optional<Node> node = function.build(reader, currentToken);
+            Optional<Node> node = function.build(scope, reader, currentToken);
             lastToken = function.getNextToken();
             return node;
         }
         Token nextToken = reader.get(lastToken);
         if (nextToken.tokenType == Token.TokenType.PAREN_OPEN) {
             FunctionBuilder function = new FunctionBuilder(keyword);
-            Optional<Node> f = function.build(reader, currentToken);
+            Optional<Node> f = function.build(scope, reader, currentToken);
             lastToken = function.getNextToken();
             return f;
         }

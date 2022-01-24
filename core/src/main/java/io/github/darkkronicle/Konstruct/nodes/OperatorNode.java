@@ -23,9 +23,9 @@ public class OperatorNode implements Node {
     @Override
     public Result parse(ParseContext context) {
         Result result1 = first.parse(context);
-        if (Function.shouldReturn(result1)) return result1;
+        if (Function.shouldExit(result1)) return result1;
         Result result2 = second.parse(context);
-        if (Function.shouldReturn(result1)) return result1;
+        if (Function.shouldExit(result1)) return result1;
         return Result.success(evaluate.apply(result1.getContent(), result2.getContent()));
     }
 

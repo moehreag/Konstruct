@@ -23,16 +23,10 @@ public class TokenExamples {
         processor.addFunction(new TimeFunction());
 //        evaluate(processor, "dingus = 'Your mother'; 'Hello! ' dingus");
         evaluate(processor, """
-                i = 0;
-                word = "e";
-                while (i < 5) {
-                    i = i + 1;
-                    word = word + "e";
+                def addOne(arg) {
+                    return (arg + 1)
                 };
-                word
-                """);
-        evaluateInput(processor, """
-                Hello yes, 5 + 5 is [[5 + 5]]
+                addOne(5)
                 """);
     }
 

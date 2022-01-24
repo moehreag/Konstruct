@@ -25,8 +25,10 @@ public class FunctionNode implements Node {
     @Getter
     private final List<String> modifiers;
     private final List<Node> arguments;
+    private final int scope;
 
-    public FunctionNode(String rawName, List<Node> arguments) {
+    public FunctionNode(String rawName, List<Node> arguments, int scope) {
+        this.scope = scope;
         Matcher matcher = Pattern.compile("\\b(\\w+)$").matcher(rawName);
         if (matcher.find()) {
             // Name should just be the last bit
@@ -50,7 +52,11 @@ public class FunctionNode implements Node {
         if (!function.get().getArgumentCount().isInRange(argumentsList.size())) {
             throw new NodeException("Too many arguments! " + this);
         }
-        return function.get().parse(context, argumentsList);
+        Result result = function.get().parse(context, argumentsList);
+        if (Function.shouldReturn(result)) {
+            return result;
+        }
+        return new Result(Result.ResultType.SUCCESS, result.getContent(), scope);
     }
 
     @Override

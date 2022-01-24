@@ -14,7 +14,7 @@ public class NumberBuilder implements Builder {
     private int nextToken;
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         Token token = reader.get(currentToken);
         nextToken = currentToken + 1;
         if (token.tokenType == Token.TokenType.INT) {

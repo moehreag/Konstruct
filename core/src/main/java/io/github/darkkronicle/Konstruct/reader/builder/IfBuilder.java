@@ -14,19 +14,19 @@ public class IfBuilder implements Builder {
     private int lastToken;
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         lastToken = currentToken;
         if (reader.get(lastToken).tokenType != Token.TokenType.PAREN_OPEN) {
             throw new NodeException("If has to be followed by an open parenthesis!");
         }
         int endingParenIndex = FunctionBuilder.getToClosingParen(reader, lastToken);
-        Node conditionNode = new NodeBuilder(reader.split(lastToken + 1, endingParenIndex)).build();
+        Node conditionNode = new NodeBuilder(reader.split(lastToken + 1, endingParenIndex), scope).build();
         lastToken = endingParenIndex + 1;
         if (reader.get(lastToken).tokenType != Token.TokenType.BLOCK_START) {
             throw new NodeException("If statement has to be followed by a code block start!");
         }
         int endingBlockIndex = getToEndCodeBlock(reader, lastToken);
-        Node inner = new NodeBuilder(reader.split(lastToken + 1, endingBlockIndex)).build();
+        Node inner = new NodeBuilder(reader.split(lastToken + 1, endingBlockIndex), scope).build();
         lastToken = endingBlockIndex + 1;
         if (lastToken >= reader.size()) {
             return Optional.of(new IfNode(conditionNode, inner, null));
@@ -40,7 +40,7 @@ public class IfBuilder implements Builder {
         lastToken++;
         if (next.content.equals("elif")) {
             IfBuilder nested = new IfBuilder();
-            Optional<Node> node = nested.build(reader, lastToken);
+            Optional<Node> node = nested.build(scope, reader, lastToken);
             lastToken = nested.getNextToken();
             return Optional.of(new IfNode(conditionNode, inner, node.get()));
         } else {
@@ -49,7 +49,7 @@ public class IfBuilder implements Builder {
                 throw new NodeException("Else statement has to be followed by a code block start!");
             }
             int endingElseBlockIndex = getToEndCodeBlock(reader, lastToken);
-            Node elseNode = new NodeBuilder(reader.split(lastToken + 1, endingElseBlockIndex)).build();
+            Node elseNode = new NodeBuilder(reader.split(lastToken + 1, endingElseBlockIndex), scope).build();
             lastToken = endingElseBlockIndex + 1;
             return Optional.of(new IfNode(conditionNode, inner, elseNode));
         }

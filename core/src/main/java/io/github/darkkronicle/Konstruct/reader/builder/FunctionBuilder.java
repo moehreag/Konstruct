@@ -32,16 +32,16 @@ public class FunctionBuilder implements Builder {
     }
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         int closingIndex = getToClosingParen(reader, currentToken);
         Tokener arguments = reader.split(currentToken + 1, closingIndex);
         List<Tokener> splitArguments = getSplitArguments(arguments);
         List<Node> nodes = new ArrayList<>();
         for (Tokener token : splitArguments) {
-            nodes.add(new NodeBuilder(token).build());
+            nodes.add(new NodeBuilder(token, scope).build());
         }
         lastToken = closingIndex + 1;
-        return Optional.of(new FunctionNode(name, nodes));
+        return Optional.of(new FunctionNode(name, nodes, scope));
     }
 
     public static List<Tokener> getSplitArguments(Tokener tokener) {

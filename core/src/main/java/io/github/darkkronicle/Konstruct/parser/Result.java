@@ -9,7 +9,6 @@ import lombok.Value;
  * A class to store data from a function/node parse
  */
 @Value
-@AllArgsConstructor
 public class Result {
 
     public enum ResultType {
@@ -19,9 +18,9 @@ public class Result {
         SUCCESS,
 
         /**
-         * Cancel and don't use anything that was parsed
+         * Send this back
          */
-        CANCEL,
+        RETURN,
 
         /**
          * Stop everything
@@ -38,6 +37,21 @@ public class Result {
      * The content of the result. Can be null which indicates blank.
      */
     KonstructObject content;
+
+    /**
+     * Scope of the result
+     */
+    int scope;
+
+    public Result(ResultType type, KonstructObject object) {
+        this(type, object, -1);
+    }
+
+    public Result(ResultType type, KonstructObject object, int scope) {
+        this.type = type;
+        this.content = object;
+        this.scope = scope;
+    }
 
     public static Result success(String content) {
         return new Result(ResultType.SUCCESS, new StringObject(content));

@@ -13,7 +13,7 @@ public class LiteralBuilder implements Builder {
     private int nextToken;
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         // Guaranteed to be a literal
         nextToken = currentToken + 1;
         return Optional.of(new LiteralNode(reader.get(currentToken).content));

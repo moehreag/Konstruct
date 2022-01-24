@@ -18,9 +18,11 @@ public class ReturnFunction implements NamedFunction {
             if (Function.shouldReturn(result)) {
                 return result;
             }
-            content = result.getContent();
+            if (result != null) {
+                content = result.getContent();
+            }
         }
-        return new Result(Result.ResultType.CANCEL, content);
+        return new Result(Result.ResultType.RETURN, content);
     }
 
     @Override

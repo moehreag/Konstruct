@@ -15,7 +15,7 @@ public interface Builder {
      * Build's a {@link Node}
      * @return Built {@link Node}. If empty don't add
      */
-    Optional<Node> build(Tokener reader, int currentToken) throws NodeException;
+    Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException;
 
     /**
      * Returns the index of the next token to be processed

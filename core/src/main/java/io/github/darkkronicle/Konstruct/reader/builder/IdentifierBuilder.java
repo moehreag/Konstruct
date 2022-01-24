@@ -14,7 +14,7 @@ public class IdentifierBuilder implements Builder {
     private int lastToken = 0;
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         lastToken = currentToken;
         String name = reader.get(lastToken).content;
         lastToken++;
@@ -24,7 +24,7 @@ public class IdentifierBuilder implements Builder {
         Token.TokenType next = reader.get(lastToken).tokenType;
         if (next == Token.TokenType.PAREN_OPEN) {
             Builder function = new FunctionBuilder(name);
-            Optional<Node> func = function.build(reader, lastToken);
+            Optional<Node> func = function.build(scope, reader, lastToken);
             lastToken = function.getNextToken();
             return func;
         }
@@ -32,7 +32,7 @@ public class IdentifierBuilder implements Builder {
             lastToken++;
             int previous = lastToken;
             lastToken = NodeBuilder.subToEnd(reader, lastToken);
-            Optional<Node> node = Optional.of(new AssignmentNode(name, new NodeBuilder(reader.split(previous, lastToken)).build()));
+            Optional<Node> node = Optional.of(new AssignmentNode(name, new NodeBuilder(reader.split(previous, lastToken), scope).build()));
             return node;
         }
         return Optional.of(new VariableNode(name));

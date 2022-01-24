@@ -17,13 +17,17 @@ public class RootNode implements Node {
     @Getter
     private List<Node> precommands;
 
-    public RootNode(List<Node> precommands, List<Node> children) {
+    @Getter
+    private int scope;
+
+    public RootNode(int scope, List<Node> precommands, List<Node> children) {
         this.children = children;
         this.precommands = precommands;
+        this.scope = scope;
     }
 
-    public RootNode(List<Node> children) {
-        this(new ArrayList<>(), children);
+    public RootNode(int scope, List<Node> children) {
+        this(scope, new ArrayList<>(), children);
     }
 
     @Override
@@ -35,8 +39,16 @@ public class RootNode implements Node {
         // Check to see if it has the global modifier. If so, run everything else then work into it
         for (Node child : children) {
             Result result2 = child.parse(context);
+            if (Function.shouldExit(result2)) {
+                // For root stuff and functions we don't want to cancel everything (if possible)
+                return result2;
+            }
             if (Function.shouldReturn(result2)) {
-                return result;
+                // For root stuff and functions we don't want to cancel everything (if possible)
+                if (result2.getScope() > -1 && result2.getScope() != scope) {
+                    return new Result(Result.ResultType.SUCCESS, result2.getContent(), scope);
+                }
+                return result2;
             }
             if (result == null) {
                 result = result2;
@@ -59,7 +71,7 @@ public class RootNode implements Node {
 
     @Override
     public String toString() {
-        return "<root>";
+        return "<root scope " + scope + ">";
     }
 
 }

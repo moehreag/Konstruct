@@ -12,9 +12,9 @@ public class ParenBuilder implements Builder {
     private int nextToken;
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         int ending = getNextParen(reader, currentToken);
-        Node built = new NodeBuilder(reader.split(currentToken + 1, ending)).build();
+        Node built = new NodeBuilder(reader.split(currentToken + 1, ending), scope).build();
         nextToken = ending + 1;
         return Optional.of(built);
     }

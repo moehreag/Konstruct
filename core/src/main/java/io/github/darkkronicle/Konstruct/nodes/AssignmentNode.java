@@ -7,7 +7,6 @@ import io.github.darkkronicle.Konstruct.functions.Function;
 import io.github.darkkronicle.Konstruct.functions.Variable;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AssignmentNode implements Node {
@@ -35,7 +34,7 @@ public class AssignmentNode implements Node {
             throw new NodeException("Variable " + this.name + "already exists!");
         }
         Result result = this.node.parse(context);
-        if (Function.shouldReturn(result)) {
+        if (Function.shouldExit(result)) {
             return result;
         }
         context.addLocalVariable(this.name, Variable.of(result.getContent()));

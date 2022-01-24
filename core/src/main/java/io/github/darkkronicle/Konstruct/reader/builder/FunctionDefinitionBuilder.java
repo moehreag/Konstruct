@@ -15,7 +15,7 @@ public class FunctionDefinitionBuilder implements Builder {
     private int lastToken;
 
     @Override
-    public Optional<Node> build(Tokener reader, int currentToken) throws NodeException {
+    public Optional<Node> build(int scope, Tokener reader, int currentToken) throws NodeException {
         lastToken = currentToken;
         if (reader.get(lastToken).tokenType != Token.TokenType.IDENTIFIER) {
             throw new NodeException("Function name has to be after def!");
@@ -35,7 +35,7 @@ public class FunctionDefinitionBuilder implements Builder {
         }
 
         int endOfBody = IfBuilder.getToEndCodeBlock(reader, lastToken);
-        Node body = new NodeBuilder(reader.split(lastToken + 1, endOfBody)).build();
+        Node body = new NodeBuilder(reader.split(lastToken + 1, endOfBody), scope + 1).build();
         lastToken = endOfBody + 1;
         return Optional.of(new FunctionDefinitionNode(name, body, arguments));
     }

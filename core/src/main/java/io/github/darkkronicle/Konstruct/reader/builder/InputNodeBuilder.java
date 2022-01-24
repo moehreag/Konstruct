@@ -31,7 +31,7 @@ public class InputNodeBuilder {
      * @param string String to {@link Tokener}
      */
     public InputNodeBuilder(String string) {
-        Pattern pattern = Pattern.compile("\\[\\[(.*?)\\]\\]");
+        Pattern pattern = Pattern.compile("\\[\\[(.*?)\\]\\]", Pattern.MULTILINE);
         Matcher m = pattern.matcher(string);
         int lastIndex = 0;
         while(m.find()) {
