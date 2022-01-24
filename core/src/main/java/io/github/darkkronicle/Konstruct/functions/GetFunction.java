@@ -1,4 +1,4 @@
-package io.github.darkkronicle.addons;
+package io.github.darkkronicle.Konstruct.functions;
 
 import io.github.darkkronicle.Konstruct.parser.IntRange;
 import io.github.darkkronicle.Konstruct.parser.ParseContext;
@@ -21,6 +21,12 @@ public class GetFunction implements NamedFunction {
         Result res = Function.parseArgument(context, input, 0);
         if (Function.shouldReturn(res)) return res;
         int val = IntegerObject.fromObject(res.getContent()).orElse(0);
+        if (input.size() == 2) {
+            // A list!
+            Result list = Function.parseArgument(context, input, 1);
+            if (Function.shouldReturn(list)) return list;
+            return Result.success(list.getContent().get(new IntegerObject(val)));
+        }
         if (val < 0 || val >= input.size() - 1) {
             return Function.parseArgument(context, input, 1);
         }
@@ -29,7 +35,7 @@ public class GetFunction implements NamedFunction {
 
     @Override
     public IntRange getArgumentCount() {
-        return IntRange.greaterThanEqual(3);
+        return IntRange.greaterThanEqual(2);
     }
 
     @Override

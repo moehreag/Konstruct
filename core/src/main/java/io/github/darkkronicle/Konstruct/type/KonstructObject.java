@@ -55,6 +55,14 @@ public interface KonstructObject {
         throw new NodeException("Type " + getTypeName() + " cannot be evaluated less than equal!");
     }
 
+    default KonstructObject length() {
+        throw new NodeException("Type " + getTypeName() + " cannot be evaluated for length!");
+    }
+
+    default KonstructObject get(KonstructObject other) {
+        throw new NodeException("Type " + getTypeName() + " cannot be indexed!");
+    }
+
     default KonstructObject equal(KonstructObject other) {
         return new BooleanObject(this.equals(other));
     }

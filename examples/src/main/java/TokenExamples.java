@@ -1,3 +1,4 @@
+import io.github.darkkronicle.Konstruct.functions.GetFunction;
 import io.github.darkkronicle.Konstruct.nodes.InputNode;
 import io.github.darkkronicle.Konstruct.nodes.Node;
 import io.github.darkkronicle.Konstruct.nodes.RootNode;
@@ -23,10 +24,15 @@ public class TokenExamples {
         processor.addFunction(new TimeFunction());
 //        evaluate(processor, "dingus = 'Your mother'; 'Hello! ' dingus");
         evaluate(processor, """
-                def addOne(arg) {
-                    return (arg + 1)
+                l = list("First!", "Second...", "third");
+                size = len(l);
+                i = 0;
+                names = "";
+                while (i < size) {
+                    names = names + get(i, l) + ' - ';
+                    i = i + 1;
                 };
-                addOne(5)
+                names
                 """);
     }
 

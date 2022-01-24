@@ -61,6 +61,9 @@ public class NodeProcessor {
         addFunction(new ExitFunction());
         addFunction(new TypeFunction());
         addFunction(new IsTypeFunction());
+        addFunction(new LenFunction());
+        addFunction(new GetFunction());
+        addFunction(new ListFunction());
     }
 
     /**
