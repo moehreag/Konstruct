@@ -25,7 +25,7 @@ public class ConditionalBuilder implements Builder {
         LESS_THAN_EQUAL((first, second) -> first.lessThanEqual(second)),
         ;
 
-        private final BiFunction<KonstructObject, KonstructObject, KonstructObject> evaluate;
+        private final BiFunction<KonstructObject<?>, KonstructObject<?>, KonstructObject<?>> evaluate;
 
         public static Conditional fromToken(Token.TokenType type) {
             return switch (type) {

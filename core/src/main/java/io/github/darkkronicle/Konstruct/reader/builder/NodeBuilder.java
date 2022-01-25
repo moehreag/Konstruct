@@ -73,6 +73,17 @@ public class NodeBuilder {
             Optional<Node> node = builder.build(scope, reader, currentToken);
             currentToken = builder.getNextToken();
             if (node.isPresent()) {
+                // Dot
+                while (currentToken < reader.size() && reader.get(currentToken).tokenType == Token.TokenType.DOT) {
+                    DotBuilder dot = new DotBuilder(node.get());
+                    Optional<Node> newNode = dot.build(scope, reader, currentToken);
+                    currentToken = dot.getNextToken();
+                    if (newNode.isPresent()) {
+                        node = newNode;
+                    } else {
+                        break;
+                    }
+                }
                 // Do operators first
                 while (currentToken < reader.size() && Token.OPERATOR.contains(reader.get(currentToken).tokenType)) {
                     MathBuilder math = new MathBuilder(node.get());

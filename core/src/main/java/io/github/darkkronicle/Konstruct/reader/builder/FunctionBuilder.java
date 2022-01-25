@@ -38,7 +38,10 @@ public class FunctionBuilder implements Builder {
         List<Tokener> splitArguments = getSplitArguments(arguments);
         List<Node> nodes = new ArrayList<>();
         for (Tokener token : splitArguments) {
-            nodes.add(new NodeBuilder(token, scope).build());
+            RootNode root = new NodeBuilder(token, scope).build();
+            if (root.getChildren().size() > 0 || root.getPrecommands().size() > 0) {
+                nodes.add(root);
+            }
         }
         lastToken = closingIndex + 1;
         return Optional.of(new FunctionNode(name, nodes, scope));

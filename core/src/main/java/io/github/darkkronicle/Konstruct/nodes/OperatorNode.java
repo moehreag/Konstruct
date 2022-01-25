@@ -12,9 +12,9 @@ public class OperatorNode implements Node {
 
     private final Node first;
     private final Node second;
-    private final BiFunction<KonstructObject, KonstructObject, KonstructObject> evaluate;
+    private final BiFunction<KonstructObject<?>, KonstructObject<?>, KonstructObject<?>> evaluate;
 
-    public OperatorNode(Node first, Node second, BiFunction<KonstructObject, KonstructObject, KonstructObject> evaluate) {
+    public OperatorNode(Node first, Node second, BiFunction<KonstructObject<?>, KonstructObject<?>, KonstructObject<?>> evaluate) {
         this.first = first;
         this.second = second;
         this.evaluate = evaluate;

@@ -10,7 +10,6 @@ public class AddonExamples {
 
         processor.addFunction(new CalculatorFunction());
         processor.addFunction(new RoundFunction());
-        processor.addFunction(new GetFunction());
         processor.addFunction(new RandomFunction());
         processor.addFunction(new RomanNumeralFunction());
         processor.addFunction(new OwOFunction());

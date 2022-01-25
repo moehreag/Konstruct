@@ -113,6 +113,7 @@ public class Tokener {
                 case '}' -> addBlockEnd();
                 case ';' -> addEndLine();
                 case '#' -> goThroughComment();
+                case '.' -> addDot();
                 case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> addNumber();
                 case ' ', '\t', '\n' -> cursor++;
                 default -> {
@@ -331,6 +332,12 @@ public class Tokener {
         cursor++;
         add(new Token(Token.TokenType.END_LINE, " "));
     }
+
+    private void addDot() {
+        cursor++;
+        add(new Token(Token.TokenType.DOT, " "));
+    }
+
 
     private void addDivide() {
         cursor++;

@@ -97,7 +97,10 @@ public class Token {
         DOUBLE,
 
         /** Int type */
-        INT
+        INT,
+
+        /** Dot operator */
+        DOT
     }
 
     /** All keywords */

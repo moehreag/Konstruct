@@ -4,7 +4,7 @@ import io.github.darkkronicle.Konstruct.Gate;
 
 import java.util.Locale;
 
-public class BooleanObject implements KonstructObject {
+public class BooleanObject extends KonstructObject<BooleanObject> {
 
     private final boolean value;
 
@@ -37,13 +37,13 @@ public class BooleanObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject gate(Gate gate, KonstructObject other) {
+    public KonstructObject<?> gate(Gate gate, KonstructObject<?> other) {
         boolean bool1 = getBoolean();
         boolean bool2 = other.getBoolean();
         return new BooleanObject(gate.evaluate(bool1, bool2));
     }
 
-    public static boolean fromObject(KonstructObject object) {
+    public static boolean fromObject(KonstructObject<?> object) {
         if (object instanceof BooleanObject bool) {
             return bool.value;
         }
@@ -51,19 +51,19 @@ public class BooleanObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject equal(KonstructObject other) {
+    public KonstructObject<?> equal(KonstructObject<?> other) {
         if (other instanceof BooleanObject booleanObject) {
             return new BooleanObject(value == booleanObject.value);
         }
-        return KonstructObject.super.equal(other);
+        return super.equal(other);
     }
 
     @Override
-    public KonstructObject notEqual(KonstructObject other) {
+    public KonstructObject<?> notEqual(KonstructObject<?> other) {
         if (other instanceof BooleanObject booleanObject) {
             return new BooleanObject(value != booleanObject.value);
         }
-        return KonstructObject.super.notEqual(other);
+        return super.notEqual(other);
     }
 
     @Override

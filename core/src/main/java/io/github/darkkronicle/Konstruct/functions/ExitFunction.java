@@ -12,7 +12,7 @@ public class ExitFunction implements NamedFunction {
 
     @Override
     public Result parse(ParseContext context, List<Node> input) {
-        KonstructObject content = null;
+        KonstructObject<?> content = null;
         if (input.size() == 1) {
             Result result = Function.parseArgument(context, input, 0);
             if (Function.shouldReturn(result)) {

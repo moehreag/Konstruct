@@ -13,7 +13,7 @@ import java.util.List;
 public class ListFunction implements NamedFunction {
     @Override
     public Result parse(ParseContext context, List<Node> input) {
-        List<KonstructObject> arguments = new ArrayList<>();
+        List<KonstructObject<?>> arguments = new ArrayList<>();
         for (int i = 0; i < input.size(); i++) {
             Result res = Function.parseArgument(context, input, i);
             if (Function.shouldReturn(res)) return res;

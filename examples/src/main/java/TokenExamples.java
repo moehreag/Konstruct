@@ -16,7 +16,6 @@ public class TokenExamples {
         processor.addFunction(new OwOFunction());
         processor.addFunction(new CalculatorFunction());
         processor.addFunction(new RoundFunction());
-        processor.addFunction(new GetFunction());
         processor.addFunction(new RandomFunction());
         processor.addFunction(new RomanNumeralFunction());
         processor.addFunction(new ReplaceFunction());
@@ -24,15 +23,8 @@ public class TokenExamples {
         processor.addFunction(new TimeFunction());
 //        evaluate(processor, "dingus = 'Your mother'; 'Hello! ' dingus");
         evaluate(processor, """
-                l = list("First!", "Second...", "third");
-                size = len(l);
-                i = 0;
-                names = "";
-                while (i < size) {
-                    names = names + get(i, l) + ' - ';
-                    i = i + 1;
-                };
-                names
+                l = list("one", "two", true);
+                l.get(0) + " - " + get(0, l)
                 """);
     }
 

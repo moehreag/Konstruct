@@ -2,74 +2,120 @@ package io.github.darkkronicle.Konstruct.type;
 
 import io.github.darkkronicle.Konstruct.Gate;
 import io.github.darkkronicle.Konstruct.NodeException;
+import io.github.darkkronicle.Konstruct.functions.Function;
+import io.github.darkkronicle.Konstruct.functions.ObjectFunction;
+import io.github.darkkronicle.Konstruct.nodes.Node;
+import io.github.darkkronicle.Konstruct.parser.ParseContext;
+import io.github.darkkronicle.Konstruct.parser.Result;
+import lombok.Getter;
 
-public interface KonstructObject {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    String getString();
+public abstract class KonstructObject<K extends KonstructObject<?>> {
 
-    default KonstructObject add(KonstructObject other) {
+    @Getter
+    private final Map<String, ObjectFunction<K>> functions;
+
+    public KonstructObject() {
+        this(new ArrayList<>(0));
+    }
+
+    public KonstructObject(List<ObjectFunction<K>> functions) {
+        this.functions = new HashMap<>();
+        for (ObjectFunction<K> function : functions) {
+            this.functions.put(function.getName(), function);
+        }
+    }
+
+    public KonstructObject(Map<String, ObjectFunction<K>> functions) {
+        this.functions = functions;
+    }
+
+    public abstract String getString();
+
+    public abstract String getTypeName();
+
+    public KonstructObject<?> add(KonstructObject<?> other) {
         return new StringObject(getString() + other.getString());
     }
 
-    default KonstructObject subtract(KonstructObject other) {
+    public KonstructObject<?> subtract(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be subtracted!");
     }
 
-    default KonstructObject multiply(KonstructObject other) {
+    public KonstructObject<?> multiply(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be multiplied!");
     }
 
-    default KonstructObject divide(KonstructObject other) {
+    public KonstructObject<?> divide(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be divided!");
     }
 
-    default KonstructObject intDivide(KonstructObject other) {
+    public KonstructObject<?> intDivide(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be int divided!");
     }
 
-    default KonstructObject modulo(KonstructObject other) {
+    public KonstructObject<?> modulo(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be modulo'd!");
     }
 
-    default KonstructObject gate(Gate gate, KonstructObject other) {
+    public KonstructObject<?> gate(Gate gate, KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be gated!");
     }
 
-    default boolean getBoolean() {
+    public boolean getBoolean() {
         throw new NodeException("Type " + getTypeName() + " cannot be evaluated as a boolean!");
     }
 
-    default KonstructObject greaterThan(KonstructObject other) {
+    public KonstructObject<?> greaterThan(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be evaluated greater than!");
     }
 
-    default KonstructObject greaterThanEqual(KonstructObject other) {
+    public KonstructObject<?> greaterThanEqual(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be evaluated greater than equal!");
     }
 
-    default KonstructObject lessThan(KonstructObject other) {
+    public KonstructObject<?> lessThan(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be evaluated less than!");
     }
 
-    default KonstructObject lessThanEqual(KonstructObject other) {
+    public KonstructObject<?> lessThanEqual(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be evaluated less than equal!");
     }
 
-    default KonstructObject length() {
+    public KonstructObject<?> length() {
         throw new NodeException("Type " + getTypeName() + " cannot be evaluated for length!");
     }
 
-    default KonstructObject get(KonstructObject other) {
+    public KonstructObject<?> get(KonstructObject<?> other) {
         throw new NodeException("Type " + getTypeName() + " cannot be indexed!");
     }
 
-    default KonstructObject equal(KonstructObject other) {
+    public KonstructObject<?> equal(KonstructObject<?> other) {
         return new BooleanObject(this.equals(other));
     }
 
-    default KonstructObject notEqual(KonstructObject other) {
+    public KonstructObject<?> notEqual(KonstructObject<?> other) {
         return new BooleanObject(!this.equals(other));
     }
 
-    String getTypeName();
+    public Result execute(int scope, String functionName, ParseContext context, List<Node> arguments) {
+        ObjectFunction<K> function = this.functions.get(functionName);
+        if (function == null) {
+            throw new NodeException("No function named " + functionName + " for object type " + getTypeName() + " found!");
+        }
+        List<Node> argumentsList = new ArrayList<>(arguments);
+        if (!function.getArgumentCount().isInRange(argumentsList.size())) {
+            throw new NodeException("Too many arguments! " + this);
+        }
+        Result result = function.parse(context, (K) this, argumentsList);
+        if (Function.shouldReturn(result)) {
+            return result;
+        }
+        return new Result(Result.ResultType.SUCCESS, result.getContent(), scope);
+    }
+
 }

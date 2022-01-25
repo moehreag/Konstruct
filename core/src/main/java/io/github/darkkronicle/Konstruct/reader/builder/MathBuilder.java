@@ -30,7 +30,7 @@ public class MathBuilder implements Builder {
         MODULO((first, second) -> first.modulo(second)),
         ;
 
-        private final BiFunction<KonstructObject, KonstructObject, KonstructObject> evaluate;
+        private final BiFunction<KonstructObject<?>, KonstructObject<?>, KonstructObject<?>> evaluate;
 
         public static Operator fromToken(Token.TokenType type) {
             return switch (type) {

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 import java.util.Optional;
 
-public class DoubleObject implements KonstructObject {
+public class DoubleObject extends KonstructObject<DoubleObject> {
 
     public static final String TYPE_NAME = "double";
 
@@ -27,7 +27,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject add(KonstructObject other) {
+    public KonstructObject<?> add(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new DoubleObject(doubleObject.getValue() + value);
         }
@@ -38,7 +38,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject subtract(KonstructObject other) {
+    public KonstructObject<?> subtract(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new DoubleObject(value - doubleObject.getValue());
         }
@@ -49,7 +49,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject multiply(KonstructObject other) {
+    public KonstructObject<?> multiply(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new DoubleObject(value * doubleObject.getValue());
         }
@@ -60,7 +60,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject modulo(KonstructObject other) {
+    public KonstructObject<?> modulo(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new DoubleObject(value % doubleObject.getValue());
         }
@@ -71,7 +71,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject divide(KonstructObject other) {
+    public KonstructObject<?> divide(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new DoubleObject(value / doubleObject.getValue());
         }
@@ -82,7 +82,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject intDivide(KonstructObject other) {
+    public KonstructObject<?> intDivide(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new IntegerObject((int) (value / doubleObject.getValue()));
         }
@@ -93,7 +93,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject greaterThan(KonstructObject other) {
+    public KonstructObject<?> greaterThan(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new BooleanObject(value > doubleObject.getValue());
         }
@@ -104,7 +104,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject greaterThanEqual(KonstructObject other) {
+    public KonstructObject<?> greaterThanEqual(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new BooleanObject(value >= doubleObject.getValue());
         }
@@ -115,7 +115,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject lessThan(KonstructObject other) {
+    public KonstructObject<?> lessThan(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new BooleanObject(value < doubleObject.getValue());
         }
@@ -126,7 +126,7 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject lessThanEqual(KonstructObject other) {
+    public KonstructObject<?> lessThanEqual(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new BooleanObject(value <= doubleObject.getValue());
         }
@@ -137,30 +137,30 @@ public class DoubleObject implements KonstructObject {
     }
 
     @Override
-    public KonstructObject equal(KonstructObject other) {
+    public KonstructObject<?> equal(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new BooleanObject(value == doubleObject.getValue());
         }
         if (other instanceof IntegerObject intObject) {
             return new BooleanObject(Double.valueOf(intObject.getValue()).equals(value));
         }
-        return KonstructObject.super.equal(other);
+        return super.equal(other);
 
     }
 
     @Override
-    public KonstructObject notEqual(KonstructObject other) {
+    public KonstructObject<?> notEqual(KonstructObject<?> other) {
         if (other instanceof DoubleObject doubleObject) {
             return new BooleanObject(value != doubleObject.getValue());
         }
         if (other instanceof IntegerObject intObject) {
             return new BooleanObject(!Double.valueOf(intObject.getValue()).equals(value));
         }
-        return KonstructObject.super.notEqual(other);
+        return super.notEqual(other);
     }
 
 
-    public static Optional<Double> fromObject(KonstructObject object) {
+    public static Optional<Double> fromObject(KonstructObject<?> object) {
         if (object instanceof IntegerObject intObj) {
             return Optional.of((double) intObj.getValue());
         }

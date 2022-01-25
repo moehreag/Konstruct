@@ -36,18 +36,18 @@ public class Result {
     /**
      * The content of the result. Can be null which indicates blank.
      */
-    KonstructObject content;
+    KonstructObject<?> content;
 
     /**
      * Scope of the result
      */
     int scope;
 
-    public Result(ResultType type, KonstructObject object) {
+    public Result(ResultType type, KonstructObject<?> object) {
         this(type, object, -1);
     }
 
-    public Result(ResultType type, KonstructObject object, int scope) {
+    public Result(ResultType type, KonstructObject<?> object, int scope) {
         this.type = type;
         this.content = object;
         this.scope = scope;
@@ -57,7 +57,7 @@ public class Result {
         return new Result(ResultType.SUCCESS, new StringObject(content));
     }
 
-    public static Result success(KonstructObject content) {
+    public static Result success(KonstructObject<?> content) {
         return new Result(ResultType.SUCCESS, content);
     }
 
