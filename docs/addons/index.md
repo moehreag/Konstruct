@@ -2,7 +2,7 @@
 layout: default
 title: Addons
 nav_order: 4
-has_children: true
+has_children: false
 ---
 
 # Addons
@@ -36,7 +36,7 @@ Output
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: [calc('15 * 15')]
+Input: calc('15 * 15')
 Output: 225.0
 ```
 
@@ -58,7 +58,7 @@ Output
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: [get(2, First Option, 'Second Option', '''Third Option''')]
+Input: get(2, 'First Option', 'Second Option', '''Third Option''')
 Output: Third Option
 ```
 
@@ -80,7 +80,7 @@ Output
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: [randInt(3, 8)]
+Input: randInt(3, 8)
 Output: 7
 ```
 
@@ -102,7 +102,7 @@ Output
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: [round(5.3333, 2)]
+Input: round(5.3333, 2)
 Output: 5.33
 ```
 
@@ -146,7 +146,7 @@ Output
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: [owo(This is very very cool lol <3)]
+Input: owo('This is very very cool lol <3')
 Output: Thais is vewy vewy coow wow <3
 ```
 
@@ -168,8 +168,8 @@ Output
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: I am [romannumeral(321)] years old.
-Output: I am CCCXXI years old.
+Input: romannumeral(321)
+Output: CCCXXI
 ```
 
 ---
@@ -190,8 +190,8 @@ Output
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: This is [null(argument1, {coolstuff}, [calc(5 + 5)]].
-Output: This is .
+Input: null()
+Output: null
 ```
 
 ---
@@ -212,12 +212,6 @@ Output
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: Date: [time(yyyy-MM-dd)]
+Input: 'Date: ' + time('yyyy-MM-dd')
 Output: Date: 2022-01-18
 ```
-
----
-
-## Booleans
-
-You can look at booleans in the sidebar.
