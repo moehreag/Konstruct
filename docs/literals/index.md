@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Literals
-nav_order: 1
+nav_order: 5
 has_children: true
 ---
 
@@ -19,8 +19,6 @@ Literals are raw text that Konstruct does not modify in any way.
 </details>
 
 ## Defining Literals
-
-By default, any text that isn't a variable or a function is automatically expressed as a literal.
 
 #### EXAMPLE
 {: .no_toc }
@@ -40,11 +38,11 @@ Literals can automatically be concatenated with other node types, such as functi
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: This is a literal and this is a {placeholder}
+Input:
+'string' + 5
 
-- <root>
-  - <literal This is a literal and this is a >
-  - <variable placeholder>
+Output:
+string5
 ```
 
 ---
@@ -55,46 +53,20 @@ You may come across issues if you start to use backslashes (`\ `'s) within Konst
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: This is a \n character
+Input:
+'I like using \'s in my literals'
 
-- <root>
-  - <literal This is a n character>
+Output:
+I like using 's in my literals
 ```
 
 This is because backslashes will escape whatever character is next. (This includes `\ `'s!). This allows characters specifically reserved for arguments or functions to be used and not be parsed by Konstruct.
-
-#### EXAMPLE
-{: .no_toc }
-```
-Input: This is a backslash (\\) and this is how you write an \{argument\}.
-
-- <root>
-  - <literal This is a backslash (\) and this is how you write an {argument}.>
-```
 
 -----
 
 ## Other Ways to Define Literals
 
 Konstruct comes with a few useful ways to define literals.
-
-
-### Force Literal
-
-One base one (called a force literal) is by using single quotations (`'`'s). Any character within two of these, except backslashes, are treated as literals.
-
-#### EXAMPLE
-{: .no_toc }
-```
-Input: 'This is a cool way to do \'stuff\' ;]`
-
-- <root> 
-  - <literal This is a cool way to do 'stuff' ;]>
-```
-
-(`;]` would cause a compilation error since it would be viewed as an unmatched function end)
-
------
 
 ### Strong Literal
 
@@ -103,8 +75,9 @@ Another way to define literals is to use a `Strong Literal`. No characters withi
 #### EXAMPLE
 {: .no_toc }
 ```
-Input: '''Nothing here can be \'ESCAPED\'. It all just \"EXISTS"\'''
+Input:
+'''Nothing here can be \'ESCAPED\'. It all just \"EXISTS"\'''
 
-- <root>
-  - <literal Nothing here can be \'ESCAPED\'. It all just \"EXISTS\">
+Output:
+Nothing here can be \'ESCAPED\'. It all just \"EXISTS"\
   ```

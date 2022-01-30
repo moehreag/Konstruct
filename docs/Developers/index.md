@@ -53,7 +53,7 @@ processor.addFunction(new GetFunction());
 When you are ready to parse text into a `Node` use a `NodeBuilder`. It is highly recommended to cache the `Node` after each parse so that text doesn't have to be reparsed. You can wrap this in a catch block because if there are formatting exceptions it will throw a `NodeException`.
 
 ```JAVA
-Node node = new NodeBuilder(input).build()
+Node node = new NodeBuilder(input).build();
 ```
 
 Then to parse just use `NodeProcessor`
@@ -62,6 +62,13 @@ Then to parse just use `NodeProcessor`
 processor.parse(node);
 ```
 
+## Input Builder
+
+To create an input builder (a node type that only evaluates expressions in `[[]]`) use:
+
+```JAVA
+Node noe = new InputNodeBuilder(input).build();
+```
 
 ## Creating a Function
 
@@ -70,8 +77,8 @@ You can create a function easily by either implementing from `NamedFunction` or 
 ```JAVA
 public class LowerFunction implements NamedFunction {
     @Override
-    public String parse(ParseContext context, List<Node> input) {
-        return Function.parseArgument(context, input, 0).toLowerCase();
+    public Result parse(ParseContext context, List<Node> input) {
+        return Result.success(Function.parseArgument(context, input, 0).getContent().getString().toLowerCase());
     }
 
     @Override
@@ -87,20 +94,14 @@ public class LowerFunction implements NamedFunction {
 }
 ```
 
+Results contain a `KonstructObject`. The defaults are `StringObject`, `DoubleObject`, `IntegerObject`, `ListObject`, and `NullObject`.
+
 ## Adding Variables
 
-Adding variables is easy with a `NodeProcessor`. You can either add a `String` or `Supplier<String>`
+Adding variables is easy with a `NodeProcessor`. You can either add a `KonstructObject` or `Supplier<KonstructObject>`
 
 ```JAVA
-processor.addVariable("name", "DarkKronicle");
-```
-
-## Specifying Settings
-
-When parsing a node you can specify `TokenSettings`. This changes what characters do what (i.e. argument deliminator as `|` instead of `,`)
-
-```JAVA
-Node node = new NodeBuilder(input, settings).build();
+processor.addVariable("name", Variable.of(new StringObject("DarkKronicle")));
 ```
 
 ## Examples

@@ -23,8 +23,7 @@ public class TokenExamples {
         processor.addFunction(new TimeFunction());
 //        evaluate(processor, "dingus = 'Your mother'; 'Hello! ' dingus");
         evaluate(processor, """
-                l = list("one", "two", true);
-                l.get(0) + " - " + get(0, l)
+               variable = 'Hello' + (5 + 5 / 3)
                 """);
     }
 

@@ -18,81 +18,58 @@ has_children: false
 
 # Overview
 
-Konstruct is a scripting language designed to format input easily and provide many tools for customization. Konstruct takes an input and spits out a parsed object that can be evaluated at any point.
+Konstruct is a scripting language designed for easy to write scripts that come with lots of power. Konstruct takes an input and spits out a parsed object that can be evaluated at any point.
 
-There are a few different object types in Konstruct. There are string literals, variables, functions, and arguments (which are essentially just string literals). Take a look at the menu to see how to use all of these.
+Konstruct is a basic scripting language with variable definition, function definition, expression evaluation, if statements, and other common features.
 
 ## Guide
 
-Konstruct creates a list of nodes (objects that return a string) and on evaluate concatenates all  of them together. To help understand what is happening throughout the wiki, will be some tree diagrams on the breakdown of nodes. Each line represents a node and the first word after the bracket is the node type.
+Konstruct creates a list of nodes (objects that can be evaluated for a KonstructObject) and on evaluate concatenates all of them together. To help understand what is happening throughout the wiki, will be some tree diagrams on the breakdown of nodes. Each line represents a node and the first word after the bracket is the node type.
 
 ```
-Input: This is a literal and this is a {placeholder}. Over here is a [function(argument)].
+Input: variable = 'Hello' + (5 + 5 / 3)
 
-- <root>
-  - <literal This is a literal and this is a >
-  - <variable placeholder>
-  - <literal . Over here is a >
-  - <function function(<root>)>
-    - <root>
-      - <literal argument>
-  - <literal .>
+- <root scope 0>
+| - <assignment variable>
+| | - <root scope 0>
+| | | - <operator  (<node>) (<node>)>
+| | | | - <literal Hello>
+| | | | - <root scope 0>
+| | | | | - <operator  (<node>) (<node>)>
+| | | | | | - <int 5>
+| | | | | | - <operator  (<node>) (<node>)>
+| | | | | | | - <int 5>
+| | | | | | | - <int 3>
 ```
 
-`<root>` is a node that holds other nodes together.
+`<root scope <num>` is a node that holds other nodes together. Scope references how deep in nested functions it is.
 
 `<literal [string]>` is a node that holds raw text.
 
 `<variable [name]>` is a node that can fetch data off of a key.
 
+`<assignment [variable]>` is a node that will assign data to a variable.
+
 `<function [name](args)>` is a node that can evaluate arguments. The number of `<root>`'s are how many arguments this function has.
 
-Arguments are stored as `<root>`'s since they can store multiple nodes for each.
+It can be complicated to visualize, but the names should be pretty self explanatory.
 
-## Character Types
+## Input Builder
 
-Within Konstruct the developer can choose whatever characters they want for force literals, arguments, functions, escape, and some other ones. These are the default that ones Konstruct uses (and this tutorial will use):
-
-| Key   | Name             | Explanation                                                 |
-|-------|------------------|-------------------------------------------------------------|
-| `{`   | Argument start   | Represents the start of an argument                         |
-| `}`   | Argument end     | Represents the end of an argument                           |
-| `[`   | Function start   | Represents the start of a function                          |
-| `]`   | Function end     | Represents the end of a function                            |
-| `(`   | Argument start   | Represents the start of arguments                           |
-| `)`   | Argument end     | Represents the end of arguments                             |
-| `\ `  | Escape character | Escapes the character that follows it                       |
-| `'`   | Force literal    | Defines a literal and characters within it will be literal  |
-| `'''` | Strong literal   | Defines a literal where no characters within can be escaped |
+In certain situations Konstruct can parse scripts within a string. If this method is used, when something is surrounded in `[[]]`'s it will be evaluated as a Konstruct script. `5 + 5 is [[5 + 5]]` -> `5 + 5 is 10`.
 
 ## Examples
 
-Calculations and nested functions
 ```
-Input: I can round... [round([calc(7 / 3 * 2)],1)]
-Output: I can round... 4.7
-```
+Input: Integral thing: [[integral = '2*int(sqrt(1-x^2), x, -1, 1)'; calc(integral)]]
+Output: Integral thing: 3.1415920928388927
 
-Randomized selections
-```
-Input: [get([randInt(0,2)], wb, welcome, Welcome back!)]
-Output: Welcome back!
-```
+Input: Round: [[round(5 * 4 / 3)]]
+Output: Round: 7
 
-Weird functions (imagine that the `\%` doesn't have the backslash. Website issues.)
-```
-Input: [owo('''This is super duper duper cool and means that it's easier to write functions''')]
-Output: Thais is supew dupew dupew coow and means that it's easiew to wwite functions
-```
+Input: I really like the [[get(2, 'first', 'second', 'third')]] option!
+Output: I really like the third option!
 
-Regex and replacing
-```
-Input: [replace('''\[(.+)\]''', 'I can use [regex] now in functions', $1, regex)]
+Input: [[replace('''\[(.+)\]''', 'I can use [regex] now in functions', '$1', 'regex')]]
 Output: I can use regex now in functions
-```
-
-Comments
-```
-Input: Cool calculator! [calc((5 / 3)^3 / 4 + 3)] [#This calculates some cool stuff]
-Output: Cool calculator! 3.0462962962962963
 ```
