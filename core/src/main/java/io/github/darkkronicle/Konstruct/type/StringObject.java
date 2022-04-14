@@ -31,6 +31,22 @@ public class StringObject extends KonstructObject<StringObject> {
                 public IntRange getArgumentCount() {
                     return IntRange.of(0);
                 }
+            },
+            new ObjectFunction<>() {
+                @Override
+                public Result parse(ParseContext context, StringObject self, List<Node> input) {
+                    return Result.success(new StringObject(self.value.toUpperCase(Locale.ROOT)));
+                }
+
+                @Override
+                public String getName() {
+                    return "upper";
+                }
+
+                @Override
+                public IntRange getArgumentCount() {
+                    return IntRange.of(0);
+                }
             }
     );
 

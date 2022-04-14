@@ -115,7 +115,7 @@ public class Tokener {
                 case '#' -> goThroughComment();
                 case '.' -> addDot();
                 case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> addNumber();
-                case ' ', '\t', '\n' -> cursor++;
+                case ' ', '\t', '\n', '\f', '\r'  -> cursor++;
                 default -> {
                     if (!WORD_CHARACTERS.contains(currentCharacter)) {
                         throwException("Invalid character!");
