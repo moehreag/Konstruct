@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "io.freefair.lombok" version "6.0.0-m2"
+    id "io.freefair.lombok" version "8.10.2"
     id 'maven-publish'
 }
 
@@ -43,14 +43,17 @@ configure(subprojects.findAll {it.name != "examples"}) {
     }
 
     // https://stackoverflow.com/a/65830610 - Pretty cool stuff
-    task createProperties(type: WriteProperties) {
+    tasks.register('createProperties', WriteProperties) {
         File dir = new File("./src/main/resources/")
         dir.mkdirs()
-        outputFile = dir.toPath().resolve("version.properties").toFile()
+        destinationFile = dir.toPath().resolve("version.properties").toFile()
         property 'version', project.version.toString()
     }
 
     classes {
+        dependsOn createProperties
+    }
+    processResources {
         dependsOn createProperties
     }
 
@@ -60,7 +63,7 @@ configure(subprojects.findAll {it.name != "examples"}) {
                 from components.java
                 artifact sourcesJar
                 pom {
-                    name = "Konstruct ${project.name}".toString()
+                    name = "konstruct ${project.name}".toString()
                     description = project.description
                     developers {
                         developer {

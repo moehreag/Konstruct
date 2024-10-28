@@ -1,12 +1,12 @@
 package io.github.darkkronicle.addons;
 
-import io.github.darkkronicle.Konstruct.parser.IntRange;
-import io.github.darkkronicle.Konstruct.parser.ParseContext;
-import io.github.darkkronicle.Konstruct.parser.Result;
-import io.github.darkkronicle.Konstruct.functions.Function;
-import io.github.darkkronicle.Konstruct.functions.NamedFunction;
-import io.github.darkkronicle.Konstruct.nodes.Node;
-import io.github.darkkronicle.Konstruct.type.BooleanObject;
+import io.github.darkkronicle.konstruct.parser.IntRange;
+import io.github.darkkronicle.konstruct.parser.ParseContext;
+import io.github.darkkronicle.konstruct.parser.Result;
+import io.github.darkkronicle.konstruct.functions.Function;
+import io.github.darkkronicle.konstruct.functions.NamedFunction;
+import io.github.darkkronicle.konstruct.nodes.Node;
+import io.github.darkkronicle.konstruct.type.BooleanObject;
 
 import java.util.List;
 import java.util.Locale;

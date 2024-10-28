@@ -1,10 +1,10 @@
-import io.github.darkkronicle.Konstruct.parser.IntRange;
-import io.github.darkkronicle.Konstruct.parser.NodeProcessor;
-import io.github.darkkronicle.Konstruct.parser.ParseContext;
-import io.github.darkkronicle.Konstruct.parser.Result;
-import io.github.darkkronicle.Konstruct.reader.builder.NodeBuilder;
-import io.github.darkkronicle.Konstruct.functions.Function;
-import io.github.darkkronicle.Konstruct.nodes.Node;
+import io.github.darkkronicle.konstruct.parser.IntRange;
+import io.github.darkkronicle.konstruct.parser.NodeProcessor;
+import io.github.darkkronicle.konstruct.parser.ParseContext;
+import io.github.darkkronicle.konstruct.parser.Result;
+import io.github.darkkronicle.konstruct.reader.builder.NodeBuilder;
+import io.github.darkkronicle.konstruct.functions.Function;
+import io.github.darkkronicle.konstruct.nodes.Node;
 
 import java.util.List;
 

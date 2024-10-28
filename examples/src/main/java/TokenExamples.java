@@ -1,12 +1,11 @@
-import io.github.darkkronicle.Konstruct.functions.GetFunction;
-import io.github.darkkronicle.Konstruct.nodes.InputNode;
-import io.github.darkkronicle.Konstruct.nodes.Node;
-import io.github.darkkronicle.Konstruct.nodes.RootNode;
-import io.github.darkkronicle.Konstruct.parser.NodeProcessor;
-import io.github.darkkronicle.Konstruct.reader.Tokener;
-import io.github.darkkronicle.Konstruct.reader.Token;
-import io.github.darkkronicle.Konstruct.reader.builder.InputNodeBuilder;
-import io.github.darkkronicle.Konstruct.reader.builder.NodeBuilder;
+import io.github.darkkronicle.konstruct.nodes.InputNode;
+import io.github.darkkronicle.konstruct.nodes.Node;
+import io.github.darkkronicle.konstruct.nodes.RootNode;
+import io.github.darkkronicle.konstruct.parser.NodeProcessor;
+import io.github.darkkronicle.konstruct.reader.Tokener;
+import io.github.darkkronicle.konstruct.reader.Token;
+import io.github.darkkronicle.konstruct.reader.builder.InputNodeBuilder;
+import io.github.darkkronicle.konstruct.reader.builder.NodeBuilder;
 import io.github.darkkronicle.addons.*;
 
 public class TokenExamples {

@@ -2,12 +2,12 @@ package io.github.darkkronicle.addons;
 
 import dev.maow.owo.api.OwO;
 import dev.maow.owo.util.OwOFactory;
-import io.github.darkkronicle.Konstruct.parser.IntRange;
-import io.github.darkkronicle.Konstruct.parser.ParseContext;
-import io.github.darkkronicle.Konstruct.parser.Result;
-import io.github.darkkronicle.Konstruct.functions.Function;
-import io.github.darkkronicle.Konstruct.functions.NamedFunction;
-import io.github.darkkronicle.Konstruct.nodes.Node;
+import io.github.darkkronicle.konstruct.parser.IntRange;
+import io.github.darkkronicle.konstruct.parser.ParseContext;
+import io.github.darkkronicle.konstruct.parser.Result;
+import io.github.darkkronicle.konstruct.functions.Function;
+import io.github.darkkronicle.konstruct.functions.NamedFunction;
+import io.github.darkkronicle.konstruct.nodes.Node;
 
 import java.util.List;
 

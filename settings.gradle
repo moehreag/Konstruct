@@ -1,4 +1,4 @@
-rootProject.name = 'Konstruct'
+rootProject.name = 'konstruct'
 include ':core'
 include ':addons'
 include ':examples'
